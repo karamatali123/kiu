@@ -68,7 +68,7 @@ const SideNav = () => {
             gap: "5px",
           }}
         >
-          <Link to="/my-requests" style={{ textDecoration: "none" }}>
+          <Link to="/profile-setting" style={{ textDecoration: "none" }}>
             <StyledNavItem
             // sx={{
             //   backgroundColor:
