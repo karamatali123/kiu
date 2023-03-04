@@ -1,13 +1,9 @@
-import { Apple, Facebook, MailOutline, Twitter } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/styles";
-import { DesktopDatePicker } from "@mui/lab";
 import {
   Box,
   Button,
-  Divider,
   FormControl,
   Grid,
-  InputAdornment,
   InputLabel,
   MenuItem,
   Select,
@@ -15,23 +11,42 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { textAlign } from "@mui/system";
-import { addDoc, collection, doc, setDoc } from "firebase/firestore";
+import { v4 as uuidv4 } from "uuid";
+
+import { doc, setDoc } from "firebase/firestore";
 import { Form, Formik } from "formik";
 import * as yup from "yup";
 import { object, string } from "yup";
 import ErrorMessages from "../../helpers/ErrorMessages";
 import ErrorMessage from "../gernal/ErrorMessage";
 import { InputField } from "../gernal/InputField";
-import { db } from "../../firebase";
+import { db, storage } from "../../firebase";
 import { useAuth } from "../../provider/AuthProvider";
-
+import {
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadBytes,
+  uploadBytesResumable,
+} from "firebase/storage";
+import { FILE_SIZE, SUPPORTED_FORMATS } from "../../constants/common";
+import { useState } from "react";
 const ValidationSchema = object().shape({
   name: yup.string().required("Name Required"),
   deptName: yup.string().required("Deprtment Name required"),
   regNo: yup.string().required("Registration No required"),
   contactNo: yup.string().required("Contact Number required"),
-  // date: yup.date().required("Date required"),
+  // proof: yup
+  //   .mixed()
+  //   .test("fileSize", "File too large", ({ size }) => {
+  //     return size && size != {} ? size <= FILE_SIZE : true;
+  //   })
+  //   .test("required", "File is required", ({ size }) => {
+  //     return size == undefined ? false : true;
+  //   })
+  //   .test("fileFormat", "Unsupported Format", ({ type }) => {
+  //     return type ? SUPPORTED_FORMATS.includes(type) : true;
+  //   }),
   natureOfComplaint: yup.string().required("Nature of Complaint required"),
   regarding: yup.string().required("Regarding required"),
   submitTo: yup.string().required("To whom do you want to submit"),
@@ -68,12 +83,43 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ComplaintForm() {
   const classes = useStyles();
-
+  const [imgUrl, setImgUrl] = useState();
   const { user } = useAuth();
+  const initialValues = {
+    name: "",
+    deptName: "",
+    regNo: "",
+    contactNo: "",
+    date: "",
+    natureOfComplaint: "",
+    regarding: "",
+    submitTo: "",
+    email: "",
+    password: "",
+    details: "",
+    proof: null,
+  };
 
+  console.log(imgUrl, "ivalues");
   const handleSubmit = async (values) => {
     console.log(values, "valuse", user);
-    await addDoc(collection(db, "complaints"), values)
+    const complaintId = uuidv4();
+
+    const storage = getStorage();
+    const imageREf = await ref(storage, `proof/${complaintId}`);
+    const response = await uploadBytes(imageREf, values.proof);
+    const url = await getDownloadURL(ref(storage, response.ref.fullPath))
+      .then(() => {
+        console.log("done");
+      })
+      .catch((err) => {
+        console.log(err, "err");
+      });
+    await setDoc(doc(db, "complaints", complaintId), {
+      ...values,
+      complaintId: complaintId,
+      proof: url,
+    })
       .then(() => {
         console.log("done");
       })
@@ -94,20 +140,7 @@ export default function ComplaintForm() {
         <Formik
           onSubmit={handleSubmit}
           validationSchema={ValidationSchema}
-          initialValues={{
-            name: "",
-            deptName: "",
-            regNo: "",
-            contactNo: "",
-            date: "",
-            natureOfComplaint: "",
-            regarding: "",
-            submitTo: "",
-            email: "",
-            password: "",
-            details: "",
-            // proof: Boolean,
-          }}
+          initialValues={initialValues}
         >
           {({
             values,
@@ -116,6 +149,7 @@ export default function ComplaintForm() {
             errors,
             touched,
             handleBlur,
+            setFieldValue,
           }) => (
             <form onSubmit={handleSubmit} className={classes.form}>
               <Grid container spacing={2}>
@@ -184,14 +218,16 @@ export default function ComplaintForm() {
                 <Grid item md={6} sm={12} xs={12}>
                   <InputField
                     type="file"
-                    name="details"
-                    value={values.details}
+                    name="proof"
+                    // value={values.proof}
                     placeholder="Proof"
                     fullWidth
-                    onChange={handleChange}
+                    onChange={(e) => {
+                      setFieldValue("proof", e.target.files[0]);
+                    }}
                     onBlur={handleBlur}
-                    error={errors.date && touched.date}
-                    helperText={errors.date && touched.date && errors.date}
+                    error={errors.proof && touched.proof}
+                    helperText={errors.proof && touched.proof && errors.proof}
                     className={classes.Input}
                   />
                 </Grid>

@@ -1,19 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { Box, Divider, Drawer,Card } from "@mui/material";
+import { Box, Divider, Drawer, Card } from "@mui/material";
 import { makeStyles } from "@material-ui/styles";
 import { Link } from "react-router-dom";
 import { StyledNavItem } from "./styles";
 import { ExitToApp, NoteAdd, Settings, SubjectSharp } from "@material-ui/icons";
 
-
 export default function DesktopMenu({ isOpen, setIsOpen, scroll }) {
   const classes = useStyles();
-
 
   const handleClose = () => {
     setIsOpen(false);
   };
-  
 
   const toggleDrawer = (open) => (event) => {
     if (
@@ -56,50 +53,49 @@ export default function DesktopMenu({ isOpen, setIsOpen, scroll }) {
           sx={{ display: "flex", flexDirection: "column", rowGap: "5px" }}
           py={1.5}
         >
-         
-         <Link to="/my-complaints" style={{ textDecoration: "none" }}>
-                <StyledNavItem
-                  
-                >
-                <SubjectSharp/>  <span> My Complaints</span>
-                </StyledNavItem>
-              </Link>
-              <Link to="/add-new-complaints" style={{ textDecoration: "none" }}>
-                <StyledNavItem
-                >
-                  <NoteAdd/> <span> Submit new Complain</span>
-                </StyledNavItem>
-              </Link>
-              <Box sx={{  paddingTop: "7rem",
+          <Link to="/my-complaints" style={{ textDecoration: "none" }}>
+            <StyledNavItem>
+              <SubjectSharp /> <span> My Complaints</span>
+            </StyledNavItem>
+          </Link>
+          <Link to="/add-new-complaints" style={{ textDecoration: "none" }}>
+            <StyledNavItem>
+              <NoteAdd /> <span> Submit new Complain</span>
+            </StyledNavItem>
+          </Link>
+          <Box
+            sx={{
+              paddingTop: "7rem",
               display: "flex",
               flexDirection: "column",
-              gap: "5px",}} >
-              <Link to="/my-requests" style={{ textDecoration: "none" }}>
-                <StyledNavItem
-                  // sx={{
-                  //   backgroundColor:
-                  //     activeTab === 1 ? "#00000011" : theme.palette.white,
-                  // }}
-                >
-                  <Settings/>
-                  <span> Profile Settings</span>
-                </StyledNavItem>
-              </Link>
-              <Link to="/my-requests" style={{ textDecoration: "none" }}>
-                <StyledNavItem
-                  // sx={{
-                  //   backgroundColor:
-                  //     activeTab === 1 ? "#00000011" : theme.palette.white,
-                  // }}
-                >
-                  <ExitToApp/>
-                  <span> Logout</span>
-                </StyledNavItem>
-              </Link>
-              </Box>
+              gap: "5px",
+            }}
+          >
+            <Link to="/my-requests" style={{ textDecoration: "none" }}>
+              <StyledNavItem
+              // sx={{
+              //   backgroundColor:
+              //     activeTab === 1 ? "#00000011" : theme.palette.white,
+              // }}
+              >
+                <Settings />
+                <span> Profile Settings</span>
+              </StyledNavItem>
+            </Link>
+            <Link to="/my-requests" style={{ textDecoration: "none" }}>
+              <StyledNavItem
+              // sx={{
+              //   backgroundColor:
+              //     activeTab === 1 ? "#00000011" : theme.palette.white,
+              // }}
+              >
+                <ExitToApp />
+                <span> Logout</span>
+              </StyledNavItem>
+            </Link>
+          </Box>
         </Box>
       </Box>
-    
     </Card>
   );
   const anchor = "left";
@@ -125,9 +121,7 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: `#fff`,
       height: "100vh !important",
       width: 270,
-      marginTop: "50px",
       color: `#fff`,
-    
     },
   },
   list: {
@@ -135,6 +129,4 @@ const useStyles = makeStyles((theme) => ({
       color: `#fff`,
     },
   },
-
-
 }));

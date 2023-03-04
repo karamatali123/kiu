@@ -41,6 +41,9 @@ const useStyles = makeStyles((theme) => ({
   Dialog: {
     padding: theme.spacing(6),
     height: "fit-content",
+    [theme.breakpoints.down("sm")]: {
+      padding: theme.spacing(4, 1),
+    },
   },
   Input: {
     border: "1px solid Grey",

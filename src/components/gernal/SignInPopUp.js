@@ -33,6 +33,9 @@ function SimpleDialog(props) {
     Dialog: {
       padding: theme.spacing(6),
       height: "fit-content",
+      [theme.breakpoints.down("sm")]: {
+        padding: theme.spacing(4, 1),
+      },
     },
     error: {
       color: "red",
@@ -139,8 +142,8 @@ function SimpleDialog(props) {
             } = props;
             return (
               <form onSubmit={handleSubmit} className={classes.form}>
-                <Grid container spacing={2}>
-                  <Grid item md={12}>
+                <Grid container spacing={1}>
+                  <Grid item sm={12} md={12} sm={12} xs={12}>
                     <Input
                       type="email"
                       name="email"
@@ -160,7 +163,7 @@ function SimpleDialog(props) {
                       <span className={classes.error}>{errors.email}</span>
                     )}
                   </Grid>
-                  <Grid item md={12}>
+                  <Grid item md={12} sm={12} xs={12}>
                     <Input
                       type="password"
                       name="password"
