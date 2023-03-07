@@ -1,7 +1,5 @@
-import { Card, Typography } from "@material-ui/core";
+import { Card } from "@material-ui/core";
 import React from "react";
-import ComplaintCard from "../../components/complaints/ComplaintCard";
-import Header from "../../components/Header";
 import ProfieCard from "../../components/ProfieCard";
 
 import { useAuth } from "../../provider/AuthProvider";

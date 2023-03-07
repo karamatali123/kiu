@@ -1,16 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { Box, Divider, Drawer, Card } from "@mui/material";
+import React from "react";
+import { Box, Drawer, Card } from "@mui/material";
 import { makeStyles } from "@material-ui/styles";
 import { Link } from "react-router-dom";
+import logo from "../../assests/Images/logo.svg";
 import { StyledNavItem } from "./styles";
 import { ExitToApp, NoteAdd, Settings, SubjectSharp } from "@material-ui/icons";
 
 export default function DesktopMenu({ isOpen, setIsOpen, scroll }) {
   const classes = useStyles();
-
-  const handleClose = () => {
-    setIsOpen(false);
-  };
 
   const toggleDrawer = (open) => (event) => {
     if (
@@ -31,16 +28,23 @@ export default function DesktopMenu({ isOpen, setIsOpen, scroll }) {
         maxWidth: "260px",
         width: "100%",
         margin: "unset",
+        padding: "2rem 1rem",
         height: "100vh",
-        display: "Flex",
+        display: "flex",
         flexDirection: "column",
-        justifyContent: "space-between",
+        alignItems: "center",
+        gap: "20px",
       }}
     >
+      <Box py={1}>
+        <img
+          width={"100px"}
+          src={logo}
+          alt="logo"
+          style={{ margin: "0 auto", width: "50px" }}
+        />
+      </Box>
       <Box>
-        <Box py={1}>
-          {/* <img width={"150px"} src={AppLogo} alt="logo" /> */}
-        </Box>
         {/* <Divider
           sx={{
             backgroundImage: theme.palette.gradient,

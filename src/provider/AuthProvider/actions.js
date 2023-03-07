@@ -100,7 +100,7 @@ const userActions = (dispatch) => {
   const handleLogout = async (navigate) => {
     const auth = getAuth();
     try {
-      const res = await signOut(auth);
+      await signOut(auth);
       dispatch({
         type: SET_UID,
         payload: "",

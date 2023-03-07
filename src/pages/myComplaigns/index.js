@@ -7,7 +7,7 @@ import { db } from "../../firebase";
 import { useAuth } from "../../provider/AuthProvider";
 
 const MyComplaints = () => {
-  const { uid, user } = useAuth();
+  const { user } = useAuth();
   const [complaints, setComplaints] = useState([]);
 
   const getComplaints = async () => {

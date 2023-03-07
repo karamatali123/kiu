@@ -1,7 +1,6 @@
 import React from "react";
 import Header from "../../components/Header";
 import kiulogo from "../../assests/Images/kiu.png";
-import Button from "../../components/gernal/Button";
 import bgimg from "../../assests/Images/bg img.png";
 import logo from "../../assests/Images/logo.svg";
 import { makeStyles } from "@material-ui/styles";
@@ -11,8 +10,6 @@ import { Box, Card, Container, Grid, Typography } from "@material-ui/core";
 import girl from "../../assests/Images/girl.png";
 import { SuggestionForm } from "./suggestionForm";
 import Footer from "../../components/Footer";
-import SignUp from "../../components/gernal/Popup";
-import SignIn from "../../components/gernal/SignInPopUp";
 const useStyles = makeStyles((theme) => ({
   home: {
     padding: theme.spacing(13, 2),
@@ -112,7 +109,7 @@ const useStyles = makeStyles((theme) => ({
   },
   card: {
     padding: theme.spacing(6, 0, 0.5, 0),
-    margin:theme.spacing(1)
+    margin: theme.spacing(1),
   },
 }));
 const countingDetails = [
@@ -122,7 +119,6 @@ const countingDetails = [
 ];
 const LandingPage = () => {
   const classes = useStyles();
- 
 
   return (
     <>
@@ -189,7 +185,6 @@ const LandingPage = () => {
                     />
                   </Box>
                 </Box>
-                
 
                 <Typography variant="subtitle1" className={classes.subheading}>
                   Smart Complaint Management Portal
@@ -274,37 +269,35 @@ const LandingPage = () => {
       <Box className={classes.counter}>
         <Container>
           <Grid container spacing={6} alignItems="center">
-            {countingDetails.map((data)=>(
+            {countingDetails.map((data) => (
               <CounterBox heading={data.title} number={data.count} />
             ))}
           </Grid>
         </Container>
       </Box>
-     
-<Container>
-      <Box className={classes.home}>
- <Box className={classes.suggestion}>
-  <Grid spacing={3} container alignItems="center">
-  <Grid md={6} sm={12}>
-    <Typography variant="h2" className={classes.subheading}>
-    Have A Query Or Want To Suggest Something To Us?
-    </Typography>
-    <Typography variant="p" className={classes.subContent}>
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed 
-    do eiusmod tempor incididunt ut labore 
-    et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-    </Typography>
-  </Grid>
-  <Grid md={6} sm={12} >
-    <SuggestionForm/>
-  </Grid>
-  </Grid>
 
-
- </Box>
-      </Box> 
+      <Container>
+        <Box className={classes.home}>
+          <Box className={classes.suggestion}>
+            <Grid spacing={3} container alignItems="center">
+              <Grid md={6} sm={12}>
+                <Typography variant="h2" className={classes.subheading}>
+                  Have A Query Or Want To Suggest Something To Us?
+                </Typography>
+                <Typography variant="p" className={classes.subContent}>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  Ut enim ad minim veniam, quis nostrud exercitation
+                </Typography>
+              </Grid>
+              <Grid md={6} sm={12}>
+                <SuggestionForm />
+              </Grid>
+            </Grid>
+          </Box>
+        </Box>
       </Container>
-      <Footer/>
+      <Footer />
     </>
   );
 };

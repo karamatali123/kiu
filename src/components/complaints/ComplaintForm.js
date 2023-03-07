@@ -2,6 +2,7 @@ import { makeStyles } from "@material-ui/styles";
 import {
   Box,
   Button,
+  CircularProgress,
   FormControl,
   Grid,
   InputLabel,
@@ -13,40 +14,34 @@ import {
 import { v4 as uuidv4 } from "uuid";
 
 import { doc, setDoc } from "firebase/firestore";
-import { Form, Formik } from "formik";
+import { Formik } from "formik";
 import * as yup from "yup";
 import { object, string } from "yup";
 import ErrorMessages from "../../helpers/ErrorMessages";
 import ErrorMessage from "../gernal/ErrorMessage";
 import { InputField } from "../gernal/InputField";
-import { db, storage } from "../../firebase";
+import { db } from "../../firebase";
 import { useAuth } from "../../provider/AuthProvider";
-import {
-  getDownloadURL,
-  getStorage,
-  ref,
-  uploadBytes,
-  uploadBytesResumable,
-} from "firebase/storage";
-import { FILE_SIZE, SUPPORTED_FORMATS } from "../../constants/common";
+import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { ERROR, SUCCESS } from "../../constants/snackbarConstant";
 import { SNACKBAR_OPEN } from "../../provider/AuthProvider/reducer";
+import { useState } from "react";
 const ValidationSchema = object().shape({
   name: yup.string().required("Name Required"),
   deptName: yup.string().required("Deprtment Name required"),
   regNo: yup.string().required("Registration No required"),
   contactNo: yup.string().required("Contact Number required"),
-  proof: yup
-    .mixed()
-    .test("fileSize", "File too large", ({ size }) => {
-      return size && size != {} ? size <= FILE_SIZE : true;
-    })
-    .test("required", "File is required", ({ size }) => {
-      return size == undefined ? false : true;
-    })
-    .test("fileFormat", "Unsupported Format", ({ type }) => {
-      return type ? SUPPORTED_FORMATS.includes(type) : true;
-    }),
+  // proof: yup
+  //   .mixed()
+  //   .test("fileSize", "File too large", ({ size }) => {
+  //     return size && size != {} ? size <= FILE_SIZE : true;
+  //   })
+  //   .test("required", "File is required", ({ size }) => {
+  //     return size == undefined ? false : true;
+  //   })
+  //   .test("fileFormat", "Unsupported Format", ({ type }) => {
+  //     return type ? SUPPORTED_FORMATS.includes(type) : true;
+  //   }),
   natureOfComplaint: yup.string().required("Nature of Complaint required"),
   regarding: yup.string().required("Regarding required"),
   submitTo: yup.string().required("To whom do you want to submit"),
@@ -83,6 +78,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ComplaintForm() {
   const classes = useStyles();
+  const [loading, setLoading] = useState(false);
   const { user, dispatch } = useAuth();
   const initialValues = {
     name: "",
@@ -99,8 +95,8 @@ export default function ComplaintForm() {
     proof: null,
   };
 
-  const handleSubmit = async (values) => {
-    console.log(values, "valuse", user);
+  const handleSubmit = async (values, actions) => {
+    setLoading(true);
     const complaintId = uuidv4();
 
     const storage = getStorage();
@@ -122,6 +118,8 @@ export default function ComplaintForm() {
             message: "Complaint added successfully",
           },
         });
+        actions.resetForm();
+        setLoading(false);
       })
       .catch((err) => {
         dispatch({
@@ -131,6 +129,7 @@ export default function ComplaintForm() {
             message: err.message,
           },
         });
+        setLoading(false);
       });
   };
 
@@ -144,7 +143,9 @@ export default function ComplaintForm() {
           Please complete the form below for your complaitns.
         </Typography>
         <Formik
-          onSubmit={handleSubmit}
+          onSubmit={(values, actions) => {
+            handleSubmit(values, actions);
+          }}
           validationSchema={ValidationSchema}
           initialValues={initialValues}
         >
@@ -341,7 +342,7 @@ export default function ComplaintForm() {
                     marginTop: "1rem",
                   }}
                 >
-                  submit
+                  {loading ? <CircularProgress /> : "submit"}
                 </Button>
               </Grid>
             </form>

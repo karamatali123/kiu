@@ -1,5 +1,4 @@
 import * as React from "react";
-import { app } from "../../firebase";
 import "../../App.css";
 
 import { useAuth } from "../../provider/AuthProvider";
@@ -130,16 +129,8 @@ function SimpleDialog(props) {
           validationSchema={ValidationSchema}
         >
           {(props) => {
-            const {
-              values,
-              handleChange,
-              handleSubmit,
-              errors,
-              touched,
-              handleBlur,
-              isValid,
-              dirty,
-            } = props;
+            const { handleChange, handleSubmit, errors, touched, handleBlur } =
+              props;
             return (
               <form onSubmit={handleSubmit} className={classes.form}>
                 <Grid container spacing={1}>

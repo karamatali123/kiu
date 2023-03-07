@@ -1,13 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/styles";
-import {
-  Button,
-  Card,
-  Paper,
-  TextareaAutosize,
-  TextField,
-  Typography,
-} from "@material-ui/core";
+import { Button, Card, TextField, Typography } from "@material-ui/core";
 
 export const SuggestionForm = () => {
   const useStyles = makeStyles((theme) => ({
@@ -20,10 +13,10 @@ export const SuggestionForm = () => {
     input: {
       marginTop: theme.spacing(1),
     },
-    btn:{
-      marginTop:"1rem",
-      width:"140px"
-    }
+    btn: {
+      marginTop: "1rem",
+      width: "140px",
+    },
   }));
   const classes = useStyles();
 
@@ -64,15 +57,15 @@ export const SuggestionForm = () => {
               maxRows={4}
               fullWidth
             />
-             <Button
-                  type="submit"
-                    color="primary"
-                    title="Sign Up"
-                    variant="contained"
-                    className={classes.btn}
-                  >
-                    Submit
-                  </Button>
+            <Button
+              type="submit"
+              color="primary"
+              title="Sign Up"
+              variant="contained"
+              className={classes.btn}
+            >
+              Submit
+            </Button>
           </form>
         </Card>
       </div>
