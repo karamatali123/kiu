@@ -8,7 +8,6 @@ import {
   MenuItem,
   Select,
   TextareaAutosize,
-  TextField,
   Typography,
 } from "@mui/material";
 import { v4 as uuidv4 } from "uuid";
@@ -30,23 +29,24 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import { FILE_SIZE, SUPPORTED_FORMATS } from "../../constants/common";
-import { useState } from "react";
+import { ERROR, SUCCESS } from "../../constants/snackbarConstant";
+import { SNACKBAR_OPEN } from "../../provider/AuthProvider/reducer";
 const ValidationSchema = object().shape({
   name: yup.string().required("Name Required"),
   deptName: yup.string().required("Deprtment Name required"),
   regNo: yup.string().required("Registration No required"),
   contactNo: yup.string().required("Contact Number required"),
-  // proof: yup
-  //   .mixed()
-  //   .test("fileSize", "File too large", ({ size }) => {
-  //     return size && size != {} ? size <= FILE_SIZE : true;
-  //   })
-  //   .test("required", "File is required", ({ size }) => {
-  //     return size == undefined ? false : true;
-  //   })
-  //   .test("fileFormat", "Unsupported Format", ({ type }) => {
-  //     return type ? SUPPORTED_FORMATS.includes(type) : true;
-  //   }),
+  proof: yup
+    .mixed()
+    .test("fileSize", "File too large", ({ size }) => {
+      return size && size != {} ? size <= FILE_SIZE : true;
+    })
+    .test("required", "File is required", ({ size }) => {
+      return size == undefined ? false : true;
+    })
+    .test("fileFormat", "Unsupported Format", ({ type }) => {
+      return type ? SUPPORTED_FORMATS.includes(type) : true;
+    }),
   natureOfComplaint: yup.string().required("Nature of Complaint required"),
   regarding: yup.string().required("Regarding required"),
   submitTo: yup.string().required("To whom do you want to submit"),
@@ -83,8 +83,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ComplaintForm() {
   const classes = useStyles();
-  const [imgUrl, setImgUrl] = useState();
-  const { user } = useAuth();
+  const { user, dispatch } = useAuth();
   const initialValues = {
     name: "",
     deptName: "",
@@ -100,31 +99,38 @@ export default function ComplaintForm() {
     proof: null,
   };
 
-  console.log(imgUrl, "ivalues");
   const handleSubmit = async (values) => {
     console.log(values, "valuse", user);
     const complaintId = uuidv4();
 
     const storage = getStorage();
-    const imageREf = await ref(storage, `proof/${complaintId}`);
+    const imageREf = ref(storage, `proof/${complaintId}`);
     const response = await uploadBytes(imageREf, values.proof);
-    const url = await getDownloadURL(ref(storage, response.ref.fullPath))
-      .then(() => {
-        console.log("done");
-      })
-      .catch((err) => {
-        console.log(err, "err");
-      });
+    const url = await getDownloadURL(ref(storage, response.ref.fullPath));
+
     await setDoc(doc(db, "complaints", complaintId), {
       ...values,
-      complaintId: complaintId,
+      status: "pending",
+      authorId: user.uid,
       proof: url,
     })
       .then(() => {
-        console.log("done");
+        dispatch({
+          type: SNACKBAR_OPEN,
+          payload: {
+            snackbarType: SUCCESS,
+            message: "Complaint added successfully",
+          },
+        });
       })
       .catch((err) => {
-        console.log(err, "err");
+        dispatch({
+          type: SNACKBAR_OPEN,
+          payload: {
+            snackbarType: ERROR,
+            message: err.message,
+          },
+        });
       });
   };
 
@@ -284,7 +290,7 @@ export default function ComplaintForm() {
                     className={classes.Input}
                   />
                 </Grid>
-                <Grid item md={12}>
+                <Grid item md={12} xs={12} sm={12}>
                   <label>The specific details of the complaint:</label>
                   <TextareaAutosize
                     type="text"
@@ -306,7 +312,7 @@ export default function ComplaintForm() {
                       errors.natureOfComplaint}
                   </Typography>
                 </Grid>
-                <Grid item md={12}>
+                <Grid item md={12} xs={12} sm={12}>
                   <label>The complaint is regarding:</label>
                   <TextareaAutosize
                     type="text"

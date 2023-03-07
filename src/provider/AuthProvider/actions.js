@@ -138,6 +138,7 @@ const userActions = (dispatch) => {
     handleLogout,
     checkAuthStatus,
     closeSnackbar,
+    dispatch,
   };
 };
 export default userActions;

@@ -21,7 +21,8 @@ import SignUp from "./gernal/Popup";
 import SignIn from "./gernal/SignInPopUp";
 import { useAuth } from "../provider/AuthProvider";
 import { useNavigate } from "react-router-dom";
-import { Person } from "@material-ui/icons";
+import { Person, Slideshow } from "@material-ui/icons";
+import DesktopMenu from "./layout/MobileSideNav";
 const pages = ["Home", "About us", "Stories", "Vc Office"];
 
 const useStyles = makeStyles((theme) => ({
@@ -37,6 +38,12 @@ const useStyles = makeStyles((theme) => ({
       display: "none",
     },
   },
+  icon: {
+    display: "none",
+    [theme.breakpoints.down("md")]: {
+      display: "block",
+    },
+  },
   buttons: {
     display: "flex",
     alignItems: "center",
@@ -49,26 +56,21 @@ const useStyles = makeStyles((theme) => ({
 const ResponsiveAppBar = () => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const [signIn, setSignIn] = React.useState(false);
   const [anchorElNav, setAnchorElNav] = useState();
-  const [anchorElUser, setAnchorElUser] = useState();
+
   const { user, handleUserLogout, authStatus } = useAuth();
   const navigate = useNavigate();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
-  };
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
 
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
   const handleLogout = () => {
     handleUserLogout(navigate);
   };
@@ -103,10 +105,17 @@ const ResponsiveAppBar = () => {
               </Button>
             ))}
           </Box>
-
+          {isOpen && <DesktopMenu isOpen={isOpen} setIsOpen={setIsOpen} />}
+          <div
+            onClick={() => {
+              setIsOpen(true);
+            }}
+          >
+            <Slideshow className={classes.icon} />
+          </div>
+          <img src={Logo} style={{ height: "50px" }} alt="circle img" />
           <Box className={classes.Menu}>
             <IconButton
-              size="large"
               aria-label="account of current user"
               aria-controls="menu-appbar"
               aria-haspopup="true"
@@ -177,12 +186,12 @@ const ResponsiveAppBar = () => {
                   onClick={handleCloseNavMenu}
                   style={{ width: "200px", textAlign: "center" }}
                 >
-                  <Typography textAlign="center">{page}</Typography>
+                  <Typography>{page}</Typography>
                 </MenuItem>
               ))}
             </Menu>
           </Box>
-          <img src={Logo} style={{ height: "50px" }} alt="circle img" />
+
           <Box className={classes.buttons}>
             <MyButton
               variant={"text"}
@@ -204,7 +213,7 @@ const ResponsiveAppBar = () => {
                 />
                 {
                   <Typography variant="body1" style={{ padding: "1rem" }}>
-                    {user.firstName} &nbsp;{user.lastName}
+                    {user?.firstName} &nbsp;{user?.lastName}
                   </Typography>
                 }
                 <Avatar>

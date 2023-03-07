@@ -1,11 +1,4 @@
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useReducer,
-  useState,
-} from "react";
-import { useDocument } from "swr-firestore-v9";
+import { createContext, useContext, useEffect, useReducer } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import userActions from "./actions";
 import { initialState, reducer } from "./reducer";
@@ -16,8 +9,8 @@ export const AuthContext = createContext();
 
 const AuthProvider = (props) => {
   const { children } = props;
-  const [uid, setUid] = useState();
-  const [loading, setLoading] = useState(true);
+
+  // const [loading, setLoading] = useState(true);
 
   const auth = getAuth();
 
@@ -28,6 +21,7 @@ const AuthProvider = (props) => {
     const docRef = doc(db, "users", uid);
     try {
       const res = await getDoc(docRef);
+      console.log(res.data(), "userrr");
       actions.setUser(res.data());
     } catch (error) {
       console.log(error.message, "error");
@@ -37,13 +31,12 @@ const AuthProvider = (props) => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         actions.checkAuthStatus(true);
-        setUid(user.uid);
+        setUser(user.uid);
       } else {
         actions.checkAuthStatus(false);
       }
     });
-    setUser(uid);
-  }, [uid]);
+  }, []);
 
   return (
     <AuthContext.Provider
@@ -53,6 +46,7 @@ const AuthProvider = (props) => {
         userLogin: actions.handleLogin,
         handleUserLogout: actions.handleLogout,
         closeSnackbar: actions.closeSnackbar,
+        dispatch: actions.dispatch,
       }}
     >
       {children}

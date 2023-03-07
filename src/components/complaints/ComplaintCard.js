@@ -2,7 +2,7 @@ import { Box, Card, CardMedia, Typography } from "@material-ui/core";
 import { Stack } from "@mui/material";
 import React from "react";
 
-const ComplaintCard = () => {
+const ComplaintCard = ({ complaint }) => {
   return (
     <Card
       style={{
@@ -15,12 +15,12 @@ const ComplaintCard = () => {
     >
       <Stack flexDirection={"row"} justifyContent={"space-between"}>
         <Box>
-          <Typography variant="h5">Security Issue</Typography>
+          <Typography variant="h5">{complaint.title}</Typography>
           <Typography variant="caption">Submitted To:karamat ali</Typography>
         </Box>
         <Box>
           <Typography variant="h5">Submission Date</Typography>
-          <Typography variant="caption">12-01-2019</Typography>
+          <Typography variant="caption">{complaint.date}</Typography>
         </Box>
       </Stack>
 
@@ -28,7 +28,7 @@ const ComplaintCard = () => {
         component="img"
         height="294"
         style={{ margin: "0.5rem 0" }}
-        image="https://www.gps-securitygroup.com/wp-content/uploads/2021/04/gps-security-blog-8-April.jpg"
+        image={complaint.proof}
         alt="Paella dish"
       />
       <Typography variant="body1" style={{ marginTop: "0.5rem" }}>
@@ -60,9 +60,7 @@ const ComplaintCard = () => {
           alignItems="center"
           justifyContent={"center"}
         >
-          <Typography variant="body1" color="#fff">
-            pending
-          </Typography>
+          <Typography variant="body1">pending</Typography>
         </Box>
       </Box>
     </Card>

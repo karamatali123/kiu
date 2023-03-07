@@ -7,8 +7,8 @@ import ProfieCard from "../../components/ProfieCard";
 import { useAuth } from "../../provider/AuthProvider";
 
 const Profile = () => {
-  const { uid, user } = useAuth();
-  console.log(user, "ud");
+  const auth = useAuth();
+  console.log(auth, "ud");
   return (
     <>
       <Card

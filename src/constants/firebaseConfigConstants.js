@@ -1,7 +1,6 @@
-export  const API_KEY = "AIzaSyAMsI19flSy9om7XhwdJW_oij4noXdJAsk";
-export const AUTH_DOMAIN="myfyp-8d9dd.firebaseapp.com"
-export const PROJECT_ID ="myfyp-8d9dd";
-export const STROAGE_BUCKET="myfyp-8d9dd.appspot.com";
-export const MESSAGING_SENDER_ID="297129332630";
-export const  APP_ID= "1:297129332630:web:f589ba1cb5881152bf17b7"
-
+export const API_KEY = "AIzaSyDD_dikuihxHpsAHR69wiCpGhGhNuqCLKQ";
+export const AUTH_DOMAIN = "myfypkiu.firebaseapp.com";
+export const PROJECT_ID = "myfypkiu";
+export const STROAGE_BUCKET = "myfypkiu.appspot.com";
+export const MESSAGING_SENDER_ID = "826348523508";
+export const APP_ID = "1:826348523508:web:7bcbcc08bd09ddaea873a1";

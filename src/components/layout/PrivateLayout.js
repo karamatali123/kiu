@@ -11,17 +11,11 @@ const useStyles = makeStyles((theme) => ({
     display: "block",
     gridTemplateColumns: "unset",
   },
-  icon: {
-    display: "none",
-    [theme.breakpoints.down("md")]: {
-      display: "block",
-    },
-  },
 }));
 
 const PrivateLayout = ({ children }) => {
   const classes = useStyles();
-  const [isOpen, setIsOpen] = useState(false);
+
   return (
     <Container maxWidth={false} disableGutters sx={{ overflow: "hidden" }}>
       <Box
@@ -36,14 +30,6 @@ const PrivateLayout = ({ children }) => {
         }}
       >
         <div>
-          {isOpen && <DesktopMenu isOpen={isOpen} setIsOpen={setIsOpen} />}
-          <div
-            onClick={() => {
-              setIsOpen(true);
-            }}
-          >
-            <Slideshow className={classes.icon} />
-          </div>
           <SideNav />
         </div>
         <div>
