@@ -5,8 +5,8 @@ import ProfieCard from "../../components/ProfieCard";
 import { useAuth } from "../../provider/AuthProvider";
 
 const Profile = () => {
-  const auth = useAuth();
-  console.log(auth, "ud");
+  const { user } = useAuth();
+
   return (
     <>
       <Card
@@ -16,7 +16,7 @@ const Profile = () => {
           overflowY: "scroll",
         }}
       >
-        <ProfieCard />
+        <ProfieCard user={user} />
       </Card>
     </>
   );
