@@ -106,13 +106,15 @@ const ResponsiveAppBar = () => {
             ))}
           </Box>
           {isOpen && <DesktopMenu isOpen={isOpen} setIsOpen={setIsOpen} />}
-          <div
-            onClick={() => {
-              setIsOpen(true);
-            }}
-          >
-            <Slideshow className={classes.icon} />
-          </div>
+          {authStatus && (
+            <div
+              onClick={() => {
+                setIsOpen(true);
+              }}
+            >
+              <Slideshow className={classes.icon} />
+            </div>
+          )}
           <img src={Logo} style={{ height: "50px" }} alt="circle img" />
           <Box className={classes.Menu}>
             <IconButton
