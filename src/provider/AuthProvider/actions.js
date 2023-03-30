@@ -46,7 +46,7 @@ const userActions = (dispatch) => {
         lastName: values.lastName,
         email: values.email,
       });
-      navigate("/my-complaints");
+      // navigate("/my-complaints");
     } catch (error) {
       dispatch({
         type: SNACKBAR_OPEN,

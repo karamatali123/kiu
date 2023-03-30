@@ -147,6 +147,7 @@ const ResponsiveAppBar = () => {
                 alignItems="center"
                 justifyContent={"center"}
                 flexDirection={"column"}
+                gap="15px"
               >
                 <MyButton
                   variant={"text"}
