@@ -11,9 +11,9 @@ const userItems = ["My Complaints", "Submit new Complain "];
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    borderRadius: "8px",
+    borderRadius: "0px",
     position: "relative",
-    maxWidth: "260px",
+    maxWidth: "285px",
     height: "calc(100vh - 75px)",
     width: "100%",
     margin: "unset",

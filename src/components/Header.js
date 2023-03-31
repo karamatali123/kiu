@@ -20,7 +20,7 @@ import {
 import SignUp from "./gernal/Popup";
 import SignIn from "./gernal/SignInPopUp";
 import { useAuth } from "../provider/AuthProvider";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Person, Slideshow } from "@material-ui/icons";
 import DesktopMenu from "./layout/MobileSideNav";
 const pages = ["Home", "About us", "Stories", "Vc Office"];
@@ -219,9 +219,11 @@ const ResponsiveAppBar = () => {
                     {user?.firstName} &nbsp;{user?.lastName}
                   </Typography>
                 }
-                <Avatar>
-                  <Person />
-                </Avatar>
+                <Link to="/profile-setting">
+                  <Avatar>
+                    <Person />
+                  </Avatar>
+                </Link>
               </>
             ) : (
               <>

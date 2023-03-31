@@ -1,0 +1,184 @@
+import React, { useState, useEffect, useCallback } from "react";
+import { styled } from "@mui/material/styles";
+import Table from "@mui/material/Table";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import {
+  DeleteForever,
+  MoreVertOutlined,
+  ViewAgenda,
+} from "@material-ui/icons";
+import {
+  IconButton,
+  Menu,
+  TableBody,
+  TablePagination,
+  TextField,
+  Typography,
+} from "@mui/material";
+import { MenuItem } from "@material-ui/core";
+import { Link, useNavigate } from "react-router-dom";
+
+const StyledTableHead = styled(TableHead)(({ theme }) => ({
+  "& .MuiTableCell-root": {
+    fontWeight: "bold",
+  },
+}));
+
+const columns = [
+  {
+    id: "#",
+    label: "#",
+    align: "center",
+  },
+  {
+    id: "ComplaintTitle",
+    label: "Complaint Title",
+    align: "center",
+  },
+
+  {
+    id: "SubmittedTo",
+    label: "Submitted To",
+    align: "center",
+  },
+
+  {
+    id: "Category",
+    label: "Category",
+    align: "center",
+  },
+  {
+    id: "Date",
+    label: "Date",
+    align: "center",
+  },
+  {
+    id: "status",
+    label: "Status",
+    align: "center",
+  },
+  {
+    id: "actions",
+    label: "Actions",
+    align: "center",
+  },
+];
+
+const ITEM_HEIGHT = 48;
+
+export default function DataTable({ data }) {
+  console.log(data, "data");
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const open = Boolean(anchorEl);
+
+  const navigate = useNavigate();
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
+
+  return (
+    <>
+      <Paper sx={{ height: "100vh", marginTop: "20px" }}>
+        <TableContainer
+          sx={{ maxHeight: "calc(100vh - 330px)", position: "relative" }}
+        >
+          <Table stickyHeader aria-label="sticky table">
+            <StyledTableHead>
+              <TableRow>
+                {columns.map((column) => (
+                  <TableCell
+                    key={column.id}
+                    align={column.align}
+                    style={{ minWidth: column.minWidth, paddingTop: "40px" }}
+                  >
+                    {column.label}
+                  </TableCell>
+                ))}
+              </TableRow>
+            </StyledTableHead>
+            <TableBody>
+              {data.map((complaint) => (
+                <TableRow>
+                  <TableCell align="center">1</TableCell>
+                  <TableCell align="center">{complaint.title}</TableCell>
+                  <TableCell align="center">{complaint.submitTo}</TableCell>
+                  <TableCell align="center">{complaint.category}</TableCell>
+                  <TableCell align="center">{complaint.date}</TableCell>
+                  <TableCell align="center">{complaint.status}</TableCell>
+                  <TableCell align="center">
+                    <IconButton
+                      aria-label="more"
+                      id="long-button"
+                      aria-controls={open ? "long-menu" : undefined}
+                      aria-expanded={open ? "true" : undefined}
+                      aria-haspopup="true"
+                      onClick={handleClick}
+                    >
+                      <MoreVertOutlined />
+                    </IconButton>
+                    <Menu
+                      id="long-menu"
+                      MenuListProps={{
+                        "aria-labelledby": "long-button",
+                      }}
+                      anchorEl={anchorEl}
+                      open={open}
+                      onClose={handleClose}
+                      PaperProps={{
+                        style: {
+                          maxHeight: ITEM_HEIGHT * 4.5,
+                          width: "20ch",
+                        },
+                      }}
+                    >
+                      <MenuItem>
+                        <DeleteForever />
+                        Delete
+                      </MenuItem>
+                      <Link
+                        to={`/my-complaints/${complaint.complaintId}`}
+                        style={{ textDecoration: "none" }}
+                      >
+                        <MenuItem>
+                          <ViewAgenda />
+                          View
+                        </MenuItem>
+                      </Link>
+                    </Menu>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <TablePagination
+          rowsPerPageOptions={[10, 25, 100]}
+          component="div"
+          count={data.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+      </Paper>
+    </>
+  );
+}

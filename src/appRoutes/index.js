@@ -7,6 +7,7 @@ import PrivateRoute from "./PrivateRoute";
 import PrivateLayout from "../components/layout/PrivateLayout";
 import NewComplaint from "../pages/SubmitNewComplaign";
 import Profile from "../pages/profile";
+import ComplaintDetails from "../pages/complaintDetails";
 <PrivateRoute></PrivateRoute>;
 
 const AppRoutes = () => {
@@ -47,6 +48,14 @@ const AppRoutes = () => {
           element={
             <PrivateRoute>
               <Profile />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/my-complaints/:id"
+          element={
+            <PrivateRoute>
+              <ComplaintDetails />
             </PrivateRoute>
           }
         />

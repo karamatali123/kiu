@@ -27,16 +27,16 @@ const AuthProvider = (props) => {
       console.log(error.message, "error");
     }
   };
-  // useEffect(() => {
-  //   onAuthStateChanged(auth, (user) => {
-  //     if (user) {
-  //       actions.checkAuthStatus(true);
-  //       setUser(user.uid);
-  //     } else {
-  //       actions.checkAuthStatus(false);
-  //     }
-  //   });
-  // }, []);
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        actions.checkAuthStatus(true);
+        setUser(user.uid);
+      } else {
+        actions.checkAuthStatus(false);
+      }
+    });
+  }, []);
 
   return (
     <AuthContext.Provider

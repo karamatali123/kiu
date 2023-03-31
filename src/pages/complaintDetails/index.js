@@ -6,9 +6,8 @@ import ComplaintCard from "../../components/complaints/ComplaintCard";
 import { db } from "../../firebase";
 
 import { useAuth } from "../../provider/AuthProvider";
-import DataTable from "./Table";
 
-const MyComplaints = () => {
+const ComplaintDetails = () => {
   const { user } = useAuth();
   const [complaints, setComplaints] = useState([]);
 
@@ -48,11 +47,11 @@ const MyComplaints = () => {
       >
         <Card sx={{ height: "calc(100vh - 147px)", padding: "30px" }}>
           <Typography variant="h4">My Complaints</Typography>
-          <DataTable data={complaints} />
+          {/* <DataTable data={complaints} /> */}
         </Card>
       </Container>
     </>
   );
 };
 
-export default MyComplaints;
+export default ComplaintDetails;

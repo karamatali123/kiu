@@ -26,11 +26,15 @@ import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { ERROR, SUCCESS } from "../../constants/snackbarConstant";
 import { SNACKBAR_OPEN } from "../../provider/AuthProvider/reducer";
 import { useState } from "react";
+import CustomSelect from "../gernal/Select";
+
 const ValidationSchema = object().shape({
   name: yup.string().required("Name Required"),
+  title: yup.string().required("Title Required"),
   deptName: yup.string().required("Deprtment Name required"),
   regNo: yup.string().required("Registration No required"),
   contactNo: yup.string().required("Contact Number required"),
+  date: yup.string().required("Date required"),
   // proof: yup
   //   .mixed()
   //   .test("fileSize", "File too large", ({ size }) => {
@@ -45,6 +49,7 @@ const ValidationSchema = object().shape({
   natureOfComplaint: yup.string().required("Nature of Complaint required"),
   regarding: yup.string().required("Regarding required"),
   submitTo: yup.string().required("To whom do you want to submit"),
+  category: yup.string().required("Please select category of complaint"),
   email: string()
     .required(ErrorMessage.required)
     .email(ErrorMessages.email)
@@ -81,6 +86,7 @@ export default function ComplaintForm() {
   const [loading, setLoading] = useState(false);
   const { user, dispatch } = useAuth();
   const initialValues = {
+    title: "",
     name: "",
     deptName: "",
     regNo: "",
@@ -92,8 +98,20 @@ export default function ComplaintForm() {
     email: "",
     password: "",
     details: "",
+    category: "",
     proof: null,
   };
+  const categories = [
+    "Admission Problems",
+    "False/Misleading Information",
+    "Bribery/Demand of un-solicited money",
+    "Discrimination",
+    "Harassment",
+    "Unfair evaluation",
+    "Scholarship Issues",
+    " Fee issues",
+    "Administrative issues",
+  ];
 
   const handleSubmit = async (values, actions) => {
     setLoading(true);
@@ -109,6 +127,7 @@ export default function ComplaintForm() {
       status: "pending",
       authorId: user.uid,
       proof: url,
+      complaintId: complaintId,
     })
       .then(() => {
         dispatch({
@@ -159,13 +178,27 @@ export default function ComplaintForm() {
             setFieldValue,
           }) => (
             <form onSubmit={handleSubmit} className={classes.form}>
-              <Grid container spacing={2}>
+              <Grid container spacing={2} justifyContent="center">
+                <Grid item md={6} sm={12} xs={12}>
+                  <InputField
+                    type="text"
+                    name="title"
+                    value={values.title}
+                    label="Complaint Title"
+                    fullWidth
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    error={errors.title && touched.title}
+                    helperText={errors.title && touched.title && errors.title}
+                    className={classes.Input}
+                  />
+                </Grid>
                 <Grid item md={6} sm={12} xs={12}>
                   <InputField
                     type="text"
                     name="name"
                     value={values.name}
-                    placeholder="Name"
+                    label="Name"
                     fullWidth
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -179,7 +212,7 @@ export default function ComplaintForm() {
                     type="text"
                     name="deptName"
                     value={values.deptName}
-                    placeholder="Department Name"
+                    label="Department Name"
                     fullWidth
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -196,7 +229,7 @@ export default function ComplaintForm() {
                     type="text"
                     name="regNo"
                     value={values.regNo}
-                    placeholder="Registration No"
+                    label="Registration No"
                     fullWidth
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -210,7 +243,7 @@ export default function ComplaintForm() {
                     type="number"
                     name="contactNo"
                     value={values.contactNo}
-                    placeholder="Contact No"
+                    label="Contact No"
                     fullWidth
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -221,8 +254,82 @@ export default function ComplaintForm() {
                     className={classes.Input}
                   />
                 </Grid>
+                <Grid item md={6} sm={12} xs={12}>
+                  <InputField
+                    type="email"
+                    name="email"
+                    value={values.email}
+                    label="email"
+                    fullWidth
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    error={errors.email && touched.email}
+                    helperText={errors.email && touched.email && errors.email}
+                    className={classes.Input}
+                  />
+                </Grid>
 
                 <Grid item md={6} sm={12} xs={12}>
+                  <Typography
+                    // color={theme.palette.black}
+                    fontSize={16}
+                    paddingLeft={0.5}
+                    paddingBottom={0}
+                    textAlign={"left"}
+                  >
+                    Submission date
+                  </Typography>
+                  <InputField
+                    type="date"
+                    name="date"
+                    value={values.date}
+                    // label="Date"
+                    fullWidth
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    error={errors.date && touched.date}
+                    helperText={errors.date && touched.date && errors.date}
+                    className={classes.Input}
+                  />
+                  {/* <DatePicker /> */}
+                </Grid>
+
+                <Grid item md={6} sm={12} xs={12}>
+                  <CustomSelect
+                    options={["Hod", "VC", "Dean", "HR"]}
+                    selectlabel={"Category"}
+                    name="submitTo"
+                    value={values.submitTo}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    error={Boolean(errors.submitTo)}
+                    error_message={touched.submitTo && errors.submitTo}
+                  />
+                </Grid>
+
+                <Grid item md={6} sm={12} xs={12}>
+                  <CustomSelect
+                    options={categories}
+                    selectlabel={"Submitted To"}
+                    name="category"
+                    value={values.category}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    error={Boolean(errors.category)}
+                    error_message={touched.category && errors.category}
+                  />
+                </Grid>
+
+                <Grid item md={6} sm={12} xs={12}>
+                  <Typography
+                    // color={theme.palette.black}
+                    fontSize={16}
+                    paddingLeft={0.5}
+                    paddingBottom={0}
+                    textAlign={"left"}
+                  >
+                    Proof(if any)
+                  </Typography>
                   <InputField
                     type="file"
                     name="proof"
@@ -235,59 +342,6 @@ export default function ComplaintForm() {
                     onBlur={handleBlur}
                     error={errors.proof && touched.proof}
                     helperText={errors.proof && touched.proof && errors.proof}
-                    className={classes.Input}
-                  />
-                </Grid>
-                <Grid item md={6} sm={12} xs={12}>
-                  <InputField
-                    // type="email"
-                    name="date"
-                    value={values.date}
-                    placeholder="Date"
-                    fullWidth
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    error={errors.date && touched.date}
-                    helperText={errors.date && touched.date && errors.date}
-                    className={classes.Input}
-                  />
-                </Grid>
-                <Grid item md={6} sm={12} xs={12}>
-                  <FormControl style={{ width: "100%" }}>
-                    <InputLabel>Submit to</InputLabel>
-                    <Select
-                      name="submitTo"
-                      value={values.submitTo}
-                      label="Submit to"
-                      fullWidth
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      error={errors.submitTo && touched.submitTo}
-                      className={classes.Input}
-                    >
-                      <MenuItem value={"VC"}>Vice Chancellor</MenuItem>
-                      <MenuItem value={"HOD"}>HOD</MenuItem>
-                      <MenuItem value={"Dean"}>Dean</MenuItem>
-                    </Select>
-
-                    <Typography
-                      sx={{ color: "#ff0000", fontSize: "12px", ml: "15px" }}
-                    >
-                      {errors.submitTo && touched.submitTo && errors.submitTo}
-                    </Typography>
-                  </FormControl>
-                </Grid>
-                <Grid item md={6} sm={12} xs={12}>
-                  <InputField
-                    type="email"
-                    name="email"
-                    value={values.email}
-                    placeholder="Enter Email"
-                    fullWidth
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    error={errors.email && touched.email}
-                    helperText={errors.email && touched.email && errors.email}
                     className={classes.Input}
                   />
                 </Grid>
@@ -339,7 +393,7 @@ export default function ComplaintForm() {
                     margin: "auto",
                     width: "230px",
                     height: "50px",
-                    marginTop: "1rem",
+                    marginTop: "30px",
                   }}
                 >
                   {loading ? <CircularProgress /> : "submit"}
