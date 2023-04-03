@@ -1,19 +1,24 @@
 import { Box, Card, CardMedia, Typography } from "@material-ui/core";
-import { Stack } from "@mui/material";
+import { Button, Divider, Stack } from "@mui/material";
 import React from "react";
+import { Link } from "react-router-dom";
 
 const ComplaintCard = ({ complaint }) => {
   return (
     <Card
       style={{
-        maxWidth: "900px",
-        margin: "auto",
+        // maxWidth: "900px",
+        // margin: "auto",
         height: "fit-content",
-        marginTop: "2rem",
+        margin: "40px 10px",
         padding: "1.5rem",
       }}
     >
-      <Stack flexDirection={"row"} justifyContent={"space-between"}>
+      <Stack
+        flexDirection={"row"}
+        justifyContent={"space-between"}
+        padding="20px"
+      >
         <Box>
           <Typography variant="h5">{complaint.title}</Typography>
           <Typography variant="caption">Submitted To:karamat ali</Typography>
@@ -23,35 +28,46 @@ const ComplaintCard = ({ complaint }) => {
           <Typography variant="caption">{complaint.date}</Typography>
         </Box>
       </Stack>
+      <Divider />
 
-      <CardMedia
-        component="img"
-        height="294"
-        style={{ margin: "0.5rem 0" }}
-        image={complaint.proof}
-        alt="Paella dish"
-      />
-      <Typography variant="body1" style={{ marginTop: "0.5rem" }}>
-        I am ( name and address and what are you currently doing this time)
-        example. I am Marie Scotter that is 40 years old who is working as a
-        bank teller in Nbo Bank of the Usa, and encounter the above person when
-        picking up my children at School park about 4 in the afternoon. when,
-        this said person suddenly shout at me in front of others individual. I
-        felt in shame and unaware what kind of rules that i broke, so. i ask him
-        politely but. he answered me in disrespectful manners. Remember: Please,
-        take not the time, place and events that is happened when you have
-        encountered such problem. Read more: Complaint letter regarding bad
-        security service? - Please give a sample of complaint letter against
-        security guard to his supervisor :: Ask Me Fast at
-        https://www.askmefast.com/Complaint_letter_regarding_bad_security_service-qna5894281.html
-      </Typography>
+      <Box padding={"100px 10px"}>
+        <Box>
+          <Typography variant="h5"> Nature Complaint</Typography>
+          <Typography variant="body1" style={{ marginTop: "1.5rem" }}>
+            {complaint.natureOfComplaint}
+          </Typography>
+        </Box>
+        <Box mt={"30px"}>
+          <Typography variant="h5">Complaint Regarding To</Typography>
+          <Typography variant="body1" style={{ marginTop: "1.5rem" }}>
+            {complaint.natureOfComplaint}
+          </Typography>
+        </Box>
+        <Box textAlign={"end"} mt={"30px"}>
+          <Link
+            to={complaint.proof}
+            download
+            style={{ textDecoration: "none" }}
+          >
+            <Button title="Download" variant="contained">
+              Download Proof
+            </Button>
+          </Link>
+        </Box>
+      </Box>
+      <Divider />
+
       <Box
-        textAlign={"center"}
         my="1rem"
         display={"flex"}
         alignItems="center"
         justifyContent={"end"}
       >
+        <Link to={"#"} download style={{ textDecoration: "none" }}>
+          <Button title="Download" variant="contained">
+            Track Complaint
+          </Button>
+        </Link>
         <Box
           sx={{ backgroundColor: "yellow" }}
           width="100px"
@@ -59,6 +75,7 @@ const ComplaintCard = ({ complaint }) => {
           display={"flex"}
           alignItems="center"
           justifyContent={"center"}
+          ml="10px"
         >
           <Typography variant="body1">pending</Typography>
         </Box>

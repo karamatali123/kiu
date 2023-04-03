@@ -1,41 +1,33 @@
 import { Card, Typography } from "@mui/material";
 import { Container } from "@mui/system";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import ComplaintCard from "../../components/complaints/ComplaintCard";
 import { db } from "../../firebase";
 
 import { useAuth } from "../../provider/AuthProvider";
 
 const ComplaintDetails = () => {
-  const { user } = useAuth();
-  const [complaints, setComplaints] = useState([]);
+  const { id } = useParams();
+  console.log(id, "asd");
 
-  const getComplaints = async () => {
-    console.log(complaints, "asd");
+  const [complaintData, setComplaintData] = useState({});
+  console.log(complaintData, "asd");
+
+  const getComplaintDetails = async (id) => {
+    const docRef = doc(db, "complaints", id);
     try {
-      const q = query(
-        collection(db, "complaints"),
-        where("authorId", "==", user.uid)
-      );
-      let docData = [];
-      const querySnapshot = await getDocs(q);
-      querySnapshot.forEach((doc) => {
-        // doc.data() is never undefined for query doc snapshots
-        console.log(doc.data(), "date");
-        docData.push(doc.data());
-        setComplaints(docData);
-      });
+      const res = await getDoc(docRef);
+      setComplaintData(res.data());
     } catch (error) {
-      console.log(error);
+      console.log(error.message, "error");
     }
   };
 
   useEffect(() => {
-    if (user) {
-      getComplaints();
-    }
-  }, [user]);
+    getComplaintDetails(id);
+  }, []);
   return (
     <>
       <Container
@@ -45,9 +37,15 @@ const ComplaintDetails = () => {
           height: "100%",
         }}
       >
-        <Card sx={{ height: "calc(100vh - 147px)", padding: "30px" }}>
+        <Card
+          sx={{
+            height: "calc(100vh - 147px)",
+            padding: "30px",
+            overflow: "scroll",
+          }}
+        >
           <Typography variant="h4">My Complaints</Typography>
-          {/* <DataTable data={complaints} /> */}
+          <ComplaintCard complaint={complaintData} />
         </Card>
       </Container>
     </>

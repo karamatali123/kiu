@@ -48,7 +48,7 @@ const MyComplaints = () => {
       >
         <Card sx={{ height: "calc(100vh - 147px)", padding: "30px" }}>
           <Typography variant="h4">My Complaints</Typography>
-          <DataTable data={complaints} />
+          <DataTable />
         </Card>
       </Container>
     </>

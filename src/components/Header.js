@@ -94,7 +94,7 @@ const ResponsiveAppBar = () => {
               fontSize: "17px",
             }}
           />
-          <Box className={classes.links}>
+          {/* <Box className={classes.links}>
             {pages.map((page) => (
               <Button
                 key={page}
@@ -104,13 +104,14 @@ const ResponsiveAppBar = () => {
                 {page}
               </Button>
             ))}
-          </Box>
+          </Box> */}
           {isOpen && <DesktopMenu isOpen={isOpen} setIsOpen={setIsOpen} />}
           {authStatus && (
             <div
               onClick={() => {
                 setIsOpen(true);
               }}
+              className={classes.icon}
             >
               <Slideshow className={classes.icon} />
             </div>
@@ -181,17 +182,7 @@ const ResponsiveAppBar = () => {
                     />
                   </>
                 )}
-                {/* <AccountCircleIcon style={{ color: '#1976d2',height:"30px",width:"30px" }} /> */}
               </Box>
-              {pages.map((page) => (
-                <MenuItem
-                  key={page}
-                  onClick={handleCloseNavMenu}
-                  style={{ width: "200px", textAlign: "center" }}
-                >
-                  <Typography>{page}</Typography>
-                </MenuItem>
-              ))}
             </Menu>
           </Box>
 
