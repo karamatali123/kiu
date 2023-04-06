@@ -1,9 +1,11 @@
-import { Card, Typography } from "@mui/material";
+import { StaticDatePicker } from "@mui/lab";
+import { Card, CircularProgress, Stack, Typography } from "@mui/material";
 import { Container } from "@mui/system";
 import { doc, getDoc } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import ComplaintCard from "../../components/complaints/ComplaintCard";
+import Loading from "../../components/gernal/Loading";
 import { db } from "../../firebase";
 
 import { useAuth } from "../../provider/AuthProvider";
@@ -13,13 +15,14 @@ const ComplaintDetails = () => {
   console.log(id, "asd");
 
   const [complaintData, setComplaintData] = useState({});
-  console.log(complaintData, "asd");
+  const [loading, setLoading] = useState(true);
 
   const getComplaintDetails = async (id) => {
     const docRef = doc(db, "complaints", id);
     try {
       const res = await getDoc(docRef);
       setComplaintData(res.data());
+      setLoading(false);
     } catch (error) {
       console.log(error.message, "error");
     }
@@ -45,7 +48,7 @@ const ComplaintDetails = () => {
           }}
         >
           <Typography variant="h4">My Complaints</Typography>
-          <ComplaintCard complaint={complaintData} />
+          {loading ? <Loading /> : <ComplaintCard complaint={complaintData} />}
         </Card>
       </Container>
     </>

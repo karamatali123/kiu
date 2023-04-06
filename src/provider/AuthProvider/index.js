@@ -21,19 +21,18 @@ const AuthProvider = (props) => {
     const docRef = doc(db, "users", uid);
     try {
       const res = await getDoc(docRef);
-      console.log(res.data(), "userrr");
+
       actions.setUser(res.data());
+      // actions.checkAuthStatus(true);
     } catch (error) {
       console.log(error.message, "error");
+      // actions.checkAuthStatus(false);
     }
   };
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        actions.checkAuthStatus(true);
         setUser(user.uid);
-      } else {
-        actions.checkAuthStatus(false);
       }
     });
   }, []);

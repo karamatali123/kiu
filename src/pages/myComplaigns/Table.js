@@ -34,6 +34,7 @@ import { db } from "../../firebase";
 import { useAuth } from "../../provider/AuthProvider";
 import { SNACKBAR_OPEN } from "../../provider/AuthProvider/reducer";
 import { ERROR, SUCCESS } from "../../constants/snackbarConstant";
+import Loading from "../../components/gernal/Loading";
 
 const StyledTableHead = styled(TableHead)(({ theme }) => ({
   "& .MuiTableCell-root": {
@@ -93,7 +94,6 @@ export default function DataTable() {
   const [complaints, setComplaints] = useState([]);
 
   const getComplaints = async () => {
-    console.log(complaints, "asd");
     try {
       const q = query(
         collection(db, "complaints"),
@@ -161,120 +161,128 @@ export default function DataTable() {
   return (
     <>
       <Paper sx={{ height: "100vh", marginTop: "20px" }}>
-        {complaints ? (
+        {loading ? (
+          <Loading />
+        ) : (
           <>
-            <TableContainer
-              sx={{ maxHeight: "calc(100vh - 330px)", position: "relative" }}
-            >
-              <Table stickyHeader aria-label="sticky table">
-                <StyledTableHead>
-                  <TableRow>
-                    {columns.map((column) => (
-                      <TableCell
-                        key={column.id}
-                        align={column.align}
-                        style={{
-                          minWidth: column.minWidth,
-                          paddingTop: "40px",
-                        }}
-                      >
-                        {column.label}
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                </StyledTableHead>
-                {loading && (
-                  <Stack
-                    display={"flex"}
-                    alignItems="center"
-                    justifyContent={"center"}
-                    height={"400px"}
-                  >
-                    <CircularProgress />
-                  </Stack>
-                )}
-                <TableBody>
-                  {complaints.map((complaint, index) => (
-                    <TableRow key={index}>
-                      <TableCell align="center">1</TableCell>
-                      <TableCell align="center">{complaint.title}</TableCell>
-                      <TableCell align="center">{complaint.submitTo}</TableCell>
-                      <TableCell align="center">{complaint.category}</TableCell>
-                      <TableCell align="center">{complaint.date}</TableCell>
-                      <TableCell align="center">{complaint.status}</TableCell>
-                      <TableCell align="center">
-                        <IconButton
-                          aria-label="more"
-                          id="long-button"
-                          aria-controls={open ? "long-menu" : undefined}
-                          aria-expanded={open ? "true" : undefined}
-                          aria-haspopup="true"
-                          onClick={(e) => handleClick(e, index)}
-                        >
-                          <MoreVertOutlined />
-                        </IconButton>
-                        {anchorEl.key === index && (
-                          <Menu
-                            id="long-menu"
-                            MenuListProps={{
-                              "aria-labelledby": "long-button",
-                            }}
-                            anchorEl={anchorEl.element}
-                            open={open}
-                            onClose={handleClose}
-                            PaperProps={{
-                              style: {
-                                maxHeight: ITEM_HEIGHT * 4.5,
-                                width: "20ch",
-                              },
+            {complaints ? (
+              <>
+                <TableContainer
+                  sx={{
+                    maxHeight: "calc(100vh - 330px)",
+                    position: "relative",
+                  }}
+                >
+                  <Table stickyHeader aria-label="sticky table">
+                    <StyledTableHead>
+                      <TableRow>
+                        {columns.map((column) => (
+                          <TableCell
+                            key={column.id}
+                            align={column.align}
+                            style={{
+                              minWidth: column.minWidth,
+                              paddingTop: "40px",
                             }}
                           >
-                            <MenuItem
-                              onClick={() => {
-                                {
-                                  handleDelete(complaint.complaintId);
-                                }
-                              }}
+                            {column.label}
+                          </TableCell>
+                        ))}
+                      </TableRow>
+                    </StyledTableHead>
+
+                    <TableBody>
+                      {complaints.map((complaint, index) => (
+                        <TableRow key={index}>
+                          <TableCell align="center">1</TableCell>
+                          <TableCell align="center">
+                            {complaint.title}
+                          </TableCell>
+                          <TableCell align="center">
+                            {complaint.submitTo}
+                          </TableCell>
+                          <TableCell align="center">
+                            {complaint.category}
+                          </TableCell>
+                          <TableCell align="center">{complaint.date}</TableCell>
+                          <TableCell align="center">
+                            {complaint.status}
+                          </TableCell>
+                          <TableCell align="center">
+                            <IconButton
+                              aria-label="more"
+                              id="long-button"
+                              aria-controls={open ? "long-menu" : undefined}
+                              aria-expanded={open ? "true" : undefined}
+                              aria-haspopup="true"
+                              onClick={(e) => handleClick(e, index)}
                             >
-                              <DeleteForever />
-                              Delete
-                            </MenuItem>
-                            <Link
-                              to={`/my-complaints/${complaint.complaintId}`}
-                              style={{ textDecoration: "none" }}
-                            >
-                              <MenuItem>
-                                <ViewAgenda />
-                                View
-                              </MenuItem>
-                            </Link>
-                          </Menu>
-                        )}
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-            <TablePagination
-              rowsPerPageOptions={[10, 25, 100]}
-              component="div"
-              count={complaints.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-            />
+                              <MoreVertOutlined />
+                            </IconButton>
+                            {anchorEl.key === index && (
+                              <Menu
+                                id="long-menu"
+                                MenuListProps={{
+                                  "aria-labelledby": "long-button",
+                                }}
+                                anchorEl={anchorEl.element}
+                                open={open}
+                                onClose={handleClose}
+                                PaperProps={{
+                                  style: {
+                                    maxHeight: ITEM_HEIGHT * 4.5,
+                                    width: "20ch",
+                                  },
+                                }}
+                              >
+                                <MenuItem
+                                  onClick={() => {
+                                    {
+                                      handleDelete(complaint.complaintId);
+                                    }
+                                  }}
+                                >
+                                  <DeleteForever />
+                                  Delete
+                                </MenuItem>
+                                <Link
+                                  to={`/my-complaints/${complaint.complaintId}`}
+                                  style={{ textDecoration: "none" }}
+                                >
+                                  <MenuItem>
+                                    <ViewAgenda />
+                                    View
+                                  </MenuItem>
+                                </Link>
+                              </Menu>
+                            )}
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+                <TablePagination
+                  rowsPerPageOptions={[10, 25, 100]}
+                  component="div"
+                  count={complaints.length}
+                  rowsPerPage={rowsPerPage}
+                  page={page}
+                  onPageChange={handleChangePage}
+                  onRowsPerPageChange={handleChangeRowsPerPage}
+                />
+              </>
+            ) : (
+              <Stack
+                display={"flex"}
+                alignItems="center"
+                justifyContent={"center"}
+                height={"400px"}
+              >
+                <Typography variant="h3">No Complaints Added</Typography>
+              </Stack>
+            )}
           </>
-        ) : (
-          <Stack
-            display={"flex"}
-            alignItems="center"
-            justifyContent={"center"}
-            height={"400px"}
-          >
-            <Typography variant="h3">No Complaints Added</Typography>
-          </Stack>
         )}
       </Paper>
     </>

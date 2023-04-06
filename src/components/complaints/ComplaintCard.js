@@ -1,5 +1,5 @@
 import { Box, Card, CardMedia, Typography } from "@material-ui/core";
-import { Button, Divider, Stack } from "@mui/material";
+import { Button, Chip, Divider, Stack } from "@mui/material";
 import React from "react";
 import { Link } from "react-router-dom";
 
@@ -43,17 +43,8 @@ const ComplaintCard = ({ complaint }) => {
             {complaint.natureOfComplaint}
           </Typography>
         </Box>
-        <Box textAlign={"end"} mt={"30px"}>
-          <Link
-            to={complaint.proof}
-            download
-            style={{ textDecoration: "none" }}
-          >
-            <Button title="Download" variant="contained">
-              Download Proof
-            </Button>
-          </Link>
-        </Box>
+
+        <Chip label="pending" sx={{ mt: "20px", borderRadius: "2px" }} />
       </Box>
       <Divider />
 
@@ -68,17 +59,15 @@ const ComplaintCard = ({ complaint }) => {
             Track Complaint
           </Button>
         </Link>
-        <Box
-          sx={{ backgroundColor: "yellow" }}
-          width="100px"
-          height={"40px"}
-          display={"flex"}
-          alignItems="center"
-          justifyContent={"center"}
-          ml="10px"
+        <Link
+          to={complaint.proof}
+          download
+          style={{ textDecoration: "none", marginLeft: "10px" }}
         >
-          <Typography variant="body1">pending</Typography>
-        </Box>
+          <Button title="Download" variant="contained">
+            Download Proof
+          </Button>
+        </Link>
       </Box>
     </Card>
   );

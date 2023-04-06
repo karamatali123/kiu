@@ -100,9 +100,7 @@ function SimpleDialog(props) {
     confirmPassword: "",
   };
   const handleSubmit = async (values) => {
-    registerUser(values, navigate);
-    setShowRegister(true);
-    console.log(showRegister, "shoow");
+    registerUser(values, setShowRegister);
   };
   const handleOnClick = () => {
     setSignIn(true);
