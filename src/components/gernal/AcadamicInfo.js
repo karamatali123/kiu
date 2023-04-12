@@ -18,6 +18,7 @@ import { Formik } from "formik";
 import ErrorMessages from "../../helpers/ErrorMessages";
 import { object, string } from "yup";
 import { useNavigate } from "react-router-dom";
+import { AUTH_STATUS } from "../../provider/AuthProvider/reducer";
 
 const useStyles = makeStyles((theme) => ({
   Dialog: {
@@ -38,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 function SimpleDialog(props) {
   const { onClose, open, setOpen } = props;
-  const { uid } = useAuth();
+  const { uid, dispatch } = useAuth();
   const navigate = useNavigate();
   const classes = useStyles();
 
@@ -52,7 +53,10 @@ function SimpleDialog(props) {
       await updateDoc(docRef, {
         academicInfo: values,
       });
-
+      dispatch({
+        type: AUTH_STATUS,
+        payload: true,
+      });
       console.log("Document updated successfully");
       navigate("/my-complaints");
     } catch (e) {

@@ -5,7 +5,15 @@ import logo from "../assests/Images/logo.svg";
 import { Link } from "react-router-dom";
 import { StyledNavItem } from "./layout/styles";
 import { Box } from "@mui/material";
-import { ExitToApp, NoteAdd, Settings, SubjectSharp } from "@material-ui/icons";
+import {
+  AddBox,
+  ExitToApp,
+  NoteAdd,
+  Settings,
+  SubjectSharp,
+} from "@material-ui/icons";
+import { useAuth } from "../provider/AuthProvider";
+import { ADMIN, FACILITY, STUDENT } from "../constants/roles";
 
 const userItems = ["My Complaints", "Submit new Complain "];
 
@@ -34,32 +42,91 @@ const useStyles = makeStyles((theme) => ({
 
 const SideNav = () => {
   const classes = useStyles();
+  const { user } = useAuth();
+  console.log(user, "userrrr");
   return (
     <Card className={classes.root}>
       <div>
         <img src={logo} className={classes.logo}></img>
       </div>
       <Box paddingY={"2rem"}>
-        <Link to="/my-complaints" style={{ textDecoration: "none" }}>
-          <StyledNavItem
-          // sx={{
-          //   backgroundColor:
-          //     activeTab === 1 ? "#00000011" : theme.palette.white,
-          // }}
-          >
-            <SubjectSharp /> <span> My Complaints</span>
-          </StyledNavItem>
-        </Link>
-        <Link to="/add-new-complaints" style={{ textDecoration: "none" }}>
-          <StyledNavItem
-          // sx={{
-          //   backgroundColor:
-          //     activeTab === 1 ? "#00000011" : theme.palette.white,
-          // }}
-          >
-            <NoteAdd /> <span> Submit new Complain</span>
-          </StyledNavItem>
-        </Link>
+        {user.role == STUDENT && (
+          <>
+            <Link to="/my-complaints" style={{ textDecoration: "none" }}>
+              <StyledNavItem
+              // sx={{
+              //   backgroundColor:
+              //     activeTab === 1 ? "#00000011" : theme.palette.white,
+              // }}
+              >
+                <SubjectSharp /> <span> My Complaints</span>
+              </StyledNavItem>
+            </Link>
+            <Link to="/add-new-complaints" style={{ textDecoration: "none" }}>
+              <StyledNavItem>
+                <NoteAdd /> <span> Submit new Complain</span>
+              </StyledNavItem>
+            </Link>
+          </>
+        )}
+        {user.role == FACILITY && (
+          <>
+            <Link to="/my-complaints" style={{ textDecoration: "none" }}>
+              <StyledNavItem
+              // sx={{
+              //   backgroundColor:
+              //     activeTab === 1 ? "#00000011" : theme.palette.white,
+              // }}
+              >
+                <SubjectSharp /> <span> My Complaints</span>
+              </StyledNavItem>
+            </Link>
+            <Link to="/received-complaints" style={{ textDecoration: "none" }}>
+              <StyledNavItem
+              // sx={{
+              //   backgroundColor:
+              //     activeTab === 1 ? "#00000011" : theme.palette.white,
+              // }}
+              >
+                <SubjectSharp /> <span> Received Complaints</span>
+              </StyledNavItem>
+            </Link>
+            <Link to="/add-new-complaints" style={{ textDecoration: "none" }}>
+              <StyledNavItem>
+                <NoteAdd /> <span> Submit new Complain</span>
+              </StyledNavItem>
+            </Link>
+          </>
+        )}
+        {user.role == ADMIN && (
+          <>
+            <Link to="/add-catagories" style={{ textDecoration: "none" }}>
+              <StyledNavItem
+              // sx={{
+              //   backgroundColor:
+              //     activeTab === 1 ? "#00000011" : theme.palette.white,
+              // }}
+              >
+                <AddBox /> <span> Add Catagories</span>
+              </StyledNavItem>
+            </Link>
+            <Link to="/add-department" style={{ textDecoration: "none" }}>
+              <StyledNavItem
+              // sx={{
+              //   backgroundColor:
+              //     activeTab === 1 ? "#00000011" : theme.palette.white,
+              // }}
+              >
+                <AddBox /> <span> Add Department</span>
+              </StyledNavItem>
+            </Link>
+            {/* <Link to="/add-new-complaints" style={{ textDecoration: "none" }}>
+              <StyledNavItem>
+                <NoteAdd /> <span> Submit new Complain</span>
+              </StyledNavItem>
+            </Link> */}
+          </>
+        )}
         <Box
           sx={{
             paddingTop: "7rem",

@@ -38,6 +38,7 @@ const ComplaintDetails = () => {
         disableGutters
         sx={{
           height: "100%",
+          overflow: "scroll",
         }}
       >
         <Card

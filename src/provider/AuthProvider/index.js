@@ -23,10 +23,10 @@ const AuthProvider = (props) => {
       const res = await getDoc(docRef);
 
       actions.setUser(res.data());
-      // actions.checkAuthStatus(true);
+      actions.checkAuthStatus(true);
     } catch (error) {
       console.log(error.message, "error");
-      // actions.checkAuthStatus(false);
+      actions.checkAuthStatus(false);
     }
   };
   useEffect(() => {

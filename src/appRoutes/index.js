@@ -8,6 +8,9 @@ import PrivateLayout from "../components/layout/PrivateLayout";
 import NewComplaint from "../pages/SubmitNewComplaign";
 import Profile from "../pages/profile";
 import ComplaintDetails from "../pages/complaintDetails";
+import AddCatagories from "../pages/addCatagories";
+import AddDepartment from "../pages/addDepartment";
+import ReceivedComplaints from "../pages/receivedComplaints";
 <PrivateRoute></PrivateRoute>;
 
 const AppRoutes = () => {
@@ -15,18 +18,7 @@ const AppRoutes = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route
-          path={"/"}
-          element={
-            !authStatus ? (
-              <LandingPage />
-            ) : (
-              <PrivateRoute>
-                <MyComplaints />
-              </PrivateRoute>
-            )
-          }
-        ></Route>
+        <Route path={"/"} element={<LandingPage />}></Route>
         <Route
           path="/my-complaints"
           element={
@@ -56,6 +48,32 @@ const AppRoutes = () => {
           element={
             <PrivateRoute>
               <ComplaintDetails />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/received-complaints"
+          element={
+            <PrivateRoute>
+              <ReceivedComplaints />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/add-catagories"
+          element={
+            <PrivateRoute>
+              <AddCatagories />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/add-department"
+          element={
+            <PrivateRoute>
+              <AddDepartment />
             </PrivateRoute>
           }
         />

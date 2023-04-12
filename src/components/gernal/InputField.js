@@ -29,6 +29,7 @@ export const InputField = (props) => {
     <TextField
       type={props.type}
       name={props.name}
+      style={props.style}
       label={props.label}
       value={props.value}
       placeholder={props.placeholder}

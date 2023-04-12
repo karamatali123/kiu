@@ -10,11 +10,14 @@ import { db } from "../../firebase";
 import { async } from "@firebase/util";
 import { useState } from "react";
 import AcademicInfo from "./AcadamicInfo";
+import { useNavigate } from "react-router-dom";
+import { AUTH_STATUS } from "../../provider/AuthProvider/reducer";
 
 function SimpleDialog(props) {
   const { onClose, open, setOpen } = props;
   const [showAcademic, setShowAcademic] = useState(false);
-  const { uid } = useAuth();
+  const { uid, dispatch } = useAuth();
+  const navigate = useNavigate();
   console.log(showAcademic, "user");
 
   const handleClose = () => {
@@ -29,6 +32,23 @@ function SimpleDialog(props) {
       });
       setShowAcademic(true);
       console.log("Document updated successfully");
+    } catch (e) {
+      console.error("Error updating document: ", e);
+    }
+  };
+  const handleClick = async (role) => {
+    const docRef = doc(db, "users", uid);
+
+    try {
+      await updateDoc(docRef, {
+        role: role,
+      });
+      dispatch({
+        type: AUTH_STATUS,
+        payload: true,
+      });
+      setOpen(false);
+      navigate("/my-complaints");
     } catch (e) {
       console.error("Error updating document: ", e);
     }
@@ -60,7 +80,7 @@ function SimpleDialog(props) {
                 variant={"contained"}
                 text="Register As facility"
                 onClick={() => {
-                  handleOnClick("facility");
+                  handleClick("facility");
                 }}
               />
             </Stack>

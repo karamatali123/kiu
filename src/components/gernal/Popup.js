@@ -103,7 +103,7 @@ function SimpleDialog(props) {
     registerUser(values, setShowRegister);
   };
   const handleOnClick = () => {
-    setSignIn(true);
+    setSignIn(false);
     setOpen(false);
   };
 
