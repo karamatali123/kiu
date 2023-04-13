@@ -111,6 +111,10 @@ const userActions = (dispatch) => {
         payload: "",
       });
       dispatch({
+        type: SET_USER,
+        payload: null,
+      });
+      dispatch({
         type: SNACKBAR_OPEN,
         payload: {
           snackbarType: SUCCESS,

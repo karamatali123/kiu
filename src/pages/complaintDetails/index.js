@@ -45,7 +45,7 @@ const ComplaintDetails = () => {
           sx={{
             height: "calc(100vh - 147px)",
             padding: "30px",
-            overflow: "scroll",
+            // overflow: "scroll",
           }}
         >
           <Typography variant="h4">My Complaints</Typography>

@@ -4,13 +4,14 @@ import MyComplaints from "../pages/myComplaigns";
 import LandingPage from "../pages/landingpage/Landingpage";
 import { useAuth } from "../provider/AuthProvider";
 import PrivateRoute from "./PrivateRoute";
-import PrivateLayout from "../components/layout/PrivateLayout";
 import NewComplaint from "../pages/SubmitNewComplaign";
 import Profile from "../pages/profile";
 import ComplaintDetails from "../pages/complaintDetails";
 import AddCatagories from "../pages/addCatagories";
 import AddDepartment from "../pages/addDepartment";
 import ReceivedComplaints from "../pages/receivedComplaints";
+import { ADMIN, FACILITY, STUDENT } from "../constants/roles";
+import AccessDenied from "../pages/accessDenied";
 <PrivateRoute></PrivateRoute>;
 
 const AppRoutes = () => {
@@ -19,10 +20,11 @@ const AppRoutes = () => {
     <BrowserRouter>
       <Routes>
         <Route path={"/"} element={<LandingPage />}></Route>
+        <Route path={"/access-denied"} element={<AccessDenied />}></Route>
         <Route
           path="/my-complaints"
           element={
-            <PrivateRoute>
+            <PrivateRoute roles={[ADMIN, FACILITY, STUDENT]}>
               <MyComplaints />
             </PrivateRoute>
           }
@@ -30,7 +32,7 @@ const AppRoutes = () => {
         <Route
           path="/add-new-complaints"
           element={
-            <PrivateRoute>
+            <PrivateRoute roles={[ADMIN, FACILITY, STUDENT]}>
               <NewComplaint />
             </PrivateRoute>
           }
@@ -38,7 +40,7 @@ const AppRoutes = () => {
         <Route
           path="/profile-setting"
           element={
-            <PrivateRoute>
+            <PrivateRoute roles={[ADMIN, FACILITY, STUDENT]}>
               <Profile />
             </PrivateRoute>
           }
@@ -46,7 +48,7 @@ const AppRoutes = () => {
         <Route
           path="/my-complaints/:id"
           element={
-            <PrivateRoute>
+            <PrivateRoute roles={[ADMIN, FACILITY, STUDENT]}>
               <ComplaintDetails />
             </PrivateRoute>
           }
@@ -55,7 +57,7 @@ const AppRoutes = () => {
         <Route
           path="/received-complaints"
           element={
-            <PrivateRoute>
+            <PrivateRoute roles={[FACILITY]}>
               <ReceivedComplaints />
             </PrivateRoute>
           }
@@ -64,7 +66,7 @@ const AppRoutes = () => {
         <Route
           path="/add-catagories"
           element={
-            <PrivateRoute>
+            <PrivateRoute roles={[ADMIN]}>
               <AddCatagories />
             </PrivateRoute>
           }
@@ -73,7 +75,7 @@ const AppRoutes = () => {
           path="/add-department"
           element={
             <PrivateRoute>
-              <AddDepartment />
+              <AddDepartment roles={[ADMIN]} />
             </PrivateRoute>
           }
         />

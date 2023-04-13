@@ -60,8 +60,9 @@ const ResponsiveAppBar = () => {
   const [signIn, setSignIn] = React.useState(false);
   const [anchorElNav, setAnchorElNav] = useState();
 
-  const { user, handleUserLogout, authStatus } = useAuth();
+  const { user, handleUserLogout } = useAuth();
   const navigate = useNavigate();
+  console.log(user, "userrr");
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -106,7 +107,7 @@ const ResponsiveAppBar = () => {
             ))}
           </Box> */}
           {isOpen && <DesktopMenu isOpen={isOpen} setIsOpen={setIsOpen} />}
-          {authStatus && (
+          {user && (
             <div
               onClick={() => {
                 setIsOpen(true);
@@ -155,11 +156,15 @@ const ResponsiveAppBar = () => {
                   text="Contact us"
                   style={{ color: "#003A91", width: "90%" }}
                 />
-                {authStatus ? (
+                {user ? (
                   <MyButton
                     variant={"contained"}
                     text={"Logout"}
-                    style={{ width: "90%", margin: "4px" }}
+                    style={{
+                      width: "90%",
+                      margin: "4px",
+                      backgroundColor: "#c2e8fe",
+                    }}
                     onClick={handleLogout}
                   />
                 ) : (
@@ -192,11 +197,11 @@ const ResponsiveAppBar = () => {
               text="Contact us"
               style={{ color: "#444444" }}
             />
-            {authStatus ? (
+            {user ? (
               <>
-                <MyButton
+                <Button
                   variant={"contained"}
-                  text={"Logout"}
+                  title="Logout"
                   style={{
                     color: "#fff",
                     margin: "5px",
@@ -204,7 +209,9 @@ const ResponsiveAppBar = () => {
                   }}
                   size={"large"}
                   onClick={handleLogout}
-                />
+                >
+                  Logout
+                </Button>
                 {
                   <Typography variant="body1" style={{ padding: "1rem" }}>
                     {user?.firstName} &nbsp;{user?.lastName}
