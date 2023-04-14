@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     borderRadius: "0px",
     position: "relative",
-    maxWidth: "285px",
+    maxWidth: "295px",
     height: "calc(100vh - 75px)",
     width: "100%",
     margin: "unset",

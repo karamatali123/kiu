@@ -12,8 +12,7 @@ const PrivateLayout = ({ children }) => {
           gridTemplateColumns: { lg: "304px 1fr", md: "30px 1fr" },
           height: "100vh",
           overflow: "hidden",
-          // columnGap: "10px",
-          // padding: "10px",
+
           background: "#f1f1f1",
         }}
       >

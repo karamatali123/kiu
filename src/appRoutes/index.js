@@ -12,6 +12,10 @@ import AddDepartment from "../pages/addDepartment";
 import ReceivedComplaints from "../pages/receivedComplaints";
 import { ADMIN, FACILITY, STUDENT } from "../constants/roles";
 import AccessDenied from "../pages/accessDenied";
+import SignUp from "../pages/signup";
+import RegisterAs from "../pages/registerAs";
+import Login from "../pages/login";
+import AddInfo from "../pages/addInfo";
 <PrivateRoute></PrivateRoute>;
 
 const AppRoutes = () => {
@@ -19,8 +23,25 @@ const AppRoutes = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path={"/"} element={<LandingPage />}></Route>
+        <Route
+          path={"/"}
+          element={
+            !authStatus ? (
+              <LandingPage />
+            ) : (
+              <PrivateRoute roles={[ADMIN, FACILITY, STUDENT]}>
+                <MyComplaints />
+              </PrivateRoute>
+            )
+          }
+        ></Route>
+
+        {/* <Route path={"/"} element={<LandingPage />}></Route> */}
         <Route path={"/access-denied"} element={<AccessDenied />}></Route>
+        <Route path={"/signup"} element={<SignUp />}></Route>
+        <Route path={"/login"} element={<Login />}></Route>
+        <Route path={"/addInfo"} element={<AddInfo />}></Route>
+        <Route path={"/register-as"} element={<RegisterAs />}></Route>
         <Route
           path="/my-complaints"
           element={

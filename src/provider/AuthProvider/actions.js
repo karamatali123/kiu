@@ -18,7 +18,7 @@ import { ERROR, SUCCESS } from "../../constants/snackbarConstant";
 import { setUid } from "../../localStroageServices";
 
 const userActions = (dispatch) => {
-  const registerEmailPassword = async (values, setShowRegister) => {
+  const registerEmailPassword = async (values, navigate) => {
     const auth = getAuth();
     try {
       const res = await createUserWithEmailAndPassword(
@@ -26,7 +26,7 @@ const userActions = (dispatch) => {
         values.email,
         values.password
       );
-      setShowRegister(true);
+
       dispatch({
         type: SET_UID,
         payload: res.user.uid,
@@ -47,7 +47,7 @@ const userActions = (dispatch) => {
         lastName: values.lastName,
         email: values.email,
       });
-      // navigate("/my-complaints");
+      navigate("/register-as");
     } catch (error) {
       dispatch({
         type: SNACKBAR_OPEN,

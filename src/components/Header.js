@@ -13,12 +13,9 @@ import {
   Container,
   IconButton,
   Menu,
-  MenuItem,
   Toolbar,
   Typography,
 } from "@material-ui/core";
-import SignUp from "./gernal/Popup";
-import SignIn from "./gernal/SignInPopUp";
 import { useAuth } from "../provider/AuthProvider";
 import { Link, useNavigate } from "react-router-dom";
 import { Person, Slideshow } from "@material-ui/icons";
@@ -55,12 +52,12 @@ const useStyles = makeStyles((theme) => ({
 
 const ResponsiveAppBar = () => {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
+  // const [open, setOpen] = React.useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const [signIn, setSignIn] = React.useState(false);
+  // const [signIn, setSignIn] = React.useState(false);
   const [anchorElNav, setAnchorElNav] = useState();
 
-  const { user, handleUserLogout } = useAuth();
+  const { user, handleUserLogout, authStatus } = useAuth();
   const navigate = useNavigate();
   console.log(user, "userrr");
 
@@ -107,7 +104,7 @@ const ResponsiveAppBar = () => {
             ))}
           </Box> */}
           {isOpen && <DesktopMenu isOpen={isOpen} setIsOpen={setIsOpen} />}
-          {user && (
+          {authStatus && (
             <div
               onClick={() => {
                 setIsOpen(true);
@@ -156,7 +153,7 @@ const ResponsiveAppBar = () => {
                   text="Contact us"
                   style={{ color: "#003A91", width: "90%" }}
                 />
-                {user ? (
+                {authStatus ? (
                   <MyButton
                     variant={"contained"}
                     text={"Logout"}
@@ -174,7 +171,7 @@ const ResponsiveAppBar = () => {
                       text={"Sign Up"}
                       style={{ width: "90%", margin: "4px" }}
                       onClick={() => {
-                        setOpen(true);
+                        navigate("/signup");
                       }}
                     />
                     <MyButton
@@ -182,7 +179,7 @@ const ResponsiveAppBar = () => {
                       text={"Sign in"}
                       style={{ width: "90%" }}
                       onClick={() => {
-                        setSignIn(true);
+                        navigate("/login");
                       }}
                     />
                   </>
@@ -197,7 +194,7 @@ const ResponsiveAppBar = () => {
               text="Contact us"
               style={{ color: "#444444" }}
             />
-            {user ? (
+            {authStatus ? (
               <>
                 <Button
                   variant={"contained"}
@@ -235,7 +232,7 @@ const ResponsiveAppBar = () => {
                   }}
                   size={"large"}
                   onClick={() => {
-                    setOpen(true);
+                    navigate("/signup");
                   }}
                 />
                 <MyButton
@@ -244,24 +241,11 @@ const ResponsiveAppBar = () => {
                   size={"large"}
                   style={{ color: "#444444", margin: "5px" }}
                   onClick={() => {
-                    setSignIn(true);
-                    console.log("sdjsdmfhs");
+                    navigate("/login");
                   }}
                 />
               </>
             )}
-            {open && (
-              <SignUp
-                open={open}
-                setOpen={setOpen}
-                setSignIn={setSignIn}
-                signIn={signIn}
-              />
-            )}
-            {signIn && (
-              <SignIn signIn={signIn} setSignIn={setSignIn} setOpen={setOpen} />
-            )}
-            {/* <AccountCircleIcon style={{ color: '#1976d2',height:"30px",width:"30px" }} /> */}
           </Box>
         </Toolbar>
       </Container>

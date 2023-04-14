@@ -42,13 +42,13 @@ const ComplaintDetails = () => {
         }}
       >
         <Card
-          sx={{
-            height: "calc(100vh - 147px)",
-            padding: "30px",
-            // overflow: "scroll",
+          style={{
+            height: "calc(100vh - 150px)",
+            padding: "2rem",
+            overflowY: "scroll",
           }}
         >
-          <Typography variant="h4">My Complaints</Typography>
+          <Typography variant="h4">Complaint Details</Typography>
           {loading ? <Loading /> : <ComplaintCard complaint={complaintData} />}
         </Card>
       </Container>

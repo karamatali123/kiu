@@ -26,16 +26,10 @@ import { object, string } from "yup";
 import { useState } from "react";
 import ErrorMessage from "./ErrorMessage";
 import { useNavigate } from "react-router-dom";
+import { Paper } from "@mui/material";
 
-function SimpleDialog(props) {
+export default function SignIn(props) {
   const useStyles = makeStyles((theme) => ({
-    Dialog: {
-      padding: theme.spacing(6),
-      height: "fit-content",
-      [theme.breakpoints.down("sm")]: {
-        padding: theme.spacing(4, 1),
-      },
-    },
     error: {
       color: "red",
     },
@@ -80,14 +74,10 @@ function SimpleDialog(props) {
     },
   }));
   const classes = useStyles();
-  const { onClose, signIn, setSignIn, setOpen } = props;
+
   const [error, setError] = useState();
   const navigate = useNavigate();
   const { userLogin } = useAuth();
-
-  const handleClose = () => {
-    onClose(signIn);
-  };
 
   const ValidationSchema = object().shape({
     email: string()
@@ -107,137 +97,102 @@ function SimpleDialog(props) {
     await userLogin(values, navigate);
   };
   const handleOnCLick = () => {
-    setOpen(true);
-    setSignIn(false);
+    navigate("/signup");
   };
   return (
-    <Dialog
-      onClose={handleClose}
-      aria-labelledby="simple-dialog-title"
-      open={signIn}
-      fullWidth
-      style={{ height: "fit-content" }}
+    <Paper
+      sx={{
+        maxWidth: "600px",
+        margin: "auto",
+        padding: "20px",
+        boxShadow: "1px 2px 9px #3a3a3a",
+      }}
     >
-      <Box className={classes.Dialog}>
-        <Typography variant="h4" align="center">
-          Sign In To Continue
-        </Typography>
-        {error && <ErrorMessage message={error} />}
-        <Formik
-          initialValues={initialValues}
-          onSubmit={handleSubmit}
-          validationSchema={ValidationSchema}
-        >
-          {(props) => {
-            const { handleChange, handleSubmit, errors, touched, handleBlur } =
-              props;
-            return (
-              <form onSubmit={handleSubmit} className={classes.form}>
-                <Grid container spacing={1}>
-                  <Grid item sm={12} md={12} sm={12} xs={12}>
-                    <Input
-                      type="email"
-                      name="email"
-                      id="email"
-                      placeholder="Enter your Email"
-                      fullWidth
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      startAdornment={
-                        <InputAdornment position="start">
-                          <MailOutline />
-                        </InputAdornment>
-                      }
-                      className={classes.Input}
-                    />
-                    {errors.email && touched.email && (
-                      <span className={classes.error}>{errors.email}</span>
-                    )}
-                  </Grid>
-                  <Grid item md={12} sm={12} xs={12}>
-                    <Input
-                      type="password"
-                      name="password"
-                      id="password"
-                      placeholder="Password"
-                      fullWidth
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      startAdornment={
-                        <InputAdornment position="start">
-                          <Lock />
-                        </InputAdornment>
-                      }
-                      className={classes.Input}
-                    />
-                    {errors.password && touched.password && (
-                      <span className={classes.error}>{errors.password}</span>
-                    )}
-                  </Grid>
-
-                  <Button
-                    type="submit"
-                    color="primary"
-                    title="Sign Up"
-                    variant="contained"
-                    className={classes.signupBtn}
-                  >
-                    Sign In
-                  </Button>
+      <Typography variant="h4" align="center">
+        Sign In To Continue
+      </Typography>
+      {error && <ErrorMessage message={error} />}
+      <Formik
+        initialValues={initialValues}
+        onSubmit={handleSubmit}
+        validationSchema={ValidationSchema}
+      >
+        {(props) => {
+          const { handleChange, handleSubmit, errors, touched, handleBlur } =
+            props;
+          return (
+            <form onSubmit={handleSubmit} className={classes.form}>
+              <Grid container spacing={1}>
+                <Grid item sm={12} md={12} sm={12} xs={12}>
+                  <Input
+                    type="email"
+                    name="email"
+                    id="email"
+                    placeholder="Enter your Email"
+                    fullWidth
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    startAdornment={
+                      <InputAdornment position="start">
+                        <MailOutline />
+                      </InputAdornment>
+                    }
+                    className={classes.Input}
+                  />
+                  {errors.email && touched.email && (
+                    <span className={classes.error}>{errors.email}</span>
+                  )}
                 </Grid>
-                <Divider className={classes.divider} />
-                <Box className={classes.bottom}>
-                  <Typography variant="subtitle1">Continue with</Typography>
-                  <Box className={classes.icons}>
-                    {" "}
-                    <Facebook color="primary" /> <Twitter color="primary" />{" "}
-                    <Apple color="primary" />{" "}
-                  </Box>
-                </Box>
-                <Divider
-                  style={{ backgroundColor: "#a99999", height: "3px" }}
-                />
-                <Box padding={"40px 0px 0px 0px"}>
-                  {" "}
-                  <Typography variant="subtitle1" align="center">
-                    Create an account
-                    <a
-                      href="#"
-                      style={{ textDecoration: "none" }}
-                      onClick={handleOnCLick}
-                    >
-                      Sign Up
-                    </a>{" "}
-                  </Typography>
-                </Box>
-              </form>
-            );
-          }}
-        </Formik>
-      </Box>
-    </Dialog>
-  );
-}
+                <Grid item md={12} sm={12} xs={12}>
+                  <Input
+                    type="password"
+                    name="password"
+                    id="password"
+                    placeholder="Password"
+                    fullWidth
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    startAdornment={
+                      <InputAdornment position="start">
+                        <Lock />
+                      </InputAdornment>
+                    }
+                    className={classes.Input}
+                  />
+                  {errors.password && touched.password && (
+                    <span className={classes.error}>{errors.password}</span>
+                  )}
+                </Grid>
 
-export default function SignIn({ signIn, setSignIn, setOpen }) {
-  const handleClickOpen = () => {
-    setSignIn(true);
-  };
+                <Button
+                  type="submit"
+                  color="primary"
+                  title="Sign Up"
+                  variant="contained"
+                  className={classes.signupBtn}
+                >
+                  Sign In
+                </Button>
+              </Grid>
+              <Divider className={classes.divider} />
 
-  const handleClose = (value) => {
-    setSignIn(false);
-  };
-
-  return (
-    <div>
-      <Typography variant="subtitle1" component="div"></Typography>
-      <br />
-      <SimpleDialog
-        signIn={signIn}
-        setSignIn={setSignIn}
-        onClose={handleClose}
-        setOpen={setOpen}
-      />
-    </div>
+              <Box padding={"40px 0px 0px 0px"}>
+                {" "}
+                <Typography variant="subtitle1" align="center">
+                  Create an account
+                  <a
+                    href="#"
+                    style={{ textDecoration: "none" }}
+                    onClick={handleOnCLick}
+                  >
+                    Sign Up
+                  </a>{" "}
+                </Typography>
+              </Box>
+            </form>
+          );
+        }}
+      </Formik>
+    </Paper>
   );
 }

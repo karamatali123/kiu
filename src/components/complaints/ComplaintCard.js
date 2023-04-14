@@ -73,7 +73,7 @@ const ComplaintCard = ({ complaint }) => {
         height: "fit-content",
         margin: "40px 10px",
         padding: "1.5rem",
-        overflow: "scroll",
+        overflow: "hidden",
       }}
     >
       <Stack
