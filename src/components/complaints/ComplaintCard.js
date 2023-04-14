@@ -13,6 +13,8 @@ import CommentBox from "./CommentBox";
 import { Formik } from "formik";
 import * as yup from "yup";
 import { object, string } from "yup";
+import { ERROR, SUCCESS } from "../../constants/snackbarConstant";
+import { SNACKBAR_OPEN } from "../../provider/AuthProvider/reducer";
 
 const ValidationSchema = object().shape({
   comment: yup.string().required("Required"),
@@ -23,8 +25,8 @@ const ComplaintCard = ({ complaint }) => {
   const [showComment, setShowComment] = useState(false);
   const [comments, setComments] = useState([]);
   console.log(comments, "comments");
-  const { user } = useAuth();
-  const addComment = async (values) => {
+  const { user, dispatch } = useAuth();
+  const addComment = async (values, actions) => {
     console.log(values, "values");
     try {
       const complaintsRef = collection(db, "complaints");
@@ -40,10 +42,23 @@ const ComplaintCard = ({ complaint }) => {
         authorName: values.comment,
         comment: comment,
       });
-
+      dispatch({
+        type: SNACKBAR_OPEN,
+        payload: {
+          snackbarType: SUCCESS,
+          message: "Comment Added",
+        },
+      });
+      actions.resetForm();
       console.log("done");
     } catch (error) {
-      console.log(error.message, "errrrrrr");
+      dispatch({
+        type: SNACKBAR_OPEN,
+        payload: {
+          snackbarType: ERROR,
+          message: error.message,
+        },
+      });
     }
   };
   const getComments = async () => {
@@ -115,8 +130,8 @@ const ComplaintCard = ({ complaint }) => {
           <Chip label="pending" sx={{ borderRadius: "2px" }} />
           {user.uid !== complaint.authorId ? (
             <Formik
-              onSubmit={(values) => {
-                addComment(values);
+              onSubmit={(values, actions) => {
+                addComment(values, actions);
               }}
               validationSchema={ValidationSchema}
               initialValues={{

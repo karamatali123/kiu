@@ -28,7 +28,7 @@ export default function CustomizedSnackbars() {
   setTimeout(() => {
     closeSnackbar();
     setOpen(false);
-  }, 5000);
+  }, 7000);
 
   return (
     <Snackbar
@@ -36,12 +36,14 @@ export default function CustomizedSnackbars() {
       open={open}
       autoHideDuration={5000}
       onClose={onClose}
-      bodyStyle={{ backgroundColor: snackbarType === SUCCESS && "#478e47" }}
+      style={{
+        backgroundColor: snackbarType === SUCCESS ? "#478e47" : "red",
+      }}
     >
       <Alert
         onClose={onClose}
         severity={snackbarType}
-        sx={{
+        style={{
           width: "100%",
           backgroundColor: snackbarType === SUCCESS && "#478e47",
         }}
