@@ -27,7 +27,6 @@ const PublicHeader = () => {
 
   const { user, handleUserLogout } = useAuth();
   const navigate = useNavigate();
-  console.log(user, "userrr");
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);

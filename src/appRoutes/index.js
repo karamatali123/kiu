@@ -95,8 +95,8 @@ const AppRoutes = () => {
         <Route
           path="/add-department"
           element={
-            <PrivateRoute>
-              <AddDepartment roles={[ADMIN]} />
+            <PrivateRoute roles={[ADMIN]}>
+              <AddDepartment />
             </PrivateRoute>
           }
         />

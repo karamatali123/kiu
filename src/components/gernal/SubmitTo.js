@@ -22,7 +22,7 @@ const useStyles = makeStyles(() => ({
   outlined: {},
 }));
 
-const CustomSelect = (props) => {
+const SubmitTo = (props) => {
   const {
     options,
     value,
@@ -44,7 +44,6 @@ const CustomSelect = (props) => {
       >
         {selectlabel}
       </Typography>
-
       <FormControl fullWidth>
         {/* <InputLabel id="demo-simple-select-label">Age</InputLabel> */}
         <Select
@@ -59,12 +58,8 @@ const CustomSelect = (props) => {
         >
           {options.map((option, index) => {
             return (
-              <MenuItem
-                style={{ display: "inline-flex", width: "100%" }}
-                key={index}
-                value={option.catagories}
-              >
-                {option.catagories}
+              <MenuItem key={index} value={option}>
+                {option}
               </MenuItem>
             );
           })}
@@ -87,4 +82,4 @@ const CustomSelect = (props) => {
   );
 };
 
-export default CustomSelect;
+export default SubmitTo;

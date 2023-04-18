@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
 const SideNav = () => {
   const classes = useStyles();
   const { user } = useAuth();
-  console.log(user, "userrrr");
+
   return (
     <Card className={classes.root}>
       <div>
@@ -53,12 +53,7 @@ const SideNav = () => {
         {user.role == STUDENT && (
           <>
             <Link to="/my-complaints" style={{ textDecoration: "none" }}>
-              <StyledNavItem
-              // sx={{
-              //   backgroundColor:
-              //     activeTab === 1 ? "#00000011" : theme.palette.white,
-              // }}
-              >
+              <StyledNavItem>
                 <SubjectSharp /> <span> My Complaints</span>
               </StyledNavItem>
             </Link>
@@ -72,22 +67,12 @@ const SideNav = () => {
         {user.role == FACILITY && (
           <>
             <Link to="/my-complaints" style={{ textDecoration: "none" }}>
-              <StyledNavItem
-              // sx={{
-              //   backgroundColor:
-              //     activeTab === 1 ? "#00000011" : theme.palette.white,
-              // }}
-              >
+              <StyledNavItem>
                 <SubjectSharp /> <span> My Complaints</span>
               </StyledNavItem>
             </Link>
             <Link to="/received-complaints" style={{ textDecoration: "none" }}>
-              <StyledNavItem
-              // sx={{
-              //   backgroundColor:
-              //     activeTab === 1 ? "#00000011" : theme.palette.white,
-              // }}
-              >
+              <StyledNavItem>
                 <SubjectSharp /> <span> Received Complaints</span>
               </StyledNavItem>
             </Link>
@@ -101,30 +86,15 @@ const SideNav = () => {
         {user.role == ADMIN && (
           <>
             <Link to="/add-catagories" style={{ textDecoration: "none" }}>
-              <StyledNavItem
-              // sx={{
-              //   backgroundColor:
-              //     activeTab === 1 ? "#00000011" : theme.palette.white,
-              // }}
-              >
+              <StyledNavItem>
                 <AddBox /> <span> Add Catagories</span>
               </StyledNavItem>
             </Link>
             <Link to="/add-department" style={{ textDecoration: "none" }}>
-              <StyledNavItem
-              // sx={{
-              //   backgroundColor:
-              //     activeTab === 1 ? "#00000011" : theme.palette.white,
-              // }}
-              >
+              <StyledNavItem>
                 <AddBox /> <span> Add Department</span>
               </StyledNavItem>
             </Link>
-            {/* <Link to="/add-new-complaints" style={{ textDecoration: "none" }}>
-              <StyledNavItem>
-                <NoteAdd /> <span> Submit new Complain</span>
-              </StyledNavItem>
-            </Link> */}
           </>
         )}
         <Box
@@ -136,23 +106,13 @@ const SideNav = () => {
           }}
         >
           <Link to="/profile-setting" style={{ textDecoration: "none" }}>
-            <StyledNavItem
-            // sx={{
-            //   backgroundColor:
-            //     activeTab === 1 ? "#00000011" : theme.palette.white,
-            // }}
-            >
+            <StyledNavItem>
               <Settings />
               <span> Profile Settings</span>
             </StyledNavItem>
           </Link>
           <Link to="/my-requests" style={{ textDecoration: "none" }}>
-            <StyledNavItem
-            // sx={{
-            //   backgroundColor:
-            //     activeTab === 1 ? "#00000011" : theme.palette.white,
-            // }}
-            >
+            <StyledNavItem>
               <ExitToApp />
               <span> Logout</span>
             </StyledNavItem>

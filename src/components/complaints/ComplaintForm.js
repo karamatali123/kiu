@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import { v4 as uuidv4 } from "uuid";
 
-import { doc, setDoc } from "firebase/firestore";
+import { collection, doc, getDocs, setDoc } from "firebase/firestore";
 import { Formik } from "formik";
 import * as yup from "yup";
 import { object, string } from "yup";
@@ -25,8 +25,9 @@ import { useAuth } from "../../provider/AuthProvider";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { ERROR, SUCCESS } from "../../constants/snackbarConstant";
 import { SNACKBAR_OPEN } from "../../provider/AuthProvider/reducer";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CustomSelect from "../gernal/Select";
+import SubmitTo from "../gernal/SubmitTo";
 
 const ValidationSchema = object().shape({
   name: yup.string().required("Name Required"),
@@ -83,6 +84,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ComplaintForm() {
   const classes = useStyles();
+  const [catagories, setCatagories] = useState([]);
   const [loading, setLoading] = useState(false);
   const { user, dispatch } = useAuth();
   const initialValues = {
@@ -151,7 +153,23 @@ export default function ComplaintForm() {
         setLoading(false);
       });
   };
-
+  const getCatagories = async () => {
+    try {
+      const ref = collection(db, "catagories");
+      let docData = [];
+      const snapshot = await getDocs(ref);
+      const documents = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setCatagories(documents);
+    } catch (error) {
+      console.log(error.message, "errrrrrr");
+    }
+  };
+  useEffect(() => {
+    getCatagories();
+  }, []);
   return (
     <Box className={classes.Container}>
       <Box className={classes.InnerBlock} sx={{ boxShadow: 12 }}>
@@ -296,27 +314,31 @@ export default function ComplaintForm() {
 
                 <Grid item md={6} sm={12} xs={12}>
                   <CustomSelect
-                    options={["Hod", "VC", "Dean", "HR"]}
+                    options={catagories}
                     selectlabel={"Category"}
-                    name="submitTo"
-                    value={values.submitTo}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    error={Boolean(errors.submitTo)}
-                    error_message={touched.submitTo && errors.submitTo}
-                  />
-                </Grid>
-
-                <Grid item md={6} sm={12} xs={12}>
-                  <CustomSelect
-                    options={categories}
-                    selectlabel={"Submitted To"}
                     name="category"
                     value={values.category}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     error={Boolean(errors.category)}
-                    error_message={touched.category && errors.category}
+                    error_message={
+                      touched.category && errors.category && errors.category
+                    }
+                  />
+                </Grid>
+
+                <Grid item md={6} sm={12} xs={12}>
+                  <SubmitTo
+                    options={["Hod", "Dean", "VC"]}
+                    selectlabel={"Submitted To"}
+                    name="submitTo"
+                    value={values.submitTo}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    error={Boolean(errors.submitTo)}
+                    error_message={
+                      touched.submitTo && errors.submitTo && errors.category
+                    }
                   />
                 </Grid>
 

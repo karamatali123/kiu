@@ -88,7 +88,11 @@ const userActions = (dispatch) => {
         },
       });
 
-      navigate("/my-complaints");
+      if (res.user.email.includes("admin")) {
+        navigate("/add-catagories");
+      } else {
+        navigate("/my-complaints");
+      }
     } catch (error) {
       dispatch({
         type: SNACKBAR_OPEN,

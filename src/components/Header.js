@@ -59,7 +59,6 @@ const ResponsiveAppBar = () => {
 
   const { user, handleUserLogout, authStatus } = useAuth();
   const navigate = useNavigate();
-  console.log(user, "userrr");
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -92,17 +91,7 @@ const ResponsiveAppBar = () => {
               fontSize: "17px",
             }}
           />
-          {/* <Box className={classes.links}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                style={{ my: 1, color: "black", display: "block" }}
-              >
-                {page}
-              </Button>
-            ))}
-          </Box> */}
+
           {isOpen && <DesktopMenu isOpen={isOpen} setIsOpen={setIsOpen} />}
           {authStatus && (
             <div
@@ -210,7 +199,13 @@ const ResponsiveAppBar = () => {
                   Logout
                 </Button>
                 {
-                  <Typography variant="body1" style={{ padding: "1rem" }}>
+                  <Typography
+                    variant="body1"
+                    style={{
+                      padding: "1rem",
+                      display: { xs: "none", md: "block" },
+                    }}
+                  >
                     {user?.firstName} &nbsp;{user?.lastName}
                   </Typography>
                 }

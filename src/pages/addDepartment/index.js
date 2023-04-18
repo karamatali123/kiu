@@ -2,12 +2,7 @@ import { Card } from "@material-ui/core";
 import { Typography } from "@mui/material";
 import React from "react";
 import ProfieCard from "../../components/ProfieCard";
-
-import { useAuth } from "../../provider/AuthProvider";
-
 const AddDepartment = () => {
-  const { user } = useAuth();
-
   return (
     <>
       <Card
