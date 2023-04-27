@@ -17,7 +17,7 @@ const ValidationSchema = object().shape({
   catagories: yup.string().required("Required"),
 });
 
-const AddCatagoriesForm = () => {
+const AddCatagoriesForm = ({ getCatagories }) => {
   const { dispatch } = useAuth();
   const handleAddCatagories = async (values, actions) => {
     console.log(values, "values");
@@ -34,6 +34,7 @@ const AddCatagoriesForm = () => {
           message: "added successfully",
         },
       });
+      getCatagories();
     } catch (error) {
       dispatch({
         type: SNACKBAR_OPEN,

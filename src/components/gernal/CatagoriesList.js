@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { collection, deleteDoc, doc, getDocs } from "firebase/firestore";
+import { deleteDoc, doc, getDocs, onSnapshot } from "firebase/firestore";
 import { db } from "../../firebase";
 import { Box, Button, Stack, Typography } from "@mui/material";
 import { Delete, Edit, ViewAgenda, ViewArray } from "@material-ui/icons";
@@ -12,33 +12,13 @@ import { SNACKBAR_OPEN } from "../../provider/AuthProvider/reducer";
 import { ERROR, SUCCESS } from "../../constants/snackbarConstant";
 import { useAuth } from "../../provider/AuthProvider";
 
-const CatagoriesList = () => {
-  const [catagories, setCatagories] = useState([]);
-  const getCatagories = async () => {
-    try {
-      const ref = collection(db, "catagories");
-      let docData = [];
-      const snapshot = await getDocs(ref);
-      const documents = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setCatagories(documents);
-    } catch (error) {
-      console.log(error.message, "errrrrrr");
-    }
-  };
+const CatagoriesList = ({ catagories, getCatagories }) => {
   const [open, setOpen] = React.useState(false);
   console.log(catagories);
 
   const handleClickOpen = () => {
     setOpen(true);
   };
-
-  useEffect(() => {
-    getCatagories();
-  }, []);
-
   return (
     <>
       <Box height={"fit-content"}>
