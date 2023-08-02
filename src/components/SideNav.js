@@ -95,6 +95,11 @@ const SideNav = () => {
                 <AddBox /> <span> Add Department</span>
               </StyledNavItem>
             </Link>
+            <Link to="/add-roles" style={{ textDecoration: "none" }}>
+              <StyledNavItem>
+                <AddBox /> <span> Add Roles</span>
+              </StyledNavItem>
+            </Link>
           </>
         )}
         <Box

@@ -9,3 +9,7 @@
   background: #003A91;
   border-radius: 10px;
 }
+.MuiList-root{
+  display: flex;
+  flex-direction: column;
+}

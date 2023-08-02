@@ -16,6 +16,7 @@ import SignUp from "../pages/signup";
 import RegisterAs from "../pages/registerAs";
 import Login from "../pages/login";
 import AddInfo from "../pages/addInfo";
+import AddRoles from "../pages/addRole";
 <PrivateRoute></PrivateRoute>;
 
 const AppRoutes = () => {
@@ -97,6 +98,14 @@ const AppRoutes = () => {
           element={
             <PrivateRoute roles={[ADMIN]}>
               <AddDepartment />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/add-roles"
+          element={
+            <PrivateRoute roles={[ADMIN]}>
+              <AddRoles />
             </PrivateRoute>
           }
         />
