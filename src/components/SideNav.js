@@ -1,6 +1,6 @@
-import { Card } from "@material-ui/core";
+import { Card } from "@mui/material";
 import React from "react";
-import { makeStyles } from "@material-ui/styles";
+
 import logo from "../assests/Images/logo.svg";
 import { Link } from "react-router-dom";
 import { StyledNavItem } from "./layout/styles";
@@ -11,43 +11,34 @@ import {
   NoteAdd,
   Settings,
   SubjectSharp,
-} from "@material-ui/icons";
+} from "@mui/icons-material";
 import { useAuth } from "../provider/AuthProvider";
 import { ADMIN, FACILITY, STUDENT } from "../constants/roles";
 
 const userItems = ["My Complaints", "Submit new Complain "];
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    borderRadius: "0px",
-    position: "relative",
-    maxWidth: "295px",
-    height: "calc(100vh - 75px)",
-    width: "100%",
-    margin: "unset",
-    display: "flex",
-    flexDirection: "column",
-    // justifyContent: "center",
-    alignItems: "center",
-    padding: "2rem 0",
-    [theme.breakpoints.down("md")]: {
-      display: "none",
-    },
-  },
-  logo: {
-    width: "50px",
-    height: "50px",
-  },
-}));
-
 const SideNav = () => {
-  const classes = useStyles();
   const { user } = useAuth();
 
   return (
-    <Card className={classes.root}>
+    <Card
+      style={{
+        display: { xs: "none", lg: "block" },
+        borderRadius: "0px",
+        position: "relative",
+        maxWidth: "295px",
+        height: "calc(100vh - 75px)",
+        width: "100%",
+        margin: "unset",
+        display: "flex",
+        flexDirection: "column",
+        // justifyContent: "center",
+        alignItems: "center",
+        padding: "2rem 0",
+      }}
+    >
       <div>
-        <img src={logo} className={classes.logo}></img>
+        <img src={logo} style={{ width: "50px", height: "50px" }}></img>
       </div>
       <Box paddingY={"2rem"}>
         {user.role == STUDENT && (

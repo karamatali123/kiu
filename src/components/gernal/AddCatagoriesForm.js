@@ -1,5 +1,5 @@
-import { Card } from "@material-ui/core";
-import { Send } from "@material-ui/icons";
+import { Card } from "@mui/material";
+import { Send } from "@mui/icons-material";
 import { Button, Stack } from "@mui/material";
 import { collection, doc, getDocs, setDoc } from "firebase/firestore";
 import React, { useEffect, useState } from "react";

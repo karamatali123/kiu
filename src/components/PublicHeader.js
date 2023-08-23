@@ -3,24 +3,11 @@ import { useState } from "react";
 import Logo from "../assests/Images/logo.svg";
 import MyButton from "./gernal/Button";
 
-import { makeStyles } from "@material-ui/styles";
-
-import { AppBar, Avatar, Box, Container, Toolbar } from "@material-ui/core";
+import { AppBar, Avatar, Box, Container, Toolbar } from "@mui/material";
 import { useAuth } from "../provider/AuthProvider";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
-const useStyles = makeStyles((theme) => ({
-  buttons: {
-    display: "flex",
-    alignItems: "center",
-    [theme.breakpoints.down("sm")]: {
-      display: "none",
-    },
-  },
-}));
-
 const PublicHeader = () => {
-  const classes = useStyles();
   const { pathname } = useLocation();
 
   const [anchorElNav, setAnchorElNav] = useState();
@@ -55,7 +42,12 @@ const PublicHeader = () => {
         >
           <img src={Logo} style={{ height: "50px" }} alt="circle img" />
 
-          <Box className={classes.buttons}>
+          <Box
+            style={{
+              display: { xs: "block", lg: "none" },
+              alignItems: "center",
+            }}
+          >
             <MyButton
               variant={"text"}
               text="Contact us"

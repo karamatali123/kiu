@@ -1,5 +1,4 @@
-import { Card } from "@material-ui/core";
-import { Typography } from "@mui/material";
+import { Card, Typography } from "@mui/material";
 import React from "react";
 import ProfieCard from "../../components/ProfieCard";
 const AddDepartment = () => {

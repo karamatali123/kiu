@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { deleteDoc, doc, getDocs, onSnapshot } from "firebase/firestore";
 import { db } from "../../firebase";
 import { Box, Button, Stack, Typography } from "@mui/material";
-import { Delete, Edit, ViewAgenda, ViewArray } from "@material-ui/icons";
+import { Delete, Edit, ViewAgenda, ViewArray } from "@mui/icons-material";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";

@@ -1,31 +1,28 @@
 import { TextField, Typography } from "@mui/material";
-import { makeStyles } from "@material-ui/styles";
+
 import React from "react";
 import { Stack } from "@mui/system";
 
-const useStyles = makeStyles((theme) => ({
-  Input: {
-    // border: "1px solid Grey",
-    width: "100%",
-    borderRadius: theme.spacing(1.5),
-    marginBottom: "10px !important",
-    boxShadow: "rgba(0, 0, 0, 0.15)",
-    "& .MuiInputBase-input": {
-      backgroundColor: "#fff!important",
-      borderRadius: "0px",
-      WebkitBoxShadow: "0 0 0 30px #fff inset !important",
-    },
-    "&.MuiInput-underline:before": {
-      content: "none",
-    },
-    "&.MuiInput-underline:after": {
-      content: "none",
-    },
+const Input = {
+  // border: "1px solid Grey",
+  width: "100%",
+  borderRadius: "12px",
+  marginBottom: "10px !important",
+  boxShadow: "rgba(0, 0, 0, 0.15)",
+  "& .MuiInputBase-input": {
+    backgroundColor: "#fff!important",
+    borderRadius: "0px",
+    WebkitBoxShadow: "0 0 0 30px #fff inset !important",
   },
-}));
+  "&.MuiInput-underline:before": {
+    content: "none",
+  },
+  "&.MuiInput-underline:after": {
+    content: "none",
+  },
+};
 
 export const InputField = (props) => {
-  const classes = useStyles();
   return (
     <Stack>
       {props.title && (
@@ -50,7 +47,7 @@ export const InputField = (props) => {
         onBlur={props.onBlur}
         error={props.error}
         helperText={props.helperText}
-        className={classes.Input}
+        sx={Input}
       />
     </Stack>
   );

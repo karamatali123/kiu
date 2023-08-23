@@ -6,21 +6,9 @@ import {
   Select,
   Typography,
 } from "@mui/material";
-import { makeStyles } from "@material-ui/styles";
+
 // import theme from "../../theme";
 import { Box } from "@mui/system";
-
-const useStyles = makeStyles(() => ({
-  container: {
-    alignSelf: "center",
-    "& .MuiOutlinedInput-notchedOutline": {
-      border: "1px solid #d5d5d5",
-      borderRadius: "4px",
-      height: "60px",
-    },
-  },
-  outlined: {},
-}));
 
 const CustomSelect = (props) => {
   const {
@@ -32,9 +20,18 @@ const CustomSelect = (props) => {
     error_message = "",
     onBlur,
   } = props;
-  const classes = useStyles();
+
   return (
-    <div className={classes.container}>
+    <div
+      style={{
+        alignSelf: "center",
+        "& .MuiOutlinedInput-notchedOutline": {
+          border: "1px solid #d5d5d5",
+          borderRadius: "4px",
+          height: "60px",
+        },
+      }}
+    >
       <Typography
         // color={theme.palette.black}
         fontSize={16}
@@ -49,7 +46,6 @@ const CustomSelect = (props) => {
         {/* <InputLabel id="demo-simple-select-label">Age</InputLabel> */}
         <Select
           value={value}
-          classes={classes}
           labelId="demo-simple-select-label"
           id="demo-simple-select"
           size="small"

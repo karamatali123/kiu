@@ -10,71 +10,19 @@ import {
   Grid,
   Input,
   InputAdornment,
-  makeStyles,
   Typography,
-} from "@material-ui/core";
+} from "@mui/material";
 import { Formik } from "formik";
-import {
-  Apple,
-  Facebook,
-  Lock,
-  MailOutline,
-  Twitter,
-} from "@material-ui/icons";
+import { Apple, Facebook, Twitter } from "@mui/material";
 import ErrorMessages from "../../helpers/ErrorMessages";
 import { object, string } from "yup";
 import { useState } from "react";
 import ErrorMessage from "./ErrorMessage";
 import { useNavigate } from "react-router-dom";
 import { Paper } from "@mui/material";
+import { LockOpen, Mail } from "@mui/icons-material";
 
 export default function SignIn(props) {
-  const useStyles = makeStyles((theme) => ({
-    error: {
-      color: "red",
-    },
-    Input: {
-      border: "1px solid Grey",
-      padding: theme.spacing(1, 2),
-      borderRadius: theme.spacing(1.5),
-      boxShadow: "rgba(0, 0, 0, 0.15)",
-      "& .MuiInputBase-input": {
-        backgroundColor: "#fff!important",
-        WebkitBoxShadow: "0 0 0 30px #fff inset !important",
-      },
-      "&.MuiInput-underline:before": {
-        content: "none",
-      },
-      "&.MuiInput-underline:after": {
-        content: "none",
-      },
-    },
-    form: {
-      padding: theme.spacing(3),
-    },
-    signupBtn: {
-      width: "200px",
-      margin: "10px auto",
-    },
-    bottom: {
-      margin: "10px auto",
-      display: "flex",
-      alignItems: "center",
-      flexDirection: "column",
-    },
-    icons: {
-      display: "flex",
-      justifyContent: "space-evenly",
-      width: "40%",
-      marginTop: theme.spacing(3),
-    },
-    divider: {
-      margin: "20px auto",
-      maxWidth: "300px",
-    },
-  }));
-  const classes = useStyles();
-
   const [error, setError] = useState();
   const navigate = useNavigate();
   const { userLogin } = useAuth();
@@ -121,7 +69,7 @@ export default function SignIn(props) {
           const { handleChange, handleSubmit, errors, touched, handleBlur } =
             props;
           return (
-            <form onSubmit={handleSubmit} className={classes.form}>
+            <form onSubmit={handleSubmit} style={{ padding: "24px" }}>
               <Grid container spacing={1}>
                 <Grid item sm={12} md={12} sm={12} xs={12}>
                   <Input
@@ -134,13 +82,28 @@ export default function SignIn(props) {
                     onBlur={handleBlur}
                     startAdornment={
                       <InputAdornment position="start">
-                        <MailOutline />
+                        <Mail />
                       </InputAdornment>
                     }
-                    className={classes.Input}
+                    sx={{
+                      border: "1px solid Grey",
+                      padding: "8px 16px",
+                      borderRadius: "12px",
+                      boxShadow: "rgba(0, 0, 0, 0.15)",
+                      "& .MuiInputBase-input": {
+                        backgroundColor: "#fff!important",
+                        WebkitBoxShadow: "0 0 0 30px #fff inset !important",
+                      },
+                      "&.MuiInput-underline:before": {
+                        content: "none",
+                      },
+                      "&.MuiInput-underline:after": {
+                        content: "none",
+                      },
+                    }}
                   />
                   {errors.email && touched.email && (
-                    <span className={classes.error}>{errors.email}</span>
+                    <span style={{ color: "red" }}>{errors.email}</span>
                   )}
                 </Grid>
                 <Grid item md={12} sm={12} xs={12}>
@@ -154,13 +117,28 @@ export default function SignIn(props) {
                     onBlur={handleBlur}
                     startAdornment={
                       <InputAdornment position="start">
-                        <Lock />
+                        <LockOpen />
                       </InputAdornment>
                     }
-                    className={classes.Input}
+                    sx={{
+                      border: "1px solid Grey",
+                      padding: "8px 16px",
+                      borderRadius: "8px",
+                      boxShadow: "rgba(0, 0, 0, 0.15)",
+                      "& .MuiInputBase-input": {
+                        backgroundColor: "#fff!important",
+                        WebkitBoxShadow: "0 0 0 30px #fff inset !important",
+                      },
+                      "&.MuiInput-underline:before": {
+                        content: "none",
+                      },
+                      "&.MuiInput-underline:after": {
+                        content: "none",
+                      },
+                    }}
                   />
                   {errors.password && touched.password && (
-                    <span className={classes.error}>{errors.password}</span>
+                    <span style={{ color: "red" }}>{errors.password}</span>
                   )}
                 </Grid>
 
@@ -169,12 +147,12 @@ export default function SignIn(props) {
                   color="primary"
                   title="Sign Up"
                   variant="contained"
-                  className={classes.signupBtn}
+                  sx={{ width: "200px", margin: "10px auto" }}
                 >
                   Sign In
                 </Button>
               </Grid>
-              <Divider className={classes.divider} />
+              <Divider style={{ margin: "20px auto", maxWidth: "300px" }} />
 
               <Box padding={"40px 0px 0px 0px"}>
                 {" "}

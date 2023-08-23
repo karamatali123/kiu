@@ -1,5 +1,3 @@
-import { Card } from "@material-ui/core";
-import { Send } from "@material-ui/icons";
 import { Button, Grid, Stack } from "@mui/material";
 import {
   collection,

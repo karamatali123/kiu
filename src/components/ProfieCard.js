@@ -1,5 +1,4 @@
-import { Typography } from "@material-ui/core";
-import { Stack, Card, Grid } from "@mui/material";
+import { Stack, Card, Grid, Typography } from "@mui/material";
 import React from "react";
 
 const ProfieCard = ({ user }) => {

@@ -1,26 +1,26 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { styled } from "@mui/material/styles";
-import Table from "@mui/material/Table";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
 import {
   DeleteForever,
+  DeleteForeverOutlined,
   MoreVertOutlined,
   ViewAgenda,
-} from "@material-ui/icons";
+} from "@mui/icons-material";
 import {
   IconButton,
   Menu,
+  MenuItem,
+  Paper,
   Stack,
+  Table,
   TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
   TablePagination,
-  TextField,
+  TableRow,
   Typography,
 } from "@mui/material";
-import { CircularProgress, MenuItem } from "@material-ui/core";
 import { Link, useNavigate } from "react-router-dom";
 import {
   collection,
@@ -231,7 +231,7 @@ export default function DataTable() {
                                 }
                               }}
                             >
-                              <DeleteForever />
+                              <DeleteForeverOutlined />
                               Delete
                             </MenuItem>
                             <Link

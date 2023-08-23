@@ -2,8 +2,6 @@ import React from "react";
 import { useState } from "react";
 import Logo from "../assests/Images/logo.svg";
 import MyButton from "./gernal/Button";
-import MenuIcon from "@material-ui/icons/Menu";
-import { makeStyles } from "@material-ui/styles";
 
 import {
   AppBar,
@@ -15,43 +13,15 @@ import {
   Menu,
   Toolbar,
   Typography,
-} from "@material-ui/core";
+} from "@mui/material";
 import { useAuth } from "../provider/AuthProvider";
 import { Link, useNavigate } from "react-router-dom";
-import { Person, Slideshow } from "@material-ui/icons";
+
 import DesktopMenu from "./layout/MobileSideNav";
+import { MenuBook, Person, Slideshow } from "@mui/icons-material";
 const pages = ["Home", "About us", "Stories", "Vc Office"];
 
-const useStyles = makeStyles((theme) => ({
-  Menu: {
-    display: "none",
-    [theme.breakpoints.down("sm")]: {
-      display: "block",
-    },
-  },
-  links: {
-    display: "flex",
-    [theme.breakpoints.down("sm")]: {
-      display: "none",
-    },
-  },
-  icon: {
-    display: "none",
-    [theme.breakpoints.down("md")]: {
-      display: "block",
-    },
-  },
-  buttons: {
-    display: "flex",
-    alignItems: "center",
-    [theme.breakpoints.down("sm")]: {
-      display: "none",
-    },
-  },
-}));
-
 const ResponsiveAppBar = () => {
-  const classes = useStyles();
   // const [open, setOpen] = React.useState(false);
   const [isOpen, setIsOpen] = useState(false);
   // const [signIn, setSignIn] = React.useState(false);
@@ -87,24 +57,15 @@ const ResponsiveAppBar = () => {
         >
           <Menu
             style={{
-              display: { xs: "block", md: "none", xl: "none" },
+              display: { xs: "block", lg: "none" },
               fontSize: "17px",
             }}
           />
 
           {isOpen && <DesktopMenu isOpen={isOpen} setIsOpen={setIsOpen} />}
-          {authStatus && (
-            <div
-              onClick={() => {
-                setIsOpen(true);
-              }}
-              className={classes.icon}
-            >
-              <Slideshow className={classes.icon} />
-            </div>
-          )}
+
           <img src={Logo} style={{ height: "50px" }} alt="circle img" />
-          <Box className={classes.Menu}>
+          <Box sx={{ display: { xs: "block", lg: "none" } }}>
             <IconButton
               aria-label="account of current user"
               aria-controls="menu-appbar"
@@ -112,7 +73,7 @@ const ResponsiveAppBar = () => {
               onClick={handleOpenNavMenu}
               color="inherit"
             >
-              <MenuIcon />
+              <MenuBook />
             </IconButton>
             <Menu
               id="menu-appbar"
@@ -128,7 +89,6 @@ const ResponsiveAppBar = () => {
               }}
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
-              className={classes.Menu}
             >
               <Box
                 display={"flex"}
@@ -177,14 +137,13 @@ const ResponsiveAppBar = () => {
             </Menu>
           </Box>
 
-          <Box className={classes.buttons}>
-            <MyButton
-              variant={"text"}
-              text="Contact us"
-              style={{ color: "#444444" }}
-            />
+          <Box
+            style={{
+              display: { xs: "none", md: "flex" },
+            }}
+          >
             {authStatus ? (
-              <>
+              <Box display={"flex"}>
                 <Button
                   variant={"contained"}
                   title="Logout"
@@ -198,23 +157,23 @@ const ResponsiveAppBar = () => {
                 >
                   Logout
                 </Button>
-                {
-                  <Typography
-                    variant="body1"
-                    style={{
-                      padding: "1rem",
-                      display: { xs: "none", md: "block" },
-                    }}
-                  >
-                    {user?.firstName} &nbsp;{user?.lastName}
-                  </Typography>
-                }
+
+                <Typography
+                  variant="body1"
+                  style={{
+                    padding: "1rem",
+                    display: { xs: "none", md: "block" },
+                  }}
+                >
+                  {user?.firstName} &nbsp;{user?.lastName}
+                </Typography>
+
                 <Link to="/profile-setting">
                   <Avatar>
                     <Person />
                   </Avatar>
                 </Link>
-              </>
+              </Box>
             ) : (
               <>
                 <MyButton

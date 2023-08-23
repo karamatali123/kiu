@@ -1,4 +1,4 @@
-import { Card } from "@material-ui/core";
+import { Card } from "@mui/material";
 import React from "react";
 import ComplaintForm from "../../components/complaints/ComplaintForm";
 

@@ -10,17 +10,17 @@ import {
   DeleteForever,
   MoreVertOutlined,
   ViewAgenda,
-} from "@material-ui/icons";
+} from "@mui/icons-material";
 import {
   IconButton,
   Menu,
+  MenuItem,
   Stack,
   TableBody,
   TablePagination,
   TextField,
   Typography,
 } from "@mui/material";
-import { CircularProgress, MenuItem } from "@material-ui/core";
 import { Link, useNavigate } from "react-router-dom";
 import {
   collection,

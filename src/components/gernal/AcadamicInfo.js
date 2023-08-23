@@ -1,13 +1,6 @@
 import * as React from "react";
 import "../../App.css";
-import {
-  Box,
-  Button,
-  Divider,
-  Grid,
-  makeStyles,
-  TextField,
-} from "@material-ui/core";
+import { Box, Button, Divider, Grid, TextField } from "@mui/material";
 import { Typography, Paper } from "@mui/material";
 
 import { useAuth } from "../../provider/AuthProvider";
@@ -19,21 +12,10 @@ import { object, string } from "yup";
 import { useNavigate } from "react-router-dom";
 import { AUTH_STATUS } from "../../provider/AuthProvider/reducer";
 
-const useStyles = makeStyles((theme) => ({
-  form: {
-    padding: theme.spacing(3),
-  },
-  signupBtn: {
-    width: "200px",
-    margin: "10px auto",
-  },
-}));
-
 export default function AddAcademicInfo(props) {
   const { onClose, open, setOpen } = props;
   const { uid, dispatch } = useAuth();
   const navigate = useNavigate();
-  const classes = useStyles();
 
   const handleClose = () => {
     onClose(open);
@@ -109,7 +91,7 @@ export default function AddAcademicInfo(props) {
             handleBlur,
           } = props;
           return (
-            <form onSubmit={handleSubmit} className={classes.form}>
+            <form onSubmit={handleSubmit} style={{ padding: "24px" }}>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={12} md={12}>
                   <TextField
@@ -122,10 +104,9 @@ export default function AddAcademicInfo(props) {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     placeholder="Department Name"
-                    className={classes.Input}
                   />
                   {errors.dptName && touched.dptName && (
-                    <span className={classes.error}>{errors.dptName}</span>
+                    <span style={{ color: "red" }}>{errors.dptName}</span>
                   )}
                 </Grid>
                 <Grid item xs={12} sm={12} md={12}>
@@ -140,10 +121,10 @@ export default function AddAcademicInfo(props) {
                     onBlur={handleBlur}
                     placeholder="Registration Number"
 
-                    // className={classes.Input}
+                    //
                   />
                   {errors.regNo && touched.regNo && (
-                    <span className={classes.error}>{errors.regNo}</span>
+                    <span style={{ color: "red" }}>{errors.regNo}</span>
                   )}
                 </Grid>
                 <Grid item xs={12} sm={12} md={12}>
@@ -160,7 +141,7 @@ export default function AddAcademicInfo(props) {
                     onBlur={handleBlur}
                   />
                   {errors.cnic && touched.cnic && (
-                    <span className={classes.error}>{errors.cnic}</span>
+                    <span style={{ color: "red" }}>{errors.cnic}</span>
                   )}
                 </Grid>
                 <Grid item xs={12} sm={12} md={12}>
@@ -177,7 +158,7 @@ export default function AddAcademicInfo(props) {
                     onBlur={handleBlur}
                   />
                   {errors.semester && touched.semester && (
-                    <span className={classes.error}>{errors.semester}</span>
+                    <span style={{ color: "red" }}>{errors.semester}</span>
                   )}
                 </Grid>
                 <Grid item xs={12} sm={12} md={12}>
@@ -192,10 +173,10 @@ export default function AddAcademicInfo(props) {
                     onChange={handleChange}
                     onBlur={handleBlur}
 
-                    // className={classes.Input}
+                    //
                   />
                   {errors.program && touched.program && (
-                    <span className={classes.error}>{errors.program}</span>
+                    <span style={{ color: "red" }}>{errors.program}</span>
                   )}
                 </Grid>
 
@@ -204,7 +185,7 @@ export default function AddAcademicInfo(props) {
                   color="primary"
                   title="Sign Up"
                   variant="contained"
-                  className={classes.signupBtn}
+                  sx={{ width: "200px", margin: "10px auto" }}
                 >
                   Submit
                 </Button>

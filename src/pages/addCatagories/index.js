@@ -1,5 +1,4 @@
-import { Card, Paper } from "@material-ui/core";
-import { Grid, Stack, Typography } from "@mui/material";
+import { Card, Grid, Paper, Stack, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import AddCatagoriesForm from "../../components/gernal/AddCatagoriesForm";
 import CatagoriesList from "../../components/gernal/CatagoriesList";

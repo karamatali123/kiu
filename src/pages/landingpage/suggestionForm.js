@@ -1,57 +1,47 @@
 import React from "react";
-import { makeStyles } from "@material-ui/styles";
-import { Button, Card, TextField, Typography } from "@material-ui/core";
+
+import { Button, Card, TextField, Typography } from "@mui/material";
 
 export const SuggestionForm = () => {
-  const useStyles = makeStyles((theme) => ({
-    SuggestionForm: {
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      padding: "50px",
-    },
-    input: {
-      marginTop: theme.spacing(1),
-    },
-    btn: {
-      marginTop: "1rem",
-      width: "140px",
-    },
-  }));
-  const classes = useStyles();
-
   return (
     <>
       <div>
         <Card>
-          <form className={classes.SuggestionForm}>
+          <form
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              padding: "50px",
+            }}
+          >
             <Typography variant="h3">Send Us A Message</Typography>
             <TextField
               id="First Name"
               label="First Name"
               variant="standard"
               fullWidth
-              className={classes.input}
+              sx={{ mt: "8px" }}
             />
             <TextField
               id="Last Name"
               label="Last Name"
               variant="standard"
               fullWidth
-              className={classes.input}
+              sx={{ mt: "8px" }}
             />
             <TextField
               id="Email"
               label="Email"
               variant="standard"
               fullWidth
-              className={classes.input}
+              sx={{ mt: "8px" }}
             />
             <TextField
               placeholder="Message"
               label="Message"
               multiline
-              className={classes.input}
+              sx={{ mt: "8px" }}
               rows={2}
               variant="outlined"
               maxRows={4}
@@ -62,7 +52,7 @@ export const SuggestionForm = () => {
               color="primary"
               title="Sign Up"
               variant="contained"
-              className={classes.btn}
+              sx={{ marginTop: "1rem", width: "140px" }}
             >
               Submit
             </Button>

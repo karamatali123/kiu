@@ -1,4 +1,3 @@
-import { makeStyles } from "@material-ui/styles";
 import {
   Box,
   Button,
@@ -57,33 +56,7 @@ const ValidationSchema = object().shape({
     .max(50, ErrorMessages.max),
 });
 
-const useStyles = makeStyles((theme) => ({
-  Container: {},
-  InnerBlock: {
-    padding: "2rem",
-  },
-  Heading: {
-    fontWeight: "500 !important",
-    textAlign: "center",
-    color: theme.palette.primary.main,
-  },
-  Subtitle: {
-    fontSize: "15px",
-    textAlign: "center",
-    color: "#505050",
-  },
-
-  error: {
-    color: "red",
-  },
-
-  form: {
-    padding: theme.spacing(3, 1),
-  },
-}));
-
 export default function ComplaintForm() {
-  const classes = useStyles();
   const [catagories, setCatagories] = useState([]);
   const [loading, setLoading] = useState(false);
   const { user, dispatch } = useAuth();
@@ -171,12 +144,21 @@ export default function ComplaintForm() {
     getCatagories();
   }, []);
   return (
-    <Box className={classes.Container}>
-      <Box className={classes.InnerBlock} sx={{ boxShadow: 12 }}>
-        <Typography className={classes.Heading} variant="h4">
+    <Box>
+      <Box sx={{ boxShadow: 12, p: "2rem" }}>
+        <Typography
+          sx={{
+            fontWeight: "500 !important",
+            textAlign: "center",
+            color: "primary.main",
+          }}
+          variant="h4"
+        >
           We are here to assist you!
         </Typography>
-        <Typography className={classes.Subtitle}>
+        <Typography
+          sx={{ fontSize: "15px", textAlign: "center", color: "#505050" }}
+        >
           Please complete the form below for your complaitns.
         </Typography>
         <Formik
@@ -195,7 +177,7 @@ export default function ComplaintForm() {
             handleBlur,
             setFieldValue,
           }) => (
-            <form onSubmit={handleSubmit} className={classes.form}>
+            <form onSubmit={handleSubmit} style={{ padding: "24px 8px" }}>
               <Grid container spacing={2} justifyContent="center">
                 <Grid item md={6} sm={12} xs={12}>
                   <InputField
@@ -208,7 +190,6 @@ export default function ComplaintForm() {
                     onBlur={handleBlur}
                     error={errors.title && touched.title}
                     helperText={errors.title && touched.title && errors.title}
-                    className={classes.Input}
                   />
                 </Grid>
                 <Grid item md={6} sm={12} xs={12}>
@@ -222,7 +203,6 @@ export default function ComplaintForm() {
                     onBlur={handleBlur}
                     error={errors.name && touched.name}
                     helperText={errors.name && touched.name && errors.name}
-                    className={classes.Input}
                   />
                 </Grid>
                 <Grid item md={6} sm={12} xs={12}>
@@ -238,7 +218,6 @@ export default function ComplaintForm() {
                     helperText={
                       errors.deptName && touched.deptName && errors.deptName
                     }
-                    className={classes.Input}
                   />
                 </Grid>
 
@@ -253,7 +232,6 @@ export default function ComplaintForm() {
                     onBlur={handleBlur}
                     error={errors.regNo && touched.regNo}
                     helperText={errors.regNo && touched.regNo && errors.regNo}
-                    className={classes.Input}
                   />
                 </Grid>
                 <Grid item md={6} sm={12} xs={12}>
@@ -269,7 +247,6 @@ export default function ComplaintForm() {
                     helperText={
                       errors.contactNo && touched.contactNo && errors.contactNo
                     }
-                    className={classes.Input}
                   />
                 </Grid>
                 <Grid item md={6} sm={12} xs={12}>
@@ -283,7 +260,6 @@ export default function ComplaintForm() {
                     onBlur={handleBlur}
                     error={errors.email && touched.email}
                     helperText={errors.email && touched.email && errors.email}
-                    className={classes.Input}
                   />
                 </Grid>
 
@@ -307,7 +283,6 @@ export default function ComplaintForm() {
                     onBlur={handleBlur}
                     error={errors.date && touched.date}
                     helperText={errors.date && touched.date && errors.date}
-                    className={classes.Input}
                   />
                   {/* <DatePicker /> */}
                 </Grid>
@@ -364,7 +339,6 @@ export default function ComplaintForm() {
                     onBlur={handleBlur}
                     error={errors.proof && touched.proof}
                     helperText={errors.proof && touched.proof && errors.proof}
-                    className={classes.Input}
                   />
                 </Grid>
                 <Grid item md={12} xs={12} sm={12}>

@@ -15,45 +15,13 @@ import {
   Paper,
 } from "@mui/material";
 import { Formik } from "formik";
-import { Lock, MailOutline } from "@material-ui/icons";
+import { Lock, MailOutline } from "@mui/icons-material";
 import ErrorMessages from "../../helpers/ErrorMessages";
 import { useState } from "react";
 import ErrorMessage from "./ErrorMessage";
 import { useNavigate } from "react-router-dom";
-import RegisterAs from "./RegisterAs";
-import { makeStyles } from "@material-ui/core";
 
-const useStyles = makeStyles((theme) => ({
-  form: {
-    padding: theme.spacing(3),
-  },
-  signupBtn: {
-    width: "200px",
-    marginTop: "10px",
-  },
-  bottom: {
-    margin: "10px auto",
-    display: "flex",
-    alignItems: "center",
-    flexDirection: "column",
-  },
-  icons: {
-    display: "flex",
-    justifyContent: "space-evenly",
-    width: "40%",
-    marginTop: theme.spacing(3),
-  },
-  divider: {
-    margin: "20px auto",
-    maxWidth: "300px",
-  },
-  error: {
-    color: "red",
-  },
-}));
 export default function SignUp(props) {
-  const classes = useStyles();
-
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const { registerUser } = useAuth();
@@ -124,7 +92,7 @@ export default function SignUp(props) {
               handleBlur,
             } = props;
             return (
-              <form onSubmit={handleSubmit} className={classes.form}>
+              <form onSubmit={handleSubmit} style={{ padding: "24px" }}>
                 <Grid
                   container
                   spacing={2}
@@ -142,10 +110,9 @@ export default function SignUp(props) {
                       onChange={handleChange}
                       onBlur={handleBlur}
                       placeholder="First Name"
-                      className={classes.Input}
                     />
                     {errors.firstName && touched.firstName && (
-                      <span className={classes.error}>{errors.firstName}</span>
+                      <span style={{ color: "red" }}>{errors.firstName}</span>
                     )}
                   </Grid>
                   <Grid item xs={12} sm={12} md={12}>
@@ -159,11 +126,9 @@ export default function SignUp(props) {
                       onChange={handleChange}
                       onBlur={handleBlur}
                       placeholder="Last Name"
-
-                      // className={classes.Input}
                     />
                     {errors.lastName && touched.lastName && (
-                      <span className={classes.error}>{errors.lastName}</span>
+                      <span style={{ color: "red" }}>{errors.lastName}</span>
                     )}
                   </Grid>
 
@@ -184,10 +149,9 @@ export default function SignUp(props) {
                           <MailOutline />
                         </InputAdornment>
                       }
-                      // className={classes.Input}
                     />
                     {errors.email && touched.email && (
-                      <span className={classes.error}>{errors.email}</span>
+                      <span style={{ color: "red" }}>{errors.email}</span>
                     )}
                   </Grid>
                   <Grid item xs={12} sm={12} md={12}>
@@ -206,10 +170,9 @@ export default function SignUp(props) {
                           <Lock />
                         </InputAdornment>
                       }
-                      // className={classes.Input}
                     />
                     {errors.password && touched.password && (
-                      <span className={classes.error}>{errors.password}</span>
+                      <span style={{ color: "red" }}>{errors.password}</span>
                     )}
                   </Grid>
                   <Grid item xs={12} sm={12} md={12}>
@@ -235,8 +198,7 @@ export default function SignUp(props) {
                     color="primary"
                     title="Sign Up"
                     variant="contained"
-                    sx={{ mt: "10px" }}
-                    className={classes.signupBtn}
+                    sx={{ mt: "10px", width: "200px", marginTop: "10px" }}
                   >
                     SignUp
                   </Button>

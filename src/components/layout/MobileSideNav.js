@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Drawer, Card } from "@mui/material";
-import { makeStyles } from "@material-ui/styles";
+
 import { Link } from "react-router-dom";
 import logo from "../../assests/Images/logo.svg";
 import { StyledNavItem } from "./styles";
@@ -10,13 +10,12 @@ import {
   NoteAdd,
   Settings,
   SubjectSharp,
-} from "@material-ui/icons";
+} from "@mui/icons-material";
 
 import { ADMIN, FACILITY, STUDENT } from "../../constants/roles";
 import { useAuth } from "../../provider/AuthProvider";
 
 export default function DesktopMenu({ isOpen, setIsOpen, scroll }) {
-  const classes = useStyles();
   const { user } = useAuth();
 
   const toggleDrawer = (open) => (event) => {
@@ -188,10 +187,17 @@ export default function DesktopMenu({ isOpen, setIsOpen, scroll }) {
       <React.Fragment key={anchor}>
         <Drawer
           anchor={anchor}
-          className={classes.Drawer}
           open={isOpen}
           variant="pr"
           onClose={toggleDrawer(false)}
+          sx={{
+            "& .MuiDrawer-paper": {
+              backgroundColor: `#fff`,
+              height: "100vh !important",
+              width: 270,
+              color: `#fff`,
+            },
+          }}
         >
           {list(anchor)}
         </Drawer>
@@ -199,18 +205,3 @@ export default function DesktopMenu({ isOpen, setIsOpen, scroll }) {
     </div>
   );
 }
-const useStyles = makeStyles((theme) => ({
-  Drawer: {
-    "& .MuiDrawer-paper": {
-      backgroundColor: `#fff`,
-      height: "100vh !important",
-      width: 270,
-      color: `#fff`,
-    },
-  },
-  list: {
-    "&:nth-of-type(1)": {
-      color: `#fff`,
-    },
-  },
-}));

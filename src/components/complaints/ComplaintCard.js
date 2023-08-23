@@ -1,7 +1,14 @@
-import { async } from "@firebase/util";
-import { Box, Card, CardMedia } from "@material-ui/core";
-import { Send } from "@material-ui/icons";
-import { Button, Chip, Divider, Stack, Typography } from "@mui/material";
+import { Send } from "@mui/icons-material";
+import {
+  Button,
+  Chip,
+  Divider,
+  Stack,
+  Typography,
+  Box,
+  Card,
+  CardMedia,
+} from "@mui/material";
 import { addDoc, collection, doc, getDocs, setDoc } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";

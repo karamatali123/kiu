@@ -1,36 +1,24 @@
 import * as React from "react";
-import PersonIcon from '@material-ui/icons/Person';
 
-import { Card, CardActions, CardContent, Typography } from "@material-ui/core";
-import { makeStyles } from "@material-ui/styles";
-import { PersonAdd, PublicOutlined } from "@material-ui/icons";
-import PublishIcon from '@material-ui/icons/Publish';
+import { Card, CardActions, CardContent, Typography } from "@mui/material";
 
+import { PersonAdd, PublicOutlined } from "@mui/icons-material";
 
-
-export default function UseCard({ heading, icon,number }) {
-
-const useStyles = makeStyles((theme) => ({
-btnround:{
-  borderRadius:"50%",
-  width:"30px",
-  height:"30px",
-  position: "absolute !important",
-  left: "17%",
-  backgroundColor:"blue"
-},
-icon:{
-position:"absolute",
-top:"-13%",
-[theme.breakpoints.down('md')]: {
-    display:"none"    
-},
-}
-
-}));
-const classes=useStyles()
+export default function UseCard({ heading, icon, number }) {
+  const btnround = {
+      borderRadius: "50%",
+      width: "30px",
+      height: "30px",
+      position: "absolute !important",
+      left: "17%",
+      backgroundColor: "blue",
+    },
+    icons = {
+      position: "absolute",
+      top: "-13%",
+    };
   return (
-    <Card sx={{ minWidth: 200,marginBottom:"10px" ,}} className={classes.borderRt}>
+    <Card sx={{ minWidth: 200, marginBottom: "10px" }}>
       <CardContent
         style={{
           alignItems: "center",
@@ -38,18 +26,26 @@ const classes=useStyles()
           flexDirection: "column",
           alignItems: "center",
           marginTop: "20px",
-        
         }}
       >
-         
         {icon === "register" ? (
           <PersonAdd
-            style={{ width: "40px", height: "54px",color:"#1976d2" }}
-            className={classes.icon}
-            
+            style={{
+              ...icons,
+              width: "40px",
+              height: "54px",
+              color: "#1976d2",
+            }}
           />
         ) : (
-          <PublicOutlined style={{ width: "40px", height: "54px",color:"#1976d2"}} className={classes.icon}/>
+          <PublicOutlined
+            style={{
+              ...icons,
+              width: "40px",
+              height: "54px",
+              color: "#1976d2",
+            }}
+          />
         )}
         <Typography variant="h6" component="div">
           {heading}
