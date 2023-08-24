@@ -202,7 +202,7 @@ export default function DataTable() {
                             {complaint.submitTo}
                           </TableCell>
                           <TableCell align="center">
-                            {complaint.category}
+                            {complaint.category?.catagories}
                           </TableCell>
                           <TableCell align="center">{complaint.date}</TableCell>
                           <TableCell align="center">

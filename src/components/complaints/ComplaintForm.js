@@ -35,21 +35,10 @@ const ValidationSchema = object().shape({
   regNo: yup.string().required("Registration No required"),
   contactNo: yup.string().required("Contact Number required"),
   date: yup.string().required("Date required"),
-  // proof: yup
-  //   .mixed()
-  //   .test("fileSize", "File too large", ({ size }) => {
-  //     return size && size != {} ? size <= FILE_SIZE : true;
-  //   })
-  //   .test("required", "File is required", ({ size }) => {
-  //     return size == undefined ? false : true;
-  //   })
-  //   .test("fileFormat", "Unsupported Format", ({ type }) => {
-  //     return type ? SUPPORTED_FORMATS.includes(type) : true;
-  //   }),
   natureOfComplaint: yup.string().required("Nature of Complaint required"),
   regarding: yup.string().required("Regarding required"),
   submitTo: yup.string().required("To whom do you want to submit"),
-  category: yup.string().required("Please select category of complaint"),
+  category: yup.object().required("Please select category of complaint"),
   email: string()
     .required(ErrorMessage.required)
     .email(ErrorMessages.email)
@@ -76,17 +65,6 @@ export default function ComplaintForm() {
     category: "",
     proof: null,
   };
-  const categories = [
-    "Admission Problems",
-    "False/Misleading Information",
-    "Bribery/Demand of un-solicited money",
-    "Discrimination",
-    "Harassment",
-    "Unfair evaluation",
-    "Scholarship Issues",
-    " Fee issues",
-    "Administrative issues",
-  ];
 
   const handleSubmit = async (values, actions) => {
     setLoading(true);
@@ -175,6 +153,7 @@ export default function ComplaintForm() {
             errors,
             touched,
             handleBlur,
+            isValid,
             setFieldValue,
           }) => (
             <form onSubmit={handleSubmit} style={{ padding: "24px 8px" }}>
@@ -293,7 +272,7 @@ export default function ComplaintForm() {
                     selectlabel={"Category"}
                     name="category"
                     value={values.category}
-                    onChange={handleChange}
+                    onChange={(e) => setFieldValue("category", e.target.value)}
                     onBlur={handleBlur}
                     error={Boolean(errors.category)}
                     error_message={
@@ -391,8 +370,13 @@ export default function ComplaintForm() {
                     height: "50px",
                     marginTop: "30px",
                   }}
+                  disabled={!isValid || loading}
                 >
-                  {loading ? <CircularProgress /> : "submit"}
+                  {loading ? (
+                    <CircularProgress sx={{ color: "#fff" }} />
+                  ) : (
+                    "submit"
+                  )}
                 </Button>
               </Grid>
             </form>

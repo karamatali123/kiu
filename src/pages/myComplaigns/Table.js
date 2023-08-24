@@ -194,7 +194,9 @@ export default function DataTable() {
                       <TableCell align="center">1</TableCell>
                       <TableCell align="center">{complaint.title}</TableCell>
                       <TableCell align="center">{complaint.submitTo}</TableCell>
-                      <TableCell align="center">{complaint.category}</TableCell>
+                      <TableCell align="center">
+                        {complaint.category?.catagories}
+                      </TableCell>
                       <TableCell align="center">{complaint.date}</TableCell>
                       <TableCell align="center">{complaint.status}</TableCell>
                       <TableCell align="center">

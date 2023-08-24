@@ -1,4 +1,4 @@
-import { Button, Grid, Stack } from "@mui/material";
+import { Button, Card, Grid, Stack } from "@mui/material";
 import {
   collection,
   doc,
@@ -19,6 +19,9 @@ import { ERROR, SUCCESS } from "../../constants/snackbarConstant";
 import { SNACKBAR_OPEN } from "../../provider/AuthProvider/reducer";
 import SelectUser from "../../components/gernal/BasicDropdown";
 import BasicDropdown from "../../components/gernal/BasicDropdown";
+import useGetCatagories from "../../api/useGetCatagories";
+import CustomSelect from "../../components/gernal/Select";
+import { Box } from "@mui/system";
 
 const ValidationSchema = object().shape({
   role: yup.string().required("Required"),
@@ -26,6 +29,8 @@ const ValidationSchema = object().shape({
 
 const AddRoleForm = ({ getRoles }) => {
   const [users, setUsers] = useState([]);
+  const catagories = useGetCatagories();
+  console.log(catagories, "cat");
   const getUsers = async () => {
     try {
       const q = query(collection(db, "users"), where("role", "==", "facility"));
@@ -82,6 +87,8 @@ const AddRoleForm = ({ getRoles }) => {
       validationSchema={ValidationSchema}
       initialValues={{
         role: "",
+        user: {},
+        category: {},
       }}
     >
       {({
@@ -94,40 +101,54 @@ const AddRoleForm = ({ getRoles }) => {
         handleBlur,
       }) => (
         <form onSubmit={handleSubmit}>
-          <Grid container spacing={1} alignItems="center">
-            <Grid item md={6} sm={12} xs={12}>
+          <Card sx={{ maxWidth: "800px", padding: "20px" }}>
+            <Stack gap="10px">
               <BasicDropdown
                 options={users}
                 title={"Select User"}
-                name="role"
-                item={values.role}
+                name="user"
+                item={values.user}
                 onChange={(e) => {
-                  setFieldValue(
-                    "role",
-                    `${e.target.value.firstName} ${e.target.value.lastName}`
-                  );
+                  setFieldValue("user", e.target.value);
                 }}
               />
-            </Grid>
-            <Grid item md={6} sm={12} xs={12} mt={"24px"}>
+
               <InputField
                 type="text"
-                name="Role"
-                value={values.catagories}
+                name="role"
+                value={values.role}
                 label="role"
                 fullWidth
                 title="Assign role"
+                onChange={handleChange}
                 onBlur={handleBlur}
                 error={errors.catagories && touched.catagories}
                 helperText={
                   errors.catagories && touched.catagories && errors.catagories
                 }
               />
-            </Grid>
-          </Grid>
-          <Button type="submit" variant="contained">
-            Add Category
-          </Button>
+              <Box width="100%">
+                <CustomSelect
+                  options={catagories}
+                  selectlabel={"Category"}
+                  name="category"
+                  value={values.category}
+                  onChange={(e) => setFieldValue("category", e.target.value)}
+                  onBlur={handleBlur}
+                  fullWidth={true}
+                  error={Boolean(errors.category)}
+                  sx={{ width: "100%", height: "50px" }}
+                  error_message={
+                    touched.category && errors.category && errors.category
+                  }
+                />
+              </Box>
+
+              <Button type="submit" variant="contained">
+                Add Category
+              </Button>
+            </Stack>
+          </Card>
         </form>
       )}
     </Formik>

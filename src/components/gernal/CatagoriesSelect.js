@@ -10,7 +10,7 @@ import {
 // import theme from "../../theme";
 import { Box } from "@mui/system";
 
-const CustomSelect = (props) => {
+const CatagoriesSelect = (props) => {
   const {
     options,
     value,
@@ -19,7 +19,6 @@ const CustomSelect = (props) => {
     onChange,
     error_message = "",
     onBlur,
-    fullWidth,
   } = props;
 
   return (
@@ -35,7 +34,7 @@ const CustomSelect = (props) => {
     >
       <Typography
         // color={theme.palette.black}
-        fontSize={"20px"}
+        fontSize={16}
         paddingLeft={0.5}
         paddingBottom={0}
         textAlign={"left"}
@@ -52,7 +51,6 @@ const CustomSelect = (props) => {
           size="small"
           defaultValue={options[0]}
           onChange={onChange}
-          fullWidth={fullWidth}
           {...props}
         >
           {options.map((option, index) => {
@@ -60,7 +58,7 @@ const CustomSelect = (props) => {
               <MenuItem
                 style={{ display: "inline-flex", width: "100%" }}
                 key={index}
-                value={option}
+                value={option.catagories}
               >
                 {option.catagories}
               </MenuItem>
@@ -85,4 +83,4 @@ const CustomSelect = (props) => {
   );
 };
 
-export default CustomSelect;
+export default CatagoriesSelect;
