@@ -5,6 +5,7 @@ import {
   getDocs,
   query,
   setDoc,
+  updateDoc,
   where,
 } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
@@ -27,10 +28,26 @@ const ValidationSchema = object().shape({
   role: yup.string().required("Required"),
 });
 
-const AddRoleForm = ({ getRoles }) => {
+const AddRoleForm = () => {
   const [users, setUsers] = useState([]);
+  const { user, uid, dispatch } = useAuth();
   const catagories = useGetCatagories();
-  console.log(catagories, "cat");
+
+  const updateUserRole = async (role, category) => {
+    console.log(user, uid, role, "user");
+    const docRef = doc(db, "users", user.uid);
+
+    try {
+      await updateDoc(docRef, {
+        role: role,
+        category: category,
+      });
+      console.log("role update");
+    } catch (e) {
+      console.error("Error updating document: ", e);
+    }
+  };
+
   const getUsers = async () => {
     try {
       const q = query(collection(db, "users"), where("role", "==", "facility"));
@@ -38,7 +55,6 @@ const AddRoleForm = ({ getRoles }) => {
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
         // doc.data() is never undefined for query doc snapshots
-
         console.log(doc.data(), "date");
         docData.push(doc.data());
         setUsers(docData);
@@ -48,7 +64,6 @@ const AddRoleForm = ({ getRoles }) => {
     }
   };
 
-  const { dispatch } = useAuth();
   const handleAddRole = async (values, actions) => {
     const roleId = uuidv4();
     try {
@@ -56,6 +71,7 @@ const AddRoleForm = ({ getRoles }) => {
         ...values,
         roleId: roleId,
       });
+      await updateUserRole(values.role, values.category);
       dispatch({
         type: SNACKBAR_OPEN,
         payload: {
@@ -63,7 +79,8 @@ const AddRoleForm = ({ getRoles }) => {
           message: "added successfully",
         },
       });
-      getRoles();
+
+      // getRoles();
     } catch (error) {
       dispatch({
         type: SNACKBAR_OPEN,
