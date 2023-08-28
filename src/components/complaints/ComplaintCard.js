@@ -7,7 +7,6 @@ import {
   Typography,
   Box,
   Card,
-  CardMedia,
 } from "@mui/material";
 import { addDoc, collection, doc, getDocs, setDoc } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
@@ -17,57 +16,19 @@ import { useAuth } from "../../provider/AuthProvider";
 import { InputField } from "../gernal/InputField";
 import CommentBox from "./CommentBox";
 
-import { Formik } from "formik";
-import * as yup from "yup";
-import { object, string } from "yup";
-import { ERROR, SUCCESS } from "../../constants/snackbarConstant";
-import { SNACKBAR_OPEN } from "../../provider/AuthProvider/reducer";
-
-const ValidationSchema = object().shape({
-  comment: yup.string().required("Required"),
-});
+import MyButton from "../gernal/Button";
+import AddCommentBox from "./addCommentBox";
+import ForwardComplaintBox from "./farwordComplaintBox";
 
 const ComplaintCard = ({ complaint }) => {
   const [comment, setComment] = useState("");
   const [showComment, setShowComment] = useState(false);
   const [comments, setComments] = useState([]);
-  console.log(comments, "comments");
+  const [showAddComment, setShowaAddComment] = useState(false);
+  const [showForwardBox, setShowForwardBox] = useState(false);
+
   const { user, dispatch } = useAuth();
-  const addComment = async (values, actions) => {
-    console.log(values, "values");
-    try {
-      const complaintsRef = collection(db, "complaints");
 
-      // Create a reference to a specific document in the "complaints" collection
-      const complaintDocRef = doc(complaintsRef, complaint.complaintId);
-
-      // Create a subcollection named "comments" for the document
-      const commentsRef = collection(complaintDocRef, "comments");
-
-      const newCommentRef = doc(commentsRef);
-      await setDoc(newCommentRef, {
-        authorName: values.comment,
-        comment: comment,
-      });
-      dispatch({
-        type: SNACKBAR_OPEN,
-        payload: {
-          snackbarType: SUCCESS,
-          message: "Comment Added",
-        },
-      });
-      actions.resetForm();
-      console.log("done");
-    } catch (error) {
-      dispatch({
-        type: SNACKBAR_OPEN,
-        payload: {
-          snackbarType: ERROR,
-          message: error.message,
-        },
-      });
-    }
-  };
   const getComments = async () => {
     const complaintsRef = collection(db, "complaints");
     const complaintDocRef = doc(complaintsRef, complaint.complaintId);
@@ -105,7 +66,12 @@ const ComplaintCard = ({ complaint }) => {
       >
         <Box>
           <Typography variant="h5">{complaint.title}</Typography>
-          <Typography variant="caption">Submitted To:karamat ali</Typography>
+          <Typography variant="caption">
+            {" "}
+            {`${complaint.assignee.firstName}  ${complaint.assignee.lastName} (
+                            ${complaint.assignee.designation}
+                            )`}
+          </Typography>
         </Box>
         <Box>
           <Typography variant="h5">Submission Date</Typography>
@@ -128,57 +94,32 @@ const ComplaintCard = ({ complaint }) => {
           </Typography>
         </Box>
 
-        <Stack
-          flexDirection={"row"}
-          justifyContent="space-between"
-          alignItems={"center"}
-          mt="40px"
-        >
+        <Stack flexDirection={"row"} gap="10px" alignItems={"center"} mt="40px">
           <Chip label="pending" sx={{ borderRadius: "2px" }} />
           {user.uid !== complaint.authorId ? (
-            <Formik
-              onSubmit={(values, actions) => {
-                addComment(values, actions);
-              }}
-              validationSchema={ValidationSchema}
-              initialValues={{
-                comment: "",
-              }}
-            >
-              {({
-                values,
-                handleChange,
-                handleSubmit,
-                errors,
-                touched,
-                handleBlur,
-              }) => (
-                <form onSubmit={handleSubmit}>
-                  <Stack
-                    flexDirection={"row"}
-                    alignItems={"flex-start"}
-                    gap={"10px"}
-                  >
-                    <InputField
-                      type="text"
-                      name="comment"
-                      value={values.comment}
-                      label="Comment"
-                      fullWidth
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      error={errors.comment && touched.comment}
-                      helperText={
-                        errors.comment && touched.comment && errors.comment
-                      }
-                    />
-                    <Button type="submit">
-                      <Send style={{ fontSize: "40px", color: "#0753c3" }} />
-                    </Button>
-                  </Stack>
-                </form>
-              )}
-            </Formik>
+            <Stack direction={"row"} gap="10px">
+              <MyButton
+                variant={"contained"}
+                text="Add Comment"
+                style={{ color: "#fff", width: "140px" }}
+                onClick={() => setShowaAddComment(true)}
+              />
+              <AddCommentBox
+                open={showAddComment}
+                setOpen={setShowaAddComment}
+                complaint={complaint}
+              />
+              <MyButton
+                variant={"contained"}
+                text="Forward"
+                style={{ color: "#fff", width: "140px" }}
+                onClick={() => setShowForwardBox(true)}
+              />
+              <ForwardComplaintBox
+                open={showForwardBox}
+                setOpen={setShowForwardBox}
+              />
+            </Stack>
           ) : (
             <Button
               onClick={() => {
@@ -214,15 +155,16 @@ const ComplaintCard = ({ complaint }) => {
             Track Complaint
           </Button>
         </Link>
-        <Link
-          to={complaint.proof}
-          download
+        <a
+          href={complaint.proof}
+          target="_blank"
+          download="proof.jpg"
           style={{ textDecoration: "none", marginLeft: "10px" }}
         >
           <Button title="Download" variant="contained">
             Download Proof
           </Button>
-        </Link>
+        </a>
       </Box>
     </Card>
   );

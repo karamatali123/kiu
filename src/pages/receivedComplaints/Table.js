@@ -97,7 +97,7 @@ export default function DataTable() {
     try {
       const q = query(
         collection(db, "complaints"),
-        where("submitTo", "==", "Hod")
+        where("assignee.uid", "==", user.uid)
       );
       let docData = [];
       const querySnapshot = await getDocs(q);
@@ -118,6 +118,7 @@ export default function DataTable() {
       getComplaints();
     }
   }, [user]);
+  console.log("comp", complaints);
 
   const navigate = useNavigate();
   const handleClick = (event, key) => {
@@ -199,7 +200,9 @@ export default function DataTable() {
                             {complaint.title}
                           </TableCell>
                           <TableCell align="center">
-                            {complaint.submitTo}
+                            {`${complaint.assignee.firstName}  ${complaint.assignee.lastName} (
+                            ${complaint.assignee.designation}
+                            )`}
                           </TableCell>
                           <TableCell align="center">
                             {complaint.category?.catagories}

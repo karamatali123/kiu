@@ -10,8 +10,10 @@ import { db } from "../../firebase";
 const AddCatagories = () => {
   const { user } = useAuth();
   const [catagories, setCatagories] = useState([]);
+  const [loading, setLoading] = useState(false);
   console.log(catagories, "catagories");
   const getCatagories = async () => {
+    setLoading(true);
     try {
       const ref = collection(db, "catagories");
       let docData = [];
@@ -20,6 +22,7 @@ const AddCatagories = () => {
           console.log(doc.data(), "data");
           docData.push(doc.data());
         });
+        setLoading(false);
       });
       // const documents = snapshot.docs.map((doc) => ({
       //   id: doc.id,
@@ -27,6 +30,7 @@ const AddCatagories = () => {
       // }));
       setCatagories(docData);
     } catch (error) {
+      setLoading(false);
       console.log(error.message, "errrrrrr");
     }
   };
@@ -54,6 +58,7 @@ const AddCatagories = () => {
           <Grid item xs={12} sm={6}>
             <Paper style={{ height: "fit-content", padding: "50px 10px" }}>
               <CatagoriesList
+                loading={loading}
                 catagories={catagories}
                 getCatagories={getCatagories}
               />

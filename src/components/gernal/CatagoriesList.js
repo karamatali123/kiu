@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { deleteDoc, doc, getDocs, onSnapshot } from "firebase/firestore";
 import { db } from "../../firebase";
-import { Box, Button, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Stack,
+  Typography,
+} from "@mui/material";
 import { Delete, Edit, ViewAgenda, ViewArray } from "@mui/icons-material";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -12,13 +18,20 @@ import { SNACKBAR_OPEN } from "../../provider/AuthProvider/reducer";
 import { ERROR, SUCCESS } from "../../constants/snackbarConstant";
 import { useAuth } from "../../provider/AuthProvider";
 
-const CatagoriesList = ({ catagories, getCatagories }) => {
+const CatagoriesList = ({ catagories, getCatagories, loading }) => {
   const [open, setOpen] = React.useState(false);
   console.log(catagories);
 
   const handleClickOpen = () => {
     setOpen(true);
   };
+  if (loading) {
+    return (
+      <Stack minHeight={"500px"} alignItems="center" justifyContent={"center"}>
+        <CircularProgress />
+      </Stack>
+    );
+  }
   return (
     <>
       <Box height={"fit-content"}>

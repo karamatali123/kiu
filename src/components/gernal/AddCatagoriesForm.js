@@ -65,7 +65,7 @@ const AddCatagoriesForm = ({ getCatagories }) => {
         handleBlur,
       }) => (
         <form onSubmit={handleSubmit}>
-          <Stack flexDirection={"column"} alignItems={"center"} gap={"10px"}>
+          <Stack gap={"10px"}>
             <InputField
               type="text"
               name="catagories"

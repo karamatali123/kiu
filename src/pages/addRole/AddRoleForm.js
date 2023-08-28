@@ -30,17 +30,18 @@ const ValidationSchema = object().shape({
 
 const AddRoleForm = () => {
   const [users, setUsers] = useState([]);
-  const { user, uid, dispatch } = useAuth();
+  const { dispatch } = useAuth();
   const catagories = useGetCatagories();
 
-  const updateUserRole = async (role, category) => {
-    console.log(user, uid, role, "user");
+  const updateUserRole = async (values) => {
+    const { role, category, user } = values;
     const docRef = doc(db, "users", user.uid);
 
     try {
       await updateDoc(docRef, {
-        role: role,
+        designation: role,
         category: category,
+        categoryId: category.categoryId,
       });
       console.log("role update");
     } catch (e) {
@@ -66,12 +67,14 @@ const AddRoleForm = () => {
 
   const handleAddRole = async (values, actions) => {
     const roleId = uuidv4();
+    console.log(values, "value");
     try {
       await setDoc(doc(db, "roles", roleId), {
         ...values,
         roleId: roleId,
+        categoryId: values.category.categoryId,
       });
-      await updateUserRole(values.role, values.category);
+      await updateUserRole(values);
       dispatch({
         type: SNACKBAR_OPEN,
         payload: {
@@ -79,8 +82,6 @@ const AddRoleForm = () => {
           message: "added successfully",
         },
       });
-
-      // getRoles();
     } catch (error) {
       dispatch({
         type: SNACKBAR_OPEN,

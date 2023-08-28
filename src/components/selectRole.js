@@ -10,7 +10,7 @@ import {
 // import theme from "../../theme";
 import { Box } from "@mui/system";
 
-const CustomSelect = (props) => {
+const SelectRole = (props) => {
   const {
     options,
     value,
@@ -25,7 +25,6 @@ const CustomSelect = (props) => {
   return (
     <div
       style={{
-        alignSelf: "center",
         "& .MuiOutlinedInput-notchedOutline": {
           border: "1px solid #d5d5d5",
           borderRadius: "4px",
@@ -52,7 +51,7 @@ const CustomSelect = (props) => {
           size="small"
           defaultValue={options[0]}
           onChange={onChange}
-          sx={{ height: "53px" }}
+          sx={{ height: "53px", width: "100%" }}
           fullWidth={fullWidth}
           {...props}
         >
@@ -61,9 +60,9 @@ const CustomSelect = (props) => {
               <MenuItem
                 style={{ display: "inline-flex", width: "100%" }}
                 key={index}
-                value={option}
+                value={option.user}
               >
-                {option.catagories}
+                {option.user.firstName}
               </MenuItem>
             );
           })}
@@ -86,4 +85,4 @@ const CustomSelect = (props) => {
   );
 };
 
-export default CustomSelect;
+export default SelectRole;

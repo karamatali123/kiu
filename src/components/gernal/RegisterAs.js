@@ -41,7 +41,6 @@ export default function RegisterAs(props) {
         type: AUTH_STATUS,
         payload: true,
       });
-      setOpen(false);
       navigate("/my-complaints");
     } catch (e) {
       console.error("Error updating document: ", e);

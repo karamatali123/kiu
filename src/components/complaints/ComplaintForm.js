@@ -12,7 +12,14 @@ import {
 } from "@mui/material";
 import { v4 as uuidv4 } from "uuid";
 
-import { collection, doc, getDocs, setDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDocs,
+  query,
+  setDoc,
+  where,
+} from "firebase/firestore";
 import { Formik } from "formik";
 import * as yup from "yup";
 import { object, string } from "yup";
@@ -27,6 +34,7 @@ import { SNACKBAR_OPEN } from "../../provider/AuthProvider/reducer";
 import { useEffect, useState } from "react";
 import CustomSelect from "../gernal/Select";
 import SubmitTo from "../gernal/SubmitTo";
+import useGetRoles from "../../api/useGetRoles";
 
 const ValidationSchema = object().shape({
   name: yup.string().required("Name Required"),
@@ -37,7 +45,7 @@ const ValidationSchema = object().shape({
   date: yup.string().required("Date required"),
   natureOfComplaint: yup.string().required("Nature of Complaint required"),
   regarding: yup.string().required("Regarding required"),
-  submitTo: yup.string().required("To whom do you want to submit"),
+
   category: yup.object().required("Please select category of complaint"),
   email: string()
     .required(ErrorMessage.required)
@@ -48,6 +56,7 @@ const ValidationSchema = object().shape({
 export default function ComplaintForm() {
   const [catagories, setCatagories] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [assignee, setAssignee] = useState({});
   const { user, dispatch } = useAuth();
   const initialValues = {
     title: "",
@@ -58,7 +67,7 @@ export default function ComplaintForm() {
     date: "",
     natureOfComplaint: "",
     regarding: "",
-    submitTo: "",
+    assignee: "",
     email: "",
     password: "",
     details: "",
@@ -66,43 +75,73 @@ export default function ComplaintForm() {
     proof: null,
   };
 
+  const getAssignee = async (categoryId) => {
+    console.log(categoryId);
+    try {
+      const q = query(
+        collection(db, "users"),
+        where("categoryId", "==", categoryId)
+      );
+      let docData = [];
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((doc) => {
+        // doc.data() is never undefined for query doc snapshots
+        console.log(doc.data(), "date");
+        docData.push(doc.data());
+        setAssignee(docData[0]);
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const handleSubmit = async (values, actions) => {
     setLoading(true);
     const complaintId = uuidv4();
+    try {
+      console.log(assignee, values, "ass");
 
-    const storage = getStorage();
-    const imageREf = ref(storage, `proof/${complaintId}`);
-    const response = await uploadBytes(imageREf, values.proof);
-    const url = await getDownloadURL(ref(storage, response.ref.fullPath));
+      const storage = getStorage();
+      const imageREf = ref(storage, `proof/${complaintId}`);
+      const response = await uploadBytes(imageREf, values.proof);
+      const url = await getDownloadURL(ref(storage, response.ref.fullPath));
 
-    await setDoc(doc(db, "complaints", complaintId), {
-      ...values,
-      status: "pending",
-      authorId: user.uid,
-      proof: url,
-      complaintId: complaintId,
-    })
-      .then(() => {
-        dispatch({
-          type: SNACKBAR_OPEN,
-          payload: {
-            snackbarType: SUCCESS,
-            message: "Complaint added successfully",
-          },
-        });
-        actions.resetForm();
-        setLoading(false);
+      await setDoc(doc(db, "complaints", complaintId), {
+        ...values,
+        status: "pending",
+        authorId: user.uid,
+        proof: url,
+        complaintId: complaintId,
+        assignee: assignee,
       })
-      .catch((err) => {
-        dispatch({
-          type: SNACKBAR_OPEN,
-          payload: {
-            snackbarType: ERROR,
-            message: err.message,
-          },
+        .then(() => {
+          dispatch({
+            type: SNACKBAR_OPEN,
+            payload: {
+              snackbarType: SUCCESS,
+              message: "Complaint added successfully",
+            },
+          });
+          setLoading(false);
+          actions.resetForm();
+        })
+        .catch((err) => {
+          dispatch({
+            type: SNACKBAR_OPEN,
+            payload: {
+              snackbarType: ERROR,
+              message: err.message,
+            },
+          });
+          setLoading(false);
+        })
+        .finally(() => {
+          setLoading(false);
         });
-        setLoading(false);
-      });
+    } catch (error) {
+      console.log(error, "error");
+      setLoading(false);
+    }
   };
   const getCatagories = async () => {
     try {
@@ -272,7 +311,10 @@ export default function ComplaintForm() {
                     selectlabel={"Category"}
                     name="category"
                     value={values.category}
-                    onChange={(e) => setFieldValue("category", e.target.value)}
+                    onChange={(e) => {
+                      getAssignee(e.target.value.categoryId);
+                      setFieldValue("category", e.target.value);
+                    }}
                     onBlur={handleBlur}
                     error={Boolean(errors.category)}
                     error_message={
@@ -281,7 +323,7 @@ export default function ComplaintForm() {
                   />
                 </Grid>
 
-                <Grid item md={6} sm={12} xs={12}>
+                {/* <Grid item md={6} sm={12} xs={12}>
                   <SubmitTo
                     options={["Hod", "Dean", "VC"]}
                     selectlabel={"Submitted To"}
@@ -294,9 +336,9 @@ export default function ComplaintForm() {
                       touched.submitTo && errors.submitTo && errors.category
                     }
                   />
-                </Grid>
+                </Grid> */}
 
-                <Grid item md={6} sm={12} xs={12}>
+                <Grid item md={12} sm={12} xs={12}>
                   <Typography
                     // color={theme.palette.black}
                     fontSize={16}
@@ -370,7 +412,7 @@ export default function ComplaintForm() {
                     height: "50px",
                     marginTop: "30px",
                   }}
-                  disabled={!isValid || loading}
+                  // disabled={!isValid || loading}
                 >
                   {loading ? (
                     <CircularProgress sx={{ color: "#fff" }} />

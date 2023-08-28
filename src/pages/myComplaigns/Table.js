@@ -162,7 +162,7 @@ export default function DataTable() {
     <>
       <Paper sx={{ height: "100vh", marginTop: "20px" }}>
         {loading && <Loading />}
-        {complaints.length > 0 ? (
+        {complaints.length > 0 && !loading ? (
           <>
             <TableContainer
               sx={{
@@ -193,7 +193,12 @@ export default function DataTable() {
                     <TableRow key={index}>
                       <TableCell align="center">1</TableCell>
                       <TableCell align="center">{complaint.title}</TableCell>
-                      <TableCell align="center">{complaint.submitTo}</TableCell>
+                      <TableCell align="center">
+                        {" "}
+                        {`${complaint.assignee.firstName}  ${complaint.assignee.lastName} (
+                            ${complaint.assignee.designation}
+                            )`}
+                      </TableCell>
                       <TableCell align="center">
                         {complaint.category?.catagories}
                       </TableCell>
@@ -263,7 +268,7 @@ export default function DataTable() {
               onRowsPerPageChange={handleChangeRowsPerPage}
             />
           </>
-        ) : (
+        ) : !loading && !complaints.length <= 0 ? (
           <Stack
             alignItems={"center"}
             height={"400px"}
@@ -273,6 +278,8 @@ export default function DataTable() {
               No Complaints{" "}
             </Typography>
           </Stack>
+        ) : (
+          ""
         )}
       </Paper>
     </>
