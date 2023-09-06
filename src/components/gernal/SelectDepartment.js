@@ -10,11 +10,12 @@ import {
 // import theme from "../../theme";
 import { Box } from "@mui/system";
 
-const SubmitTo = (props) => {
+const SelectDepartment = (props) => {
   const {
     options,
     value,
     selectlabel,
+    label,
     error = false,
     onChange,
     error_message = "",
@@ -42,13 +43,18 @@ const SubmitTo = (props) => {
         {selectlabel}
       </Typography>
       <FormControl fullWidth>
-        {/* <InputLabel id="demo-simple-select-label">Age</InputLabel> */}
+        <InputLabel id="demo-simple-select-label" sx={{ fontSize: "16px" }}>
+          {label}
+        </InputLabel>
         <Select
           value={value}
           labelId="demo-simple-select-label"
           id="demo-simple-select"
           size="small"
-          defaultValue={options[0]}
+          label={label}
+          variant={"outlined"}
+          sx={{ height: "53px" }}
+          // defaultValue={options[0]}
           onChange={onChange}
           {...props}
         >
@@ -78,4 +84,4 @@ const SubmitTo = (props) => {
   );
 };
 
-export default SubmitTo;
+export default SelectDepartment;

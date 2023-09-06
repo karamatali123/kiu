@@ -33,8 +33,10 @@ import { ERROR, SUCCESS } from "../../constants/snackbarConstant";
 import { SNACKBAR_OPEN } from "../../provider/AuthProvider/reducer";
 import { useEffect, useState } from "react";
 import CustomSelect from "../gernal/Select";
-import SubmitTo from "../gernal/SubmitTo";
 import useGetRoles from "../../api/useGetRoles";
+import UniversityRegistrationInput from "../gernal/RegistrationInput";
+import { departments } from "../../constants/selectOptions";
+import SelectDepartment from "../gernal/SelectDepartment";
 
 const ValidationSchema = object().shape({
   name: yup.string().required("Name Required"),
@@ -42,10 +44,8 @@ const ValidationSchema = object().shape({
   deptName: yup.string().required("Deprtment Name required"),
   regNo: yup.string().required("Registration No required"),
   contactNo: yup.string().required("Contact Number required"),
-  date: yup.string().required("Date required"),
   natureOfComplaint: yup.string().required("Nature of Complaint required"),
   regarding: yup.string().required("Regarding required"),
-
   category: yup.object().required("Please select category of complaint"),
   email: string()
     .required(ErrorMessage.required)
@@ -64,7 +64,7 @@ export default function ComplaintForm() {
     deptName: "",
     regNo: "",
     contactNo: "",
-    date: "",
+
     natureOfComplaint: "",
     regarding: "",
     assignee: "",
@@ -105,7 +105,9 @@ export default function ComplaintForm() {
       const imageREf = ref(storage, `proof/${complaintId}`);
       const response = await uploadBytes(imageREf, values.proof);
       const url = await getDownloadURL(ref(storage, response.ref.fullPath));
-
+      const currentDate = new Date();
+      // You can format the date as needed before adding it to the collection
+      const formattedDate = currentDate.toISOString();
       await setDoc(doc(db, "complaints", complaintId), {
         ...values,
         status: "pending",
@@ -113,6 +115,8 @@ export default function ComplaintForm() {
         proof: url,
         complaintId: complaintId,
         assignee: assignee,
+        assigneeId: assignee.uid,
+        date: formattedDate,
       })
         .then(() => {
           dispatch({
@@ -224,7 +228,8 @@ export default function ComplaintForm() {
                   />
                 </Grid>
                 <Grid item md={6} sm={12} xs={12}>
-                  <InputField
+                  <SelectDepartment
+                    options={departments}
                     type="text"
                     name="deptName"
                     value={values.deptName}
@@ -240,7 +245,7 @@ export default function ComplaintForm() {
                 </Grid>
 
                 <Grid item md={6} sm={12} xs={12}>
-                  <InputField
+                  <UniversityRegistrationInput
                     type="text"
                     name="regNo"
                     value={values.regNo}
@@ -282,30 +287,6 @@ export default function ComplaintForm() {
                 </Grid>
 
                 <Grid item md={6} sm={12} xs={12}>
-                  <Typography
-                    // color={theme.palette.black}
-                    fontSize={16}
-                    paddingLeft={0.5}
-                    paddingBottom={0}
-                    textAlign={"left"}
-                  >
-                    Submission date
-                  </Typography>
-                  <InputField
-                    type="date"
-                    name="date"
-                    value={values.date}
-                    // label="Date"
-                    fullWidth
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    error={errors.date && touched.date}
-                    helperText={errors.date && touched.date && errors.date}
-                  />
-                  {/* <DatePicker /> */}
-                </Grid>
-
-                <Grid item md={6} sm={12} xs={12}>
                   <CustomSelect
                     options={catagories}
                     selectlabel={"Category"}
@@ -323,22 +304,7 @@ export default function ComplaintForm() {
                   />
                 </Grid>
 
-                {/* <Grid item md={6} sm={12} xs={12}>
-                  <SubmitTo
-                    options={["Hod", "Dean", "VC"]}
-                    selectlabel={"Submitted To"}
-                    name="submitTo"
-                    value={values.submitTo}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    error={Boolean(errors.submitTo)}
-                    error_message={
-                      touched.submitTo && errors.submitTo && errors.category
-                    }
-                  />
-                </Grid> */}
-
-                <Grid item md={12} sm={12} xs={12}>
+                <Grid item md={6} sm={12} xs={12}>
                   <Typography
                     // color={theme.palette.black}
                     fontSize={16}

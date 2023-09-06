@@ -28,6 +28,7 @@ import {
   doc,
   getDocs,
   query,
+  updateDoc,
   where,
 } from "firebase/firestore";
 import { db } from "../../firebase";
@@ -93,11 +94,24 @@ export default function DataTable() {
   const { user, dispatch } = useAuth();
   const [complaints, setComplaints] = useState([]);
 
+  const updateComplaint = async (complaintId, status) => {
+    const docRef = doc(db, "complaints", complaintId);
+
+    try {
+      await updateDoc(docRef, {
+        status: status === "pending" ? "Received" : status,
+      });
+      navigate(`/my-complaints/${complaintId}`);
+    } catch (e) {
+      console.error("Error updating document: ", e);
+    }
+  };
+
   const getComplaints = async () => {
     try {
       const q = query(
         collection(db, "complaints"),
-        where("assignee.uid", "==", user.uid)
+        where("assigneeId", "==", user.uid)
       );
       let docData = [];
       const querySnapshot = await getDocs(q);
@@ -249,8 +263,13 @@ export default function DataTable() {
                                   Delete
                                 </MenuItem>
                                 <Link
-                                  to={`/my-complaints/${complaint.complaintId}`}
                                   style={{ textDecoration: "none" }}
+                                  onClick={() => {
+                                    updateComplaint(
+                                      complaint.complaintId,
+                                      complaint.status
+                                    );
+                                  }}
                                 >
                                   <MenuItem>
                                     <ViewAgenda />

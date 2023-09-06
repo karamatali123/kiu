@@ -11,6 +11,14 @@ import ErrorMessages from "../../helpers/ErrorMessages";
 import { object, string } from "yup";
 import { useNavigate } from "react-router-dom";
 import { AUTH_STATUS } from "../../provider/AuthProvider/reducer";
+import SelectDepartment from "./SelectDepartment";
+import UniversityRegistrationInput from "./RegistrationInput";
+import CNICInput from "./CnicInput";
+import {
+  departments,
+  programs,
+  semesters,
+} from "../../constants/selectOptions";
 
 export default function AddAcademicInfo(props) {
   const { onClose, open, setOpen } = props;
@@ -49,7 +57,7 @@ export default function AddAcademicInfo(props) {
     dptName: string()
       .required(ErrorMessages.required)
       .min(3, ErrorMessages.min)
-      .max(30, ErrorMessages.max),
+      .max(70, ErrorMessages.max),
     regNo: string()
       .required(ErrorMessages.required)
       .min(3, ErrorMessages.min)
@@ -89,16 +97,19 @@ export default function AddAcademicInfo(props) {
             errors,
             touched,
             handleBlur,
+            isValid,
           } = props;
           return (
             <form onSubmit={handleSubmit} style={{ padding: "24px" }}>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={12} md={12}>
-                  <TextField
+                  <SelectDepartment
+                    options={departments}
                     type="text"
                     name="dptName"
                     label="Department"
                     id="Department"
+                    value={values.dptName}
                     variant="outlined"
                     fullWidth
                     onChange={handleChange}
@@ -110,7 +121,7 @@ export default function AddAcademicInfo(props) {
                   )}
                 </Grid>
                 <Grid item xs={12} sm={12} md={12}>
-                  <TextField
+                  <UniversityRegistrationInput
                     type="text"
                     name="regNo"
                     id="Reg no"
@@ -120,16 +131,13 @@ export default function AddAcademicInfo(props) {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     placeholder="Registration Number"
-
-                    //
                   />
                   {errors.regNo && touched.regNo && (
                     <span style={{ color: "red" }}>{errors.regNo}</span>
                   )}
                 </Grid>
                 <Grid item xs={12} sm={12} md={12}>
-                  <TextField
-                    type="number"
+                  <CNICInput
                     name="cnic"
                     id="CNIC"
                     label="CNIC Number"
@@ -145,24 +153,8 @@ export default function AddAcademicInfo(props) {
                   )}
                 </Grid>
                 <Grid item xs={12} sm={12} md={12}>
-                  <TextField
-                    type="number"
-                    name="semester"
-                    label="Semester"
-                    id="Semester"
-                    variant="outlined"
-                    placeholder="Semester"
-                    fullWidth
-                    value={values.semester}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                  />
-                  {errors.semester && touched.semester && (
-                    <span style={{ color: "red" }}>{errors.semester}</span>
-                  )}
-                </Grid>
-                <Grid item xs={12} sm={12} md={12}>
-                  <TextField
+                  <SelectDepartment
+                    options={programs}
                     type="text"
                     name="program"
                     id="program"
@@ -180,11 +172,33 @@ export default function AddAcademicInfo(props) {
                   )}
                 </Grid>
 
+                <Grid item xs={12} sm={12} md={12}>
+                  <SelectDepartment
+                    options={semesters}
+                    type="number"
+                    name="semester"
+                    label="Semester"
+                    id="Semester"
+                    variant="outlined"
+                    placeholder="Semester"
+                    fullWidth
+                    value={values.semester}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    max={8}
+                    min={1}
+                  />
+                  {errors.semester && touched.semester && (
+                    <span style={{ color: "red" }}>{errors.semester}</span>
+                  )}
+                </Grid>
+
                 <Button
                   type="submit"
                   color="primary"
                   title="Sign Up"
                   variant="contained"
+                  disabled={!isValid}
                   sx={{ width: "200px", margin: "10px auto" }}
                 >
                   Submit

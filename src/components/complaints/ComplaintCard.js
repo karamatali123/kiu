@@ -8,26 +8,64 @@ import {
   Box,
   Card,
 } from "@mui/material";
-import { addDoc, collection, doc, getDocs, setDoc } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  doc,
+  getDocs,
+  setDoc,
+  updateDoc,
+} from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { db } from "../../firebase";
 import { useAuth } from "../../provider/AuthProvider";
+import { ERROR, SUCCESS } from "../../constants/snackbarConstant";
 import { InputField } from "../gernal/InputField";
 import CommentBox from "./CommentBox";
 
 import MyButton from "../gernal/Button";
 import AddCommentBox from "./addCommentBox";
 import ForwardComplaintBox from "./farwordComplaintBox";
-
-const ComplaintCard = ({ complaint }) => {
+import { SNACKBAR_OPEN } from "../../provider/AuthProvider/reducer";
+const ComplaintCard = ({ complaint, getComplaintDetails }) => {
   const [comment, setComment] = useState("");
   const [showComment, setShowComment] = useState(false);
   const [comments, setComments] = useState([]);
   const [showAddComment, setShowaAddComment] = useState(false);
   const [showForwardBox, setShowForwardBox] = useState(false);
-
   const { user, dispatch } = useAuth();
+
+  const updateComplaint = async () => {
+    const docRef = doc(db, "complaints", complaint.complaintId);
+
+    try {
+      await updateDoc(docRef, {
+        status: "Resolved",
+      })
+        .then(() => {
+          getComplaintDetails(complaint.complaintId);
+          dispatch({
+            type: SNACKBAR_OPEN,
+            payload: {
+              snackbarType: SUCCESS,
+              message: "Status updated successfully",
+            },
+          });
+        })
+        .catch((err) => {
+          dispatch({
+            type: SNACKBAR_OPEN,
+            payload: {
+              snackbarType: ERROR,
+              message: err.message,
+            },
+          });
+        });
+    } catch (e) {
+      console.error("Error updating document: ", e);
+    }
+  };
 
   const getComments = async () => {
     const complaintsRef = collection(db, "complaints");
@@ -82,7 +120,19 @@ const ComplaintCard = ({ complaint }) => {
 
       <Box padding={"100px 10px"}>
         <Box>
-          <Typography variant="h5"> Nature Complaint</Typography>
+          <Stack direction="row" justifyContent="space-between">
+            <Typography variant="h5" fontSize="20px">
+              {" "}
+              Nature Complaint
+            </Typography>{" "}
+            <Typography variant="h5">
+              Status:
+              <Chip
+                label={complaint.status}
+                sx={{ borderRadius: "2px", fontSize: "17px", height: "36px" }}
+              />
+            </Typography>{" "}
+          </Stack>{" "}
           <Typography variant="body1" style={{ marginTop: "1.5rem" }}>
             {complaint.natureOfComplaint}
           </Typography>
@@ -95,9 +145,8 @@ const ComplaintCard = ({ complaint }) => {
         </Box>
 
         <Stack flexDirection={"row"} gap="10px" alignItems={"center"} mt="40px">
-          <Chip label="pending" sx={{ borderRadius: "2px" }} />
           {user.uid !== complaint.authorId ? (
-            <Stack direction={"row"} gap="10px">
+            <Stack direction={"row"} gap="10px" width="100%">
               <MyButton
                 variant={"contained"}
                 text="Add Comment"
@@ -129,6 +178,19 @@ const ComplaintCard = ({ complaint }) => {
               {showComment ? " Hide Comments" : "Show Comments"}
             </Button>
           )}
+          <Stack direction="row" alignItems="center" gap="10px">
+            {user.uid !== complaint.authorId &&
+              complaint.status !== "Resolved" && (
+                <MyButton
+                  variant={"contained"}
+                  text=" Resolved"
+                  style={{ backgroundColor: "#996312 !important" }}
+                  onClick={() => {
+                    updateComplaint("student");
+                  }}
+                />
+              )}
+          </Stack>
         </Stack>
         {showComment && (
           <Card style={{ marginTop: "10px" }}>
@@ -161,7 +223,11 @@ const ComplaintCard = ({ complaint }) => {
           download="proof.jpg"
           style={{ textDecoration: "none", marginLeft: "10px" }}
         >
-          <Button title="Download" variant="contained">
+          <Button
+            title="Download"
+            variant="contained"
+            sx={{ backgroundColor: "#996312 !important" }}
+          >
             Download Proof
           </Button>
         </a>

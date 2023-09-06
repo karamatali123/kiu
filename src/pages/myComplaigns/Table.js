@@ -268,13 +268,17 @@ export default function DataTable() {
               onRowsPerPageChange={handleChangeRowsPerPage}
             />
           </>
-        ) : !loading && !complaints.length <= 0 ? (
+        ) : !loading && complaints.length === 0 ? (
           <Stack
             alignItems={"center"}
             height={"400px"}
             justifyContent={"center"}
           >
-            <Typography variant="h3" textAlign={"center"}>
+            <img
+              src="https://cdn2.iconfinder.com/data/icons/oops-404-error/64/208_oops-face-emoji-emoticon-sad-512.png"
+              width={"200px"}
+            />
+            <Typography variant="h2" textAlign={"center"} color="#444444">
               No Complaints{" "}
             </Typography>
           </Stack>

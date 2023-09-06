@@ -49,7 +49,14 @@ const ComplaintDetails = () => {
           }}
         >
           <Typography variant="h4">Complaint Details</Typography>
-          {loading ? <Loading /> : <ComplaintCard complaint={complaintData} />}
+          {loading ? (
+            <Loading />
+          ) : (
+            <ComplaintCard
+              complaint={complaintData}
+              getComplaintDetails={getComplaintDetails}
+            />
+          )}
         </Card>
       </Container>
     </>
