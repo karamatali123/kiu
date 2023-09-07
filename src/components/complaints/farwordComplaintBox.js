@@ -34,9 +34,10 @@ export default function ForwardComplaintBox({ open, setOpen, complaint }) {
 
     try {
       await updateDoc(docRef, {
-        assignee: assignee,
+        assignee: { ...assignee.user, designation: assignee.role },
         assigneeId: assignee?.user.uid,
         track: [...complaint.track, assignee.role],
+        status: "Forward",
       });
       console.log("role update");
     } catch (e) {

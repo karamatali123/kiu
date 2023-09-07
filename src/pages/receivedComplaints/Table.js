@@ -94,14 +94,18 @@ export default function DataTable() {
   const { user, dispatch } = useAuth();
   const [complaints, setComplaints] = useState([]);
 
-  const updateComplaint = async (complaintId, status) => {
-    const docRef = doc(db, "complaints", complaintId);
+  const updateComplaint = async (complaint, status) => {
+    const docRef = doc(db, "complaints", complaint.complaintId);
 
     try {
       await updateDoc(docRef, {
-        status: status === "pending" ? "Received" : status,
+        status:
+          status === "pending" ||
+          (status === "Forward" && complaint.assignee.uid === user.uid)
+            ? "Received"
+            : status,
       });
-      navigate(`/my-complaints/${complaintId}`);
+      navigate(`/my-complaints/${complaint.complaintId}`);
     } catch (e) {
       console.error("Error updating document: ", e);
     }
@@ -266,7 +270,7 @@ export default function DataTable() {
                                   style={{ textDecoration: "none" }}
                                   onClick={() => {
                                     updateComplaint(
-                                      complaint.complaintId,
+                                      complaint,
                                       complaint.status
                                     );
                                   }}

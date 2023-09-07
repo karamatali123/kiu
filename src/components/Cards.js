@@ -4,21 +4,11 @@ import { Card, CardActions, CardContent, Typography } from "@mui/material";
 
 import { PersonAdd, PublicOutlined } from "@mui/icons-material";
 
-export default function UseCard({ heading, icon, number }) {
-  const btnround = {
-      borderRadius: "50%",
-      width: "30px",
-      height: "30px",
-      position: "absolute !important",
-      left: "17%",
-      backgroundColor: "blue",
-    },
-    icons = {
-      position: "absolute",
-      top: "-13%",
-    };
+export default function UseCard({ heading, icon, number, description }) {
   return (
-    <Card sx={{ minWidth: 200, marginBottom: "10px" }}>
+    <Card
+      sx={{ minWidth: 200, marginBottom: "10px", minHeight: "300px", p: 2 }}
+    >
       <CardContent
         style={{
           alignItems: "center",
@@ -28,31 +18,13 @@ export default function UseCard({ heading, icon, number }) {
           marginTop: "20px",
         }}
       >
-        {icon === "register" ? (
-          <PersonAdd
-            style={{
-              ...icons,
-              width: "40px",
-              height: "54px",
-              color: "#1976d2",
-            }}
-          />
-        ) : (
-          <PublicOutlined
-            style={{
-              ...icons,
-              width: "40px",
-              height: "54px",
-              color: "#1976d2",
-            }}
-          />
-        )}
+        {icon}
+
         <Typography variant="h6" component="div">
           {heading}
         </Typography>
-        <Typography variant="body2">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        <Typography variant="body2" fontSize={"17px"} mt="20px">
+          {description}
         </Typography>
       </CardContent>
     </Card>

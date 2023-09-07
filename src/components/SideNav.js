@@ -2,7 +2,7 @@ import { Card } from "@mui/material";
 import React from "react";
 
 import logo from "../assests/Images/logo.svg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { StyledNavItem } from "./layout/styles";
 import { Box } from "@mui/material";
 import {
@@ -18,7 +18,12 @@ import { ADMIN, FACILITY, STUDENT } from "../constants/roles";
 const userItems = ["My Complaints", "Submit new Complain "];
 
 const SideNav = () => {
-  const { user } = useAuth();
+  const { user, handleUserLogout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    handleUserLogout(navigate);
+  };
 
   return (
     <Card
@@ -107,7 +112,7 @@ const SideNav = () => {
               <span> Profile Settings</span>
             </StyledNavItem>
           </Link>
-          <Link to="/my-requests" style={{ textDecoration: "none" }}>
+          <Link onClick={handleLogout} style={{ textDecoration: "none" }}>
             <StyledNavItem>
               <ExitToApp />
               <span> Logout</span>
