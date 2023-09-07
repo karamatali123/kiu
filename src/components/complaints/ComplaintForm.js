@@ -117,6 +117,7 @@ export default function ComplaintForm() {
         assignee: assignee,
         assigneeId: assignee.uid,
         date: formattedDate,
+        track: [assignee.designation],
       })
         .then(() => {
           dispatch({

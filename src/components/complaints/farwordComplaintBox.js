@@ -30,11 +30,13 @@ export default function ForwardComplaintBox({ open, setOpen, complaint }) {
   };
 
   const updateComplaint = async (assignee) => {
-    const docRef = doc(db, "complaints", complaint.uid);
+    const docRef = doc(db, "complaints", complaint.complaintId);
 
     try {
       await updateDoc(docRef, {
         assignee: assignee,
+        assigneeId: assignee?.user.uid,
+        track: [...complaint.track, assignee.role],
       });
       console.log("role update");
     } catch (e) {
@@ -48,8 +50,8 @@ export default function ForwardComplaintBox({ open, setOpen, complaint }) {
     <Dialog open={open} onClose={handleClose}>
       <DialogTitle>Forward Complaint</DialogTitle>
       <Formik
-        onSubmit={(values, actions) => {
-          updateComplaint(values.assignee);
+        onSubmit={async (values, actions) => {
+          await updateComplaint(values.assignee);
           console.log(values);
           setOpen(false);
         }}

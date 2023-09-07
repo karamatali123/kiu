@@ -17,6 +17,7 @@ import RegisterAs from "../pages/registerAs";
 import Login from "../pages/login";
 import AddInfo from "../pages/addInfo";
 import AddRoles from "../pages/addRole";
+import TrackComplaint from "../pages/trackComplaint/TrackComplaint";
 <PrivateRoute></PrivateRoute>;
 
 const AppRoutes = () => {
@@ -75,7 +76,14 @@ const AppRoutes = () => {
             </PrivateRoute>
           }
         />
-
+        <Route
+          path="/track-complaint/:id"
+          element={
+            <PrivateRoute roles={[ADMIN, FACILITY, STUDENT]}>
+              <TrackComplaint />
+            </PrivateRoute>
+          }
+        />
         <Route
           path="/received-complaints"
           element={

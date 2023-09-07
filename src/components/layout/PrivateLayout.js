@@ -8,17 +8,17 @@ const PrivateLayout = ({ children }) => {
     <Container maxWidth={false} disableGutters sx={{ overflow: "hidden" }}>
       <Box
         sx={{
-          display: { lg: "grid", md: "flex" },
-          gridTemplateColumns: { lg: "304px 1fr", md: "30px 1fr" },
+          display: { sm: "flex", lg: "grid" },
+          gridTemplateColumns: "304px 1fr",
           height: "100vh",
           overflow: "hidden",
 
           background: "#f1f1f1",
         }}
       >
-        <div>
+        <Box sx={{ display: { xs: "none", md: "block" } }}>
           <SideNav />
-        </div>
+        </Box>
         <div>
           <Header />
           <Box pt={"10px"}>{children}</Box>

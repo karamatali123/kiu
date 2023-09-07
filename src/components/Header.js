@@ -15,6 +15,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useAuth } from "../provider/AuthProvider";
+import DragHandleOutlinedIcon from "@mui/icons-material/DragHandleOutlined";
 import { Link, useNavigate } from "react-router-dom";
 
 import DesktopMenu from "./layout/MobileSideNav";
@@ -31,7 +32,7 @@ const ResponsiveAppBar = () => {
   const navigate = useNavigate();
 
   const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget);
+    setIsOpen(true);
   };
 
   const handleCloseNavMenu = () => {
@@ -63,18 +64,18 @@ const ResponsiveAppBar = () => {
           />
 
           {isOpen && <DesktopMenu isOpen={isOpen} setIsOpen={setIsOpen} />}
-
+          <IconButton
+            aria-label="account of current user"
+            aria-controls="menu-appbar"
+            aria-haspopup="true"
+            onClick={handleOpenNavMenu}
+            sx={{ display: { sm: "block", md: "none" } }}
+            color="inherit"
+          >
+            <DragHandleOutlinedIcon />
+          </IconButton>
           <img src={Logo} style={{ height: "50px" }} alt="circle img" />
           <Box sx={{ display: { xs: "block", lg: "none" } }}>
-            <IconButton
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            >
-              <MenuBook />
-            </IconButton>
             <Menu
               id="menu-appbar"
               anchorEl={anchorElNav}

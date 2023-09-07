@@ -60,7 +60,7 @@ const SelectRole = (props) => {
               <MenuItem
                 style={{ display: "inline-flex", width: "100%" }}
                 key={index}
-                value={option.user}
+                value={option}
               >
                 {option.user.firstName}
               </MenuItem>

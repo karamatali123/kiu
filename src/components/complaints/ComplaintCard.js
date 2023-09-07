@@ -167,6 +167,7 @@ const ComplaintCard = ({ complaint, getComplaintDetails }) => {
               <ForwardComplaintBox
                 open={showForwardBox}
                 setOpen={setShowForwardBox}
+                complaint={complaint}
               />
             </Stack>
           ) : (
@@ -212,7 +213,11 @@ const ComplaintCard = ({ complaint, getComplaintDetails }) => {
         alignItems="center"
         justifyContent={"end"}
       >
-        <Link to={"#"} download style={{ textDecoration: "none" }}>
+        <Link
+          to={`/track-complaint/${complaint.complaintId}`}
+          download
+          style={{ textDecoration: "none" }}
+        >
           <Button title="Download" variant="contained">
             Track Complaint
           </Button>

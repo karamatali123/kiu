@@ -5,7 +5,7 @@ import { db } from "../firebase";
 // Custom hook for fetching categories
 const useGetRoles = () => {
   const [roles, setRoles] = useState([]);
-  const getCatagories = async () => {
+  const getRoles = async () => {
     try {
       const ref = collection(db, "roles");
       let docData = [];
@@ -20,7 +20,7 @@ const useGetRoles = () => {
     }
   };
   useEffect(() => {
-    getCatagories();
+    getRoles();
   }, []);
 
   return roles;
