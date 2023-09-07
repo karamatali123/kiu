@@ -1,8 +1,8 @@
 import { Card } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import logo from "../assests/Images/logo.svg";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { StyledNavItem } from "./layout/styles";
 import { Box } from "@mui/material";
 import {
@@ -20,6 +20,27 @@ const userItems = ["My Complaints", "Submit new Complain "];
 const SideNav = () => {
   const { user, handleUserLogout } = useAuth();
   const navigate = useNavigate();
+
+  const [activeTab, setActiveTab] = useState();
+  const { pathname } = useLocation();
+  console.log(pathname, activeTab);
+  useEffect(() => {
+    switch (pathname) {
+      case "/my-complaints":
+        setActiveTab(1);
+        break;
+      case "/received-complaints":
+        setActiveTab(2);
+        break;
+      case "/profile-setting":
+        setActiveTab(3);
+        break;
+      case "add-new-complaints":
+        setActiveTab(4);
+        break;
+      case "/privacy-policy":
+    }
+  }, [pathname]);
 
   const handleLogout = () => {
     handleUserLogout(navigate);
@@ -48,7 +69,13 @@ const SideNav = () => {
       <Box paddingY={"2rem"}>
         {user.role == STUDENT && (
           <>
-            <Link to="/my-complaints" style={{ textDecoration: "none" }}>
+            <Link
+              to="/my-complaints"
+              style={{
+                textDecoration: "none",
+                backgroundColor: activeTab === 1 ? "#00000011" : "#fff",
+              }}
+            >
               <StyledNavItem>
                 <SubjectSharp /> <span> My Complaints</span>
               </StyledNavItem>

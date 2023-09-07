@@ -201,26 +201,16 @@ export default function ComplaintForm() {
             setFieldValue,
           }) => (
             <form onSubmit={handleSubmit} style={{ padding: "24px 8px" }}>
+              <Typography fontSize={"22px"} fontWeight="600" mb="10px">
+                Complainant Details
+              </Typography>
               <Grid container spacing={2} justifyContent="center">
-                <Grid item md={6} sm={12} xs={12}>
-                  <InputField
-                    type="text"
-                    name="title"
-                    value={values.title}
-                    label="Complaint Title"
-                    fullWidth
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    error={errors.title && touched.title}
-                    helperText={errors.title && touched.title && errors.title}
-                  />
-                </Grid>
                 <Grid item md={6} sm={12} xs={12}>
                   <InputField
                     type="text"
                     name="name"
                     value={values.name}
-                    label="Name"
+                    label="Complainant Name"
                     fullWidth
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -273,7 +263,7 @@ export default function ComplaintForm() {
                     }
                   />
                 </Grid>
-                <Grid item md={6} sm={12} xs={12}>
+                <Grid item md={12} sm={12} xs={12}>
                   <InputField
                     type="email"
                     name="email"
@@ -286,7 +276,29 @@ export default function ComplaintForm() {
                     helperText={errors.email && touched.email && errors.email}
                   />
                 </Grid>
-
+              </Grid>
+              <Typography
+                fontSize={"22px"}
+                fontWeight="600"
+                mb="10px"
+                mt="10px"
+              >
+                Complaint Details
+              </Typography>
+              <Grid container spacing={2} justifyContent="center">
+                <Grid item md={12} sm={12} xs={12}>
+                  <InputField
+                    type="text"
+                    name="title"
+                    value={values.title}
+                    label="Complaint Title"
+                    fullWidth
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    error={errors.title && touched.title}
+                    helperText={errors.title && touched.title && errors.title}
+                  />
+                </Grid>
                 <Grid item md={6} sm={12} xs={12}>
                   <CustomSelect
                     options={catagories}
@@ -313,7 +325,7 @@ export default function ComplaintForm() {
                     paddingBottom={0}
                     textAlign={"left"}
                   >
-                    Proof(if any)
+                    Attachment (If Any)
                   </Typography>
                   <InputField
                     type="file"
@@ -329,6 +341,7 @@ export default function ComplaintForm() {
                     helperText={errors.proof && touched.proof && errors.proof}
                   />
                 </Grid>
+
                 <Grid item md={12} xs={12} sm={12}>
                   <label>The specific details of the complaint:</label>
                   <TextareaAutosize
@@ -384,7 +397,7 @@ export default function ComplaintForm() {
                   {loading ? (
                     <CircularProgress sx={{ color: "#fff" }} />
                   ) : (
-                    "submit"
+                    "Lodge Complaint"
                   )}
                 </Button>
               </Grid>

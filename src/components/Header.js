@@ -74,7 +74,10 @@ const ResponsiveAppBar = () => {
           >
             <DragHandleOutlinedIcon />
           </IconButton>
-          <img src={Logo} style={{ height: "50px" }} alt="circle img" />
+          <Box sx={{ display: { xs: "none", md: "block" } }}>
+            {" "}
+            <img src={Logo} style={{ height: "50px" }} alt="circle img" />
+          </Box>
           <Box sx={{ display: { xs: "block", lg: "none" } }}>
             <Menu
               id="menu-appbar"
