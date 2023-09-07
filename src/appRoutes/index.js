@@ -18,6 +18,7 @@ import Login from "../pages/login";
 import AddInfo from "../pages/addInfo";
 import AddRoles from "../pages/addRole";
 import TrackComplaint from "../pages/trackComplaint/TrackComplaint";
+import Dashboard from "../pages/dashboard/Dashboard";
 <PrivateRoute></PrivateRoute>;
 
 const AppRoutes = () => {
@@ -92,7 +93,14 @@ const AppRoutes = () => {
             </PrivateRoute>
           }
         />
-
+        <Route
+          path="/dashboard"
+          element={
+            <PrivateRoute roles={[ADMIN, FACILITY, STUDENT]}>
+              <Dashboard />
+            </PrivateRoute>
+          }
+        />
         <Route
           path="/add-catagories"
           element={

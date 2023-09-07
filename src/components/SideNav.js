@@ -67,6 +67,17 @@ const SideNav = () => {
         <img src={logo} style={{ width: "50px", height: "50px" }}></img>
       </div>
       <Box paddingY={"2rem"}>
+        <Link
+          to="/dashboard"
+          style={{
+            textDecoration: "none",
+            backgroundColor: activeTab === 1 ? "#00000011" : "#fff",
+          }}
+        >
+          <StyledNavItem>
+            <SubjectSharp /> <span> Dashboard</span>
+          </StyledNavItem>
+        </Link>
         {user.role == STUDENT && (
           <>
             <Link
