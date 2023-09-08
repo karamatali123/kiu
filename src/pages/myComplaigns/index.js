@@ -13,7 +13,6 @@ const MyComplaints = () => {
   const [complaints, setComplaints] = useState([]);
 
   const getComplaints = async () => {
-    console.log(complaints, "asd");
     try {
       const q = query(
         collection(db, "complaints"),

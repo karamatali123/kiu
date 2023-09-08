@@ -8,6 +8,7 @@ import { Box } from "@mui/material";
 import {
   AddBox,
   ExitToApp,
+  Home,
   NoteAdd,
   Settings,
   SubjectSharp,
@@ -75,7 +76,7 @@ const SideNav = () => {
           }}
         >
           <StyledNavItem>
-            <SubjectSharp /> <span> Dashboard</span>
+            <Home /> <span> Dashboard</span>
           </StyledNavItem>
         </Link>
         {user.role == STUDENT && (
