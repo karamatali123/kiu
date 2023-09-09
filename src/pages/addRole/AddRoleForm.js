@@ -18,7 +18,6 @@ import * as yup from "yup";
 import { object, string } from "yup";
 import { ERROR, SUCCESS } from "../../constants/snackbarConstant";
 import { SNACKBAR_OPEN } from "../../provider/AuthProvider/reducer";
-import SelectUser from "../../components/gernal/BasicDropdown";
 import BasicDropdown from "../../components/gernal/BasicDropdown";
 import useGetCatagories from "../../api/useGetCatagories";
 import CustomSelect from "../../components/gernal/Select";
@@ -72,6 +71,7 @@ const AddRoleForm = () => {
       await setDoc(doc(db, "roles", roleId), {
         ...values,
         roleId: roleId,
+        uid: values.user.uid,
         categoryId: values.category.categoryId,
       });
       await updateUserRole(values);

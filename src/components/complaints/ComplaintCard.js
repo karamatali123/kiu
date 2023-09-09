@@ -28,6 +28,7 @@ import MyButton from "../gernal/Button";
 import AddCommentBox from "./addCommentBox";
 import ForwardComplaintBox from "./farwordComplaintBox";
 import { SNACKBAR_OPEN } from "../../provider/AuthProvider/reducer";
+import StatusChip from "../gernal/StatusChip";
 const ComplaintCard = ({ complaint, getComplaintDetails }) => {
   const [comment, setComment] = useState("");
   const [showComment, setShowComment] = useState(false);
@@ -35,6 +36,7 @@ const ComplaintCard = ({ complaint, getComplaintDetails }) => {
   const [showAddComment, setShowaAddComment] = useState(false);
   const [showForwardBox, setShowForwardBox] = useState(false);
   const { user, dispatch } = useAuth();
+  const isAuthor = user.uid === complaint.authorId;
 
   const updateComplaint = async () => {
     const docRef = doc(db, "complaints", complaint.complaintId);
@@ -103,44 +105,77 @@ const ComplaintCard = ({ complaint, getComplaintDetails }) => {
         padding="20px"
       >
         <Box>
-          <Typography variant="h5">{complaint.title}</Typography>
-          <Typography variant="caption">
-            {" "}
-            {`${complaint.assignee.firstName}  ${complaint.assignee.lastName} (
-                            ${complaint.assignee.designation}
-                            )`}
-          </Typography>
+          <Stack direction="row" gap={"10px"} alignItems="center">
+            <Typography variant="h5" fontSize="18px" fontWeight={"700"}>
+              Complaint title:
+            </Typography>
+            <Typography>{complaint.title}</Typography>
+          </Stack>
+          {isAuthor && (
+            <Stack direction="row" gap={"10px"} alignItems="center" mt={1}>
+              <Typography variant="h5" fontSize="18px" fontWeight={"700"}>
+                Submitted TO:
+              </Typography>
+              <Typography variant="subtitle1" fontSize={"18px"}>
+                {`${complaint.assignee.firstName} ${complaint.assignee.lastName} ( ${complaint.assignee.designation})`}
+              </Typography>
+            </Stack>
+          )}
+          {!isAuthor && complaint.showIdentity && (
+            <Stack direction="row" gap={"10px"} alignItems="center" mt={1}>
+              <Typography variant="h5" fontSize="18px" fontWeight={"700"}>
+                Submitted By:
+              </Typography>
+              <Typography variant="subtitle1" fontSize={"18px"}>
+                {complaint.name}
+              </Typography>
+            </Stack>
+          )}
+          {!isAuthor && !complaint.showIdentity && (
+            <Stack direction="row" gap={"10px"} alignItems="center" mt={1}>
+              <Typography variant="h5" fontSize="18px" fontWeight={"700"}>
+                Identity:
+              </Typography>
+              <Typography variant="subtitle1" fontSize={"18px"}>
+                Hidden
+              </Typography>
+            </Stack>
+          )}
         </Box>
-        <Box>
-          <Typography variant="h5">Submission Date</Typography>
-          <Typography variant="caption">{complaint.date}</Typography>
-        </Box>
+        <Stack gap="10px">
+          <Stack direction="row" gap={"10px"} alignItems="center">
+            <Typography variant="h5" fontSize="18px" fontWeight={"700"}>
+              Submission Date:
+            </Typography>
+            <Typography variant="subtitle1">{complaint.date}</Typography>
+          </Stack>
+          <Stack direction="row" gap={"10px"} alignItems="center">
+            <Typography variant="h5" fontSize="18px" fontWeight={"700"}>
+              Complaint Type :
+            </Typography>
+            <Typography variant="subtitle1">
+              {complaint.category.catagories}
+            </Typography>
+          </Stack>
+          <Stack direction="row" gap={"10px"} alignItems="center">
+            <Typography variant="h5" fontSize="18px" fontWeight={"700"}>
+              Status:
+            </Typography>
+            <StatusChip status={complaint.status} />
+          </Stack>
+        </Stack>
       </Stack>
       <Divider />
 
-      <Box padding={"100px 10px"}>
+      <Box padding={"50px 10px"}>
         <Box>
           <Stack direction="row" justifyContent="space-between">
-            <Typography variant="h5" fontSize="20px">
-              {" "}
-              Nature Complaint
-            </Typography>{" "}
-            <Typography variant="h5">
-              Status:
-              <Chip
-                label={complaint.status}
-                sx={{ borderRadius: "2px", fontSize: "17px", height: "36px" }}
-              />
+            <Typography variant="h5" fontSize="20px" fontWeight={"700"}>
+              Complaint Description
             </Typography>{" "}
           </Stack>{" "}
           <Typography variant="body1" style={{ marginTop: "1.5rem" }}>
-            {complaint.natureOfComplaint}
-          </Typography>
-        </Box>
-        <Box mt={"30px"}>
-          <Typography variant="h5">Complaint Regarding To</Typography>
-          <Typography variant="body1" style={{ marginTop: "1.5rem" }}>
-            {complaint.natureOfComplaint}
+            {complaint.details}
           </Typography>
         </Box>
 
@@ -233,7 +268,7 @@ const ComplaintCard = ({ complaint, getComplaintDetails }) => {
             variant="contained"
             sx={{ backgroundColor: "#996312 !important" }}
           >
-            Download Proof
+            Download Attachment
           </Button>
         </a>
       </Box>

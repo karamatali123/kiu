@@ -36,6 +36,7 @@ import { useAuth } from "../../provider/AuthProvider";
 import { SNACKBAR_OPEN } from "../../provider/AuthProvider/reducer";
 import { ERROR, SUCCESS } from "../../constants/snackbarConstant";
 import Loading from "../../components/gernal/Loading";
+import StatusChip from "../../components/gernal/StatusChip";
 
 const StyledTableHead = styled(TableHead)(({ theme }) => ({
   "& .MuiTableCell-root": {
@@ -227,7 +228,7 @@ export default function DataTable() {
                           </TableCell>
                           <TableCell align="center">{complaint.date}</TableCell>
                           <TableCell align="center">
-                            {complaint.status}
+                            <StatusChip status={complaint.status} />
                           </TableCell>
                           <TableCell align="center">
                             <IconButton

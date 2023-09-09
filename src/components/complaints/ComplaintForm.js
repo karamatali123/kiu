@@ -37,15 +37,12 @@ import useGetRoles from "../../api/useGetRoles";
 import UniversityRegistrationInput from "../gernal/RegistrationInput";
 import { departments } from "../../constants/selectOptions";
 import SelectDepartment from "../gernal/SelectDepartment";
+import { MuiSwitch } from "../gernal/Switch";
 
 const ValidationSchema = object().shape({
   name: yup.string().required("Name Required"),
   title: yup.string().required("Title Required"),
-  deptName: yup.string().required("Deprtment Name required"),
-  regNo: yup.string().required("Registration No required"),
-  contactNo: yup.string().required("Contact Number required"),
-  natureOfComplaint: yup.string().required("Nature of Complaint required"),
-  regarding: yup.string().required("Regarding required"),
+  details: yup.string().required("Nature of Complaint required"),
   category: yup.object().required("Please select category of complaint"),
   email: string()
     .required(ErrorMessage.required)
@@ -58,18 +55,19 @@ export default function ComplaintForm() {
   const [loading, setLoading] = useState(false);
   const [assignee, setAssignee] = useState({});
   const { user, dispatch } = useAuth();
+  console.log(user, "user");
+
   const initialValues = {
     title: "",
-    name: "",
-    deptName: "",
-    regNo: "",
-    contactNo: "",
-
-    natureOfComplaint: "",
-    regarding: "",
+    name: user ? `${user.firstName} ${user.lastName}` : "",
+    deptName: user?.academicInfo?.dptName
+      ? user?.academicInfo.dptName
+      : user.role,
+    regNo: user?.academicInfo?.regNo ? user?.academicInfo.regNo : "Faculty",
+    showIdentity: true,
+    details: "",
     assignee: "",
-    email: "",
-    password: "",
+    email: user.email ? user?.email : "",
     details: "",
     category: "",
     proof: null,
@@ -97,6 +95,7 @@ export default function ComplaintForm() {
 
   const handleSubmit = async (values, actions) => {
     setLoading(true);
+    console.log(values, "valuse");
     const complaintId = uuidv4();
     try {
       console.log(assignee, values, "ass");
@@ -201,82 +200,97 @@ export default function ComplaintForm() {
             setFieldValue,
           }) => (
             <form onSubmit={handleSubmit} style={{ padding: "24px 8px" }}>
-              <Typography fontSize={"22px"} fontWeight="600" mb="10px">
-                Complainant Details
-              </Typography>
-              <Grid container spacing={2} justifyContent="center">
-                <Grid item md={6} sm={12} xs={12}>
-                  <InputField
-                    type="text"
-                    name="name"
-                    value={values.name}
-                    label="Complainant Name"
-                    fullWidth
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    error={errors.name && touched.name}
-                    helperText={errors.name && touched.name && errors.name}
-                  />
-                </Grid>
-                <Grid item md={6} sm={12} xs={12}>
-                  <SelectDepartment
-                    options={departments}
-                    type="text"
-                    name="deptName"
-                    value={values.deptName}
-                    label="Department Name"
-                    fullWidth
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    error={errors.deptName && touched.deptName}
-                    helperText={
-                      errors.deptName && touched.deptName && errors.deptName
-                    }
-                  />
-                </Grid>
+              {!user && (
+                <>
+                  <Typography
+                    fontSize={"22px"}
+                    fontWeight="600"
+                    mb="10px"
+                    fontFamily={" 'Mohave', sans-serif"}
+                  >
+                    Complainant Details
+                  </Typography>
+                  <Grid container spacing={2} justifyContent="center">
+                    <Grid item md={6} sm={12} xs={12}>
+                      <InputField
+                        type="text"
+                        name="name"
+                        value={values.name}
+                        label="Complainant Name"
+                        fullWidth
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        error={errors.name && touched.name}
+                        helperText={errors.name && touched.name && errors.name}
+                      />
+                    </Grid>
+                    <Grid item md={6} sm={12} xs={12}>
+                      <SelectDepartment
+                        options={departments}
+                        type="text"
+                        name="deptName"
+                        value={values.deptName}
+                        label="Department Name"
+                        fullWidth
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        error={errors.deptName && touched.deptName}
+                        helperText={
+                          errors.deptName && touched.deptName && errors.deptName
+                        }
+                      />
+                    </Grid>
 
-                <Grid item md={6} sm={12} xs={12}>
-                  <UniversityRegistrationInput
-                    type="text"
-                    name="regNo"
-                    value={values.regNo}
-                    label="Registration No"
-                    fullWidth
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    error={errors.regNo && touched.regNo}
-                    helperText={errors.regNo && touched.regNo && errors.regNo}
-                  />
-                </Grid>
-                <Grid item md={6} sm={12} xs={12}>
-                  <InputField
-                    type="number"
-                    name="contactNo"
-                    value={values.contactNo}
-                    label="Contact No"
-                    fullWidth
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    error={errors.contactNo && touched.contactNo}
-                    helperText={
-                      errors.contactNo && touched.contactNo && errors.contactNo
-                    }
-                  />
-                </Grid>
-                <Grid item md={12} sm={12} xs={12}>
-                  <InputField
-                    type="email"
-                    name="email"
-                    value={values.email}
-                    label="email"
-                    fullWidth
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    error={errors.email && touched.email}
-                    helperText={errors.email && touched.email && errors.email}
-                  />
-                </Grid>
-              </Grid>
+                    <Grid item md={6} sm={12} xs={12}>
+                      <UniversityRegistrationInput
+                        type="text"
+                        name="regNo"
+                        value={values.regNo}
+                        label="Registration No"
+                        fullWidth
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        error={errors.regNo && touched.regNo}
+                        helperText={
+                          errors.regNo && touched.regNo && errors.regNo
+                        }
+                      />
+                    </Grid>
+                    <Grid item md={6} sm={12} xs={12}>
+                      <InputField
+                        type="number"
+                        name="contactNo"
+                        value={values.contactNo}
+                        label="Contact No"
+                        fullWidth
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        error={errors.contactNo && touched.contactNo}
+                        helperText={
+                          errors.contactNo &&
+                          touched.contactNo &&
+                          errors.contactNo
+                        }
+                      />
+                    </Grid>
+                    <Grid item md={12} sm={12} xs={12}>
+                      <InputField
+                        type="email"
+                        name="email"
+                        value={values.email}
+                        label="email"
+                        fullWidth
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        error={errors.email && touched.email}
+                        helperText={
+                          errors.email && touched.email && errors.email
+                        }
+                      />
+                    </Grid>
+                  </Grid>
+                </>
+              )}
               <Typography
                 fontSize={"22px"}
                 fontWeight="600"
@@ -286,7 +300,7 @@ export default function ComplaintForm() {
                 Complaint Details
               </Typography>
               <Grid container spacing={2} justifyContent="center">
-                <Grid item md={12} sm={12} xs={12}>
+                <Grid item md={6} sm={6} xs={12}>
                   <InputField
                     type="text"
                     name="title"
@@ -297,6 +311,25 @@ export default function ComplaintForm() {
                     onBlur={handleBlur}
                     error={errors.title && touched.title}
                     helperText={errors.title && touched.title && errors.title}
+                  />
+                </Grid>
+                <Grid item md={6} sm={6} xs={12}>
+                  <Typography
+                    // color={theme.palette.black}
+                    fontSize={16}
+                    paddingLeft={0.5}
+                    paddingBottom={0}
+                    fontWeight="700"
+                    textAlign={"left"}
+                  >
+                    Shown Identity
+                  </Typography>
+                  <MuiSwitch
+                    name="showIdentity"
+                    onChange={(e) =>
+                      setFieldValue("showIdentity", e.target.checked)
+                    }
+                    value={values.showIdentity}
                   />
                 </Grid>
                 <Grid item md={6} sm={12} xs={12}>
@@ -323,6 +356,7 @@ export default function ComplaintForm() {
                     fontSize={16}
                     paddingLeft={0.5}
                     paddingBottom={0}
+                    fontWeight="700"
                     textAlign={"left"}
                   >
                     Attachment (If Any)
@@ -346,40 +380,18 @@ export default function ComplaintForm() {
                   <label>The specific details of the complaint:</label>
                   <TextareaAutosize
                     type="text"
-                    name="natureOfComplaint"
-                    value={values.natureOfComplaint}
+                    name="details"
+                    value={values.details}
                     fullWidth
                     style={{ width: "100%", height: "100px" }}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    error={
-                      errors.natureOfComplaint && touched.natureOfComplaint
-                    }
+                    error={errors.details && touched.details}
                   />
                   <Typography
                     sx={{ color: "#ff0000", fontSize: "12px", ml: "15px" }}
                   >
-                    {errors.natureOfComplaint &&
-                      touched.natureOfComplaint &&
-                      errors.natureOfComplaint}
-                  </Typography>
-                </Grid>
-                <Grid item md={12} xs={12} sm={12}>
-                  <label>The complaint is regarding:</label>
-                  <TextareaAutosize
-                    type="text"
-                    name="regarding"
-                    value={values.regarding}
-                    fullWidth
-                    style={{ width: "100%", height: "100px" }}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    error={errors.regarding && touched.regarding}
-                  />
-                  <Typography
-                    sx={{ color: "#ff0000", fontSize: "12px", ml: "15px" }}
-                  >
-                    {errors.regarding && touched.regarding && errors.regarding}
+                    {errors.details && touched.details && errors.details}
                   </Typography>
                 </Grid>
 

@@ -38,6 +38,7 @@ const CustomSelect = (props) => {
         fontSize={"18px"}
         paddingLeft={0.5}
         paddingBottom={0}
+        fontWeight="700"
         textAlign={"left"}
       >
         {selectlabel}

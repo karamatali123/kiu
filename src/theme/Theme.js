@@ -44,7 +44,7 @@ const theme = createTheme({
       fontFamily: "'Mohave', sans-serif !important",
       fontsize: "16px",
       fontWeight: 400,
-      lineheight: "22px",
+      lineHeight: "22px",
       letterSpacing: "0.05em",
       textAlign: "justified",
     },

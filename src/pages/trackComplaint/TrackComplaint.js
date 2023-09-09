@@ -30,17 +30,25 @@ const TrackComplaint = () => {
     <Card
       style={{
         height: "calc(100vh - 150px)",
-        padding: "2rem",
+        padding: "4rem",
         overflowY: "scroll",
       }}
     >
       <Typography variant="h4">Track Complaint</Typography>
-      <Stack alignItems={"center"} height="100%" justifyContent={"center"}>
-        <TrackStepper
-          steps={complaintData?.track}
-          activeStep={complaintData?.track?.length}
-        />
-      </Stack>
+      <Card
+        style={{
+          height: "calc(100vh - 450px)",
+          padding: "4rem",
+          overflowY: "hidden",
+        }}
+      >
+        <Stack alignItems={"center"} height="100%" justifyContent={"center"}>
+          <TrackStepper
+            steps={complaintData?.track}
+            activeStep={complaintData?.track?.length}
+          />
+        </Stack>
+      </Card>
     </Card>
   );
 };
