@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Header from "../../components/Header";
 import kiulogo from "../../assests/Images/kiu.png";
 import bgimg from "../../assests/Images/bg img.png";
@@ -14,6 +14,8 @@ import HowToRegIcon from "@mui/icons-material/HowToReg";
 import NoteAddIcon from "@mui/icons-material/NoteAdd";
 import GetAppIcon from "@mui/icons-material/GetApp";
 import { GetApp } from "@mui/icons-material";
+import { useSearchParams } from "react-router-dom";
+import WarrningModal from "./WarrningModal";
 
 const countingDetails = [
   { title: "Registered Candidates", count: 3333 },
@@ -21,6 +23,7 @@ const countingDetails = [
   { title: "Resolved Complains", count: 3333 },
 ];
 const LandingPage = () => {
+  const [open, setOpen] = useState(false);
   const icontStyles = {
     position: "absolute",
     top: "-3%",
@@ -30,6 +33,7 @@ const LandingPage = () => {
   };
   return (
     <>
+      <WarrningModal open={open} setOpen={setOpen} />
       <Header />
       <Container style={{ padding: "99px 18px", margin: "auto" }}>
         <Stack
@@ -81,6 +85,7 @@ const LandingPage = () => {
 
               <MyButton
                 text={"Submit Know"}
+                onClick={() => setOpen(true)}
                 variant={"contained"}
                 style={{ backgroundColor: "#003A91", color: "#fff" }}
               />

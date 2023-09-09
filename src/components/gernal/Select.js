@@ -35,7 +35,7 @@ const CustomSelect = (props) => {
     >
       <Typography
         // color={theme.palette.black}
-        my={"7px"}
+        my={"10px"}
         fontSize={"16px"}
         paddingLeft={0.5}
         paddingBottom={0}
@@ -55,7 +55,7 @@ const CustomSelect = (props) => {
           size="small"
           defaultValue={options[0]}
           onChange={onChange}
-          sx={{ height: "53px" }}
+          sx={{ height: "57px" }}
           fullWidth={fullWidth}
           {...props}
         >

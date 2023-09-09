@@ -66,7 +66,7 @@ const AddRoleForm = () => {
 
   const handleAddRole = async (values, actions) => {
     const roleId = uuidv4();
-    console.log(values, "value");
+
     try {
       await setDoc(doc(db, "roles", roleId), {
         ...values,

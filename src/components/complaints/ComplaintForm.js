@@ -37,6 +37,7 @@ import UniversityRegistrationInput from "../gernal/RegistrationInput";
 import { departments } from "../../constants/selectOptions";
 import SelectDepartment from "../gernal/SelectDepartment";
 import { MuiSwitch } from "../gernal/Switch";
+import { useRouteError } from "react-router-dom";
 
 const ValidationSchema = object().shape({
   name: yup.string().required("Name Required"),
@@ -57,11 +58,11 @@ export default function ComplaintForm() {
 
   const initialValues = {
     title: "",
-    name: user ? `${user.firstName} ${user.lastName}` : "",
+    name: user.firstName ? `${user.firstName} ${user.lastName}` : "",
     deptName: user?.academicInfo?.dptName
       ? user?.academicInfo.dptName
       : user.role,
-    regNo: user?.academicInfo?.regNo ? user?.academicInfo.regNo : "Faculty",
+    regNo: user?.academicInfo?.regNo ? user?.academicInfo.regNo : "u",
     showIdentity: true,
     details: "",
     assignee: "",
@@ -104,7 +105,7 @@ export default function ComplaintForm() {
       await setDoc(doc(db, "complaints", complaintId), {
         ...values,
         status: "pending",
-        authorId: user.uid,
+        authorId: user.uid ? user.uid : "",
         proof: url,
         complaintId: complaintId,
         assignee: assignee,
@@ -158,8 +159,9 @@ export default function ComplaintForm() {
   useEffect(() => {
     getCatagories();
   }, []);
+  console.log(user, "user");
   return (
-    <Box>
+    <Box width="100%">
       <Box sx={{ boxShadow: 12, p: "2rem" }}>
         <Typography
           sx={{
@@ -194,7 +196,7 @@ export default function ComplaintForm() {
             setFieldValue,
           }) => (
             <form onSubmit={handleSubmit} style={{ padding: "24px 8px" }}>
-              {!user && (
+              {!user.uid && (
                 <>
                   <Typography
                     fontSize={"22px"}
@@ -314,7 +316,7 @@ export default function ComplaintForm() {
                     textAlign={"left"}
                     sx={{ fontFamily: "'Roboto', sans-serif !important" }}
                   >
-                    Shown Identity
+                    Complaint Title
                   </Typography>
 
                   <InputField
@@ -373,14 +375,14 @@ export default function ComplaintForm() {
                   <Typography
                     // color={theme.palette.black}
                     fontSize={"16px"}
-                    paddingLeft={0.5}
-                    paddingBottom={0}
+                    my="10px"
                     fontWeight="700"
                     textAlign={"left"}
                     sx={{ fontFamily: "'Roboto', sans-serif !important" }}
                   >
                     Attachment (If Any)
                   </Typography>
+
                   <InputField
                     type="file"
                     name="proof"
