@@ -33,7 +33,6 @@ import { ERROR, SUCCESS } from "../../constants/snackbarConstant";
 import { SNACKBAR_OPEN } from "../../provider/AuthProvider/reducer";
 import { useEffect, useState } from "react";
 import CustomSelect from "../gernal/Select";
-import useGetRoles from "../../api/useGetRoles";
 import UniversityRegistrationInput from "../gernal/RegistrationInput";
 import { departments } from "../../constants/selectOptions";
 import SelectDepartment from "../gernal/SelectDepartment";
@@ -55,7 +54,6 @@ export default function ComplaintForm() {
   const [loading, setLoading] = useState(false);
   const [assignee, setAssignee] = useState({});
   const { user, dispatch } = useAuth();
-  console.log(user, "user");
 
   const initialValues = {
     title: "",
@@ -74,7 +72,6 @@ export default function ComplaintForm() {
   };
 
   const getAssignee = async (categoryId) => {
-    console.log(categoryId);
     try {
       const q = query(
         collection(db, "users"),
@@ -95,11 +92,8 @@ export default function ComplaintForm() {
 
   const handleSubmit = async (values, actions) => {
     setLoading(true);
-    console.log(values, "valuse");
     const complaintId = uuidv4();
     try {
-      console.log(assignee, values, "ass");
-
       const storage = getStorage();
       const imageREf = ref(storage, `proof/${complaintId}`);
       const response = await uploadBytes(imageREf, values.proof);
@@ -175,12 +169,12 @@ export default function ComplaintForm() {
           }}
           variant="h4"
         >
-          We are here to assist you!
+          Submit your complaint
         </Typography>
         <Typography
-          sx={{ fontSize: "15px", textAlign: "center", color: "#505050" }}
+          sx={{ fontSize: "20px", textAlign: "center", color: "#505050" }}
         >
-          Please complete the form below for your complaitns.
+          We are here to assist you
         </Typography>
         <Formik
           onSubmit={(values, actions) => {
@@ -206,11 +200,16 @@ export default function ComplaintForm() {
                     fontSize={"22px"}
                     fontWeight="600"
                     mb="10px"
-                    fontFamily={" 'Mohave', sans-serif"}
+                    sx={{ fontFamily: "'Roboto', sans-serif !important" }}
                   >
                     Complainant Details
                   </Typography>
-                  <Grid container spacing={2} justifyContent="center">
+                  <Grid
+                    container
+                    columnSpacing={5}
+                    rowSpacing={2}
+                    justifyContent="center"
+                  >
                     <Grid item md={6} sm={12} xs={12}>
                       <InputField
                         type="text"
@@ -296,14 +295,32 @@ export default function ComplaintForm() {
                 fontWeight="600"
                 mb="10px"
                 mt="10px"
+                sx={{ fontFamily: "'Roboto', sans-serif !important" }}
               >
                 Complaint Details
               </Typography>
-              <Grid container spacing={2} justifyContent="center">
+              <Grid
+                container
+                columnSpacing={5}
+                rowSpacing={2}
+                justifyContent="center"
+              >
                 <Grid item md={6} sm={6} xs={12}>
+                  <Typography
+                    // color={theme.palette.black}
+                    fontSize={"16px"}
+                    my={"7px"}
+                    fontWeight="700"
+                    textAlign={"left"}
+                    sx={{ fontFamily: "'Roboto', sans-serif !important" }}
+                  >
+                    Shown Identity
+                  </Typography>
+
                   <InputField
                     type="text"
                     name="title"
+                    variant="outlined"
                     value={values.title}
                     label="Complaint Title"
                     fullWidth
@@ -316,20 +333,22 @@ export default function ComplaintForm() {
                 <Grid item md={6} sm={6} xs={12}>
                   <Typography
                     // color={theme.palette.black}
-                    fontSize={16}
+                    my={"7px"}
+                    fontSize={"16px"}
                     paddingLeft={0.5}
                     paddingBottom={0}
                     fontWeight="700"
                     textAlign={"left"}
+                    sx={{ fontFamily: "'Roboto', sans-serif !important" }}
                   >
-                    Shown Identity
+                    Show Identity
                   </Typography>
                   <MuiSwitch
                     name="showIdentity"
                     onChange={(e) =>
                       setFieldValue("showIdentity", e.target.checked)
                     }
-                    value={values.showIdentity}
+                    checked={values.showIdentity}
                   />
                 </Grid>
                 <Grid item md={6} sm={12} xs={12}>
@@ -353,11 +372,12 @@ export default function ComplaintForm() {
                 <Grid item md={6} sm={12} xs={12}>
                   <Typography
                     // color={theme.palette.black}
-                    fontSize={16}
+                    fontSize={"16px"}
                     paddingLeft={0.5}
                     paddingBottom={0}
                     fontWeight="700"
                     textAlign={"left"}
+                    sx={{ fontFamily: "'Roboto', sans-serif !important" }}
                   >
                     Attachment (If Any)
                   </Typography>
@@ -377,7 +397,16 @@ export default function ComplaintForm() {
                 </Grid>
 
                 <Grid item md={12} xs={12} sm={12}>
-                  <label>The specific details of the complaint:</label>
+                  <Typography
+                    fontSize={"16px"}
+                    my="7px"
+                    fontWeight="700"
+                    textAlign={"left"}
+                    sx={{ fontFamily: "'Roboto', sans-serif !important" }}
+                  >
+                    The specific details of the complaint
+                  </Typography>
+
                   <TextareaAutosize
                     type="text"
                     name="details"
@@ -403,6 +432,7 @@ export default function ComplaintForm() {
                     width: "230px",
                     height: "50px",
                     marginTop: "30px",
+                    fontFamily: "'Roboto', sans-serif !important",
                   }}
                   // disabled={!isValid || loading}
                 >

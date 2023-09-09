@@ -89,19 +89,19 @@ const Dashboard = () => {
         <ComplaintCountCard
           title={"Total Complaints"}
           icon={<AutoAwesomeMotionRoundedIcon sx={iconStyles} />}
-          sx={{ backgroundColor: "#CA9703" }}
+          sx={{ backgroundColor: "#ffb70d" }}
           count={complaints.length}
         />
         <ComplaintCountCard
           title={"Resolved Complaints"}
           icon={<AssignmentTurnedInOutlinedIcon sx={iconStyles} />}
-          sx={{ backgroundColor: "#288140" }}
+          sx={{ backgroundColor: "#34a853" }}
           count={getResolvedComplaints()}
         />
         <ComplaintCountCard
           title={"Pending complaints"}
           icon={<PendingActionsOutlinedIcon sx={iconStyles} />}
-          sx={{ backgroundColor: "#F2143F" }}
+          sx={{ backgroundColor: "#dc143c" }}
           count={getPendingComplaints()}
         />
         {receivedComplaints.length > 0 && user.role === "facility" && (
@@ -109,7 +109,7 @@ const Dashboard = () => {
             <ComplaintCountCard
               title={"Received complaints"}
               icon={<InboxIcon sx={iconStyles} />}
-              sx={{ backgroundColor: "#996312" }}
+              sx={{ backgroundColor: "#673ab7" }}
               count={receivedComplaints.length}
             />
           </Link>

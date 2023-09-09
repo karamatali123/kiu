@@ -40,6 +40,7 @@ export const InputField = (props) => {
         name={props.name}
         style={props.style}
         label={props.label}
+        variant={props.variant}
         value={props.value}
         placeholder={props.placeholder}
         fullWidth

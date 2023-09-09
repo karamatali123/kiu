@@ -35,11 +35,13 @@ const CustomSelect = (props) => {
     >
       <Typography
         // color={theme.palette.black}
-        fontSize={"18px"}
+        my={"7px"}
+        fontSize={"16px"}
         paddingLeft={0.5}
         paddingBottom={0}
         fontWeight="700"
         textAlign={"left"}
+        sx={{ fontFamily: "'Roboto', sans-serif !important" }}
       >
         {selectlabel}
       </Typography>

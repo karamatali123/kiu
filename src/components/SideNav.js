@@ -13,6 +13,7 @@ import {
   Settings,
   SubjectSharp,
 } from "@mui/icons-material";
+import InboxIcon from "@mui/icons-material/Inbox";
 import { useAuth } from "../provider/AuthProvider";
 import { ADMIN, FACILITY, STUDENT } from "../constants/roles";
 
@@ -108,7 +109,7 @@ const SideNav = () => {
             </Link>
             <Link to="/received-complaints" style={{ textDecoration: "none" }}>
               <StyledNavItem>
-                <SubjectSharp /> <span> Received Complaints</span>
+                <InboxIcon /> <span> Received Complaints</span>
               </StyledNavItem>
             </Link>
             <Link to="/add-new-complaints" style={{ textDecoration: "none" }}>

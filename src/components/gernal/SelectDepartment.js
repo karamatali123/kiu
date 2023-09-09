@@ -39,6 +39,7 @@ const SelectDepartment = (props) => {
         paddingLeft={0.5}
         paddingBottom={0}
         textAlign={"left"}
+        sx={{ fontFamily: "'Roboto', sans-serif !important" }}
       >
         {selectlabel}
       </Typography>
