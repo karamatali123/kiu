@@ -2,7 +2,6 @@ import * as React from "react";
 import Dialog from "@mui/material/Dialog";
 import ComplaintForm from "../../components/complaints/ComplaintForm";
 import { useNavigate } from "react-router-dom";
-import { Box, Typography } from "@mui/material";
 
 export default function SubmitComplaintModal({ open, setOpen }) {
   const navigate = useNavigate();

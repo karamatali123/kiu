@@ -95,7 +95,7 @@ const SideNav = () => {
             </Link>
             <Link to="/add-new-complaints" style={{ textDecoration: "none" }}>
               <StyledNavItem>
-                <NoteAdd /> <span> Submit new Complain</span>
+                <NoteAdd /> <span> Submit new Complaint</span>
               </StyledNavItem>
             </Link>
           </>
@@ -114,7 +114,7 @@ const SideNav = () => {
             </Link>
             <Link to="/add-new-complaints" style={{ textDecoration: "none" }}>
               <StyledNavItem>
-                <NoteAdd /> <span> Submit new Complain</span>
+                <NoteAdd /> <span> Submit new Complaint</span>
               </StyledNavItem>
             </Link>
           </>

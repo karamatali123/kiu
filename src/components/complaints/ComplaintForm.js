@@ -62,7 +62,7 @@ export default function ComplaintForm() {
     deptName: user?.academicInfo?.dptName
       ? user?.academicInfo.dptName
       : user.role,
-    regNo: user?.academicInfo?.regNo ? user?.academicInfo.regNo : "u",
+    regNo: user?.academicInfo?.regNo ? user?.academicInfo.regNo : "",
     showIdentity: true,
     details: "",
     assignee: "",

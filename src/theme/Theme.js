@@ -25,13 +25,11 @@ const theme = createTheme({
     fontWeightMedium: 600,
     fontWeightBold: 800,
     h1: {
-      fontFamily: "'Mohave', sans-serif !important",
       fontSize: "38px",
       fontWeight: "600",
       lineHeight: "46px",
     },
     h2: {
-      fontFamily: "'Mohave', sans-serif !important",
       fontSize: "34px",
       fontWeight: "600",
     },
@@ -44,7 +42,7 @@ const theme = createTheme({
       fontFamily: "'Mohave', sans-serif !important",
       fontsize: "16px",
       fontWeight: 400,
-      lineHeight: "22px",
+      lineHeight: "26px",
       letterSpacing: "0.05em",
       textAlign: "justified",
     },

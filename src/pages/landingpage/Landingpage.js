@@ -18,15 +18,15 @@ import { useSearchParams } from "react-router-dom";
 import WarrningModal from "./WarrningModal";
 
 const countingDetails = [
-  { title: "Registered Candidates", count: 3333 },
-  { title: "Total Complains", count: 3333 },
-  { title: "Resolved Complains", count: 3333 },
+  { title: "Registered Users", count: 12 },
+  { title: "Total Complaints", count: 30 },
+  { title: "Resolved Complaints", count: 15 },
 ];
 const LandingPage = () => {
   const [open, setOpen] = useState(false);
   const icontStyles = {
     position: "absolute",
-    top: "-3%",
+    top: "-7%",
     width: "60px",
     height: "54px",
     color: "#1976d2",
@@ -67,27 +67,34 @@ const LandingPage = () => {
               }}
             >
               <Typography variant="h1" color="secondary">
-                Submit Your Complains <br />
+                Submit Your Complaints <br />
                 Regarding KIU
               </Typography>
               <Typography
                 sx={{
                   fontFamily: "'Mohave', sans-serif !important",
                   fontWeight: "400 !important",
-                  fontSize: "18px",
+                  fontSize: "20px",
+                  mt: "10px",
                 }}
                 variant={"subtitle1"}
               >
                 No need to worry about the long lines and save
-                <br /> your precious time, and submit your complains on <br />{" "}
+                <br /> your precious time, and submit your complaints on <br />{" "}
                 your finger tips.
               </Typography>
 
               <MyButton
-                text={"Submit Know"}
+                text={"lodge Complaint"}
                 onClick={() => setOpen(true)}
                 variant={"contained"}
-                style={{ backgroundColor: "#003A91", color: "#fff" }}
+                style={{
+                  backgroundColor: "#0753C3",
+                  color: "#fff",
+                  height: "65px",
+                  width: "190px",
+                  marginTop: "15px",
+                }}
               />
             </Box>
           </Box>
@@ -139,27 +146,38 @@ const LandingPage = () => {
               alignItems={"center"}
               justifyContent="space-between"
             >
-              <Typography variant="h3" color="secondary">
+              <Typography variant="h3" fontSize={"30px"} color="secondary">
                 What Is SCMP?
               </Typography>
             </Box>
 
-            <Typography variant="subtitle1" margin="0 0 30px 0">
+            <Typography
+              variant="subtitle1"
+              margin="0 0 30px 0"
+              fontSize="22px"
+              fontWeight={"600"}
+              color="#003a91"
+              my="8px"
+            >
               Smart Complaint Management Portal
             </Typography>
-            <Typography variant="subtitle1" fontSize="20px">
-              Smart complaint Management Portal is an AI (Artificial
-              Intelligence) based Web Application or online complaint cell.
-              Complaining against a problem is the only solution to get rid of
-              the problem next time, instead of ignoring or hiding the problem.
-              Every institution must have a complaint and suggestion cell to
-              improve and enhance its system. KIU do not have any platform where
-              the students can submit their complaints due to which students
-              starts protests, strikes and other illegal, unprofessional and
-              unethical ways of complaining. Such unprofessional and unethical
-              way of complaining could harm the reputation and peaceful
-              environment of the university and may also cause political and
-              sectarian issues in the university or in the region.
+            <Typography
+              variant="subtitle1"
+              fontSize="20px"
+              textAlign={"justify"}
+            >
+              Smart complaint Management Portal is an Web based Application or
+              online complaint cell. Complaining against a problem is the only
+              solution to get rid of the problem next time, instead of ignoring
+              or hiding the problem. Every institution must have a complaint and
+              suggestion cell to improve and enhance its system. KIU do not have
+              any platform where the students can submit their complaints due to
+              which students starts protests, strikes and other illegal,
+              unprofessional and unethical ways of complaining. Such
+              unprofessional and unethical way of complaining could harm the
+              reputation and peaceful environment of the university and may also
+              cause political and sectarian issues in the university or in the
+              region.
             </Typography>
           </Box>
         </Stack>
@@ -234,10 +252,9 @@ const LandingPage = () => {
           flexWrap: { xs: "wrap", lg: "nowrap" },
         }}
       >
-        <Stack sx={{ width: { xs: "100%", lg: "40%" } }}>
+        <Stack sx={{ width: { xs: "100%", lg: "60%" } }}>
           <Typography
             variant="h2"
-            width="600px"
             letterSpacing={"3px"}
             lineHeight="50px"
             fontWeight="600"
@@ -245,7 +262,7 @@ const LandingPage = () => {
             Have A Query Or Want To Suggest Something To Us?
           </Typography>
           <Typography
-            variant="p"
+            variant="subTitle"
             sx={{
               fontFamily: "'Mohave', sans-serif !important",
               fontWeight: "400 !important",
@@ -253,7 +270,7 @@ const LandingPage = () => {
               mt: "20px",
             }}
           >
-            we believe in continuous improvement, and your feedback plays a
+            We believe in continuous improvement, and your feedback plays a
             crucial role in helping us enhance our services. We value your input
             and encourage you to share your suggestions, ideas, and
             recommendations with us.
@@ -288,7 +305,7 @@ const CounterBox = ({ heading, number }) => {
             marginTop: "8px",
           }}
         >
-          <Typography variant="subtitle1" align="center">
+          <Typography variant="subtitle1" fontSize="22px" align="center">
             {number}
           </Typography>{" "}
         </Box>

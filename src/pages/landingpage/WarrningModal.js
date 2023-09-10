@@ -7,6 +7,8 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useNavigate } from "react-router-dom";
 import SubmitComplaintModal from "./SubmitComplaintModal";
+import { Warning } from "@mui/icons-material";
+import { Stack } from "@mui/material";
 
 export default function WarrningModal({ open, setOpen }) {
   const [openForm, setOpenForm] = React.useState();
@@ -28,9 +30,13 @@ export default function WarrningModal({ open, setOpen }) {
       >
         {/* <DialogTitle id="alert-dialog-title">Warning:</DialogTitle> */}
         <DialogContent>
-          <DialogContentText id="alert-dialog-description" fontSize={"20px"}>
-            Join our Complaint Management portal for better experience
-          </DialogContentText>
+          <Stack direction={"row"} alignItems="center" gap="8px">
+            <Warning sx={{ width: "40px", height: "40px", color: "#F6F810" }} />{" "}
+            <DialogContentText id="alert-dialog-description" fontSize={"20px"}>
+              Login is highly recommended as you can track the progress of your
+              complaint and also access value added features
+            </DialogContentText>
+          </Stack>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>login</Button>

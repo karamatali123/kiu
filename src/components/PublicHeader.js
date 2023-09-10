@@ -40,7 +40,9 @@ const PublicHeader = () => {
             justifyContent: "space-between",
           }}
         >
-          <img src={Logo} style={{ height: "50px" }} alt="circle img" />
+          <Link to="/">
+            <img src={Logo} style={{ height: "50px" }} alt="circle img" />
+          </Link>
 
           <Box
             style={{

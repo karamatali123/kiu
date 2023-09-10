@@ -7,6 +7,7 @@ import { StyledNavItem } from "./styles";
 import {
   AddBox,
   ExitToApp,
+  Home,
   NoteAdd,
   Settings,
   SubjectSharp,
@@ -68,6 +69,16 @@ export default function DesktopMenu({ isOpen, setIsOpen, scroll }) {
         >
           {user.role == STUDENT && (
             <>
+              <Link
+                to="/dashboard"
+                style={{
+                  textDecoration: "none",
+                }}
+              >
+                <StyledNavItem>
+                  <Home /> <span> Dashboard</span>
+                </StyledNavItem>
+              </Link>
               <Link to="/my-complaints" style={{ textDecoration: "none" }}>
                 <StyledNavItem
                 // sx={{
@@ -87,6 +98,18 @@ export default function DesktopMenu({ isOpen, setIsOpen, scroll }) {
           )}
           {user.role == FACILITY && (
             <>
+              <Link
+                to="/dashboard"
+                style={{
+                  textDecoration: "none",
+                  height: "250px",
+                  width: "400px",
+                }}
+              >
+                <StyledNavItem>
+                  <Home /> <span> Dashboard</span>
+                </StyledNavItem>
+              </Link>
               <Link to="/my-complaints" style={{ textDecoration: "none" }}>
                 <StyledNavItem
                 // sx={{

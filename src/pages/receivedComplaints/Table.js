@@ -214,7 +214,7 @@ export default function DataTable() {
                     <TableBody>
                       {complaints.map((complaint, index) => (
                         <TableRow key={index}>
-                          <TableCell align="center">1</TableCell>
+                          <TableCell align="center">{index + 1}</TableCell>
                           <TableCell align="center">
                             {complaint.title}
                           </TableCell>

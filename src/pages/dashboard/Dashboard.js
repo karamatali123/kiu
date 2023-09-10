@@ -105,14 +105,12 @@ const Dashboard = () => {
           count={getPendingComplaints()}
         />
         {receivedComplaints.length > 0 && user.role === "facility" && (
-          <Link to="/received-complaints" style={{ textDecoration: "none" }}>
-            <ComplaintCountCard
-              title={"Received complaints"}
-              icon={<InboxIcon sx={iconStyles} />}
-              sx={{ backgroundColor: "#673ab7" }}
-              count={receivedComplaints.length}
-            />
-          </Link>
+          <ComplaintCountCard
+            title={"Received complaints"}
+            icon={<InboxIcon sx={iconStyles} />}
+            sx={{ backgroundColor: "#673ab7" }}
+            count={receivedComplaints.length}
+          />
         )}
         <ComplaintCountCard
           title={"Suggestions"}
