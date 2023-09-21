@@ -73,7 +73,7 @@ const Dashboard = () => {
   };
   const getInProgressComplaints = () => {
     const progess = complaints.filter(
-      (complaint) => complaint.status == "pending"
+      (complaint) => complaint.status == "Received"
     );
     return progess.length;
   };
