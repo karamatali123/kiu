@@ -9,7 +9,8 @@ import AutoAwesomeMotionRoundedIcon from "@mui/icons-material/AutoAwesomeMotionR
 import { db } from "../../firebase";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { useAuth } from "../../provider/AuthProvider";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { complaintStatus } from "../../constants/complaintStatus";
 
 const Dashboard = () => {
   const iconStyles = {
@@ -20,7 +21,8 @@ const Dashboard = () => {
   const [complaints, setComplaints] = useState([]);
   const [receivedComplaints, setReceivedComplaints] = useState([]);
   const { user } = useAuth();
-
+  const [searchParams, setSearchParams] = useSearchParams({});
+  const navigate = useNavigate();
   console.log(user, receivedComplaints);
   const getComplaints = async () => {
     try {
@@ -65,10 +67,15 @@ const Dashboard = () => {
 
   const getPendingComplaints = () => {
     const pending = complaints.filter(
-      (complaint) =>
-        complaint.status == "pending" || complaint.status == "Received"
+      (complaint) => complaint.status == "pending"
     );
     return pending.length;
+  };
+  const getInProgressComplaints = () => {
+    const progess = complaints.filter(
+      (complaint) => complaint.status == "pending"
+    );
+    return progess.length;
   };
   const getResolvedComplaints = () => {
     const resolved = complaints.filter(
@@ -91,27 +98,50 @@ const Dashboard = () => {
           icon={<AutoAwesomeMotionRoundedIcon sx={iconStyles} />}
           sx={{ backgroundColor: "#ffb70d" }}
           count={complaints.length}
+          onClick={() => {
+            navigate("/my-complaints");
+          }}
         />
         <ComplaintCountCard
           title={"Resolved Complaints"}
           icon={<AssignmentTurnedInOutlinedIcon sx={iconStyles} />}
           sx={{ backgroundColor: "#34a853" }}
           count={getResolvedComplaints()}
+          onClick={() => {
+            navigate(`/my-complaints?status=${complaintStatus.RESOLVED}`);
+          }}
         />
         <ComplaintCountCard
           title={"Pending complaints"}
           icon={<PendingActionsOutlinedIcon sx={iconStyles} />}
           sx={{ backgroundColor: "#dc143c" }}
           count={getPendingComplaints()}
+          onClick={() => {
+            navigate(`/my-complaints?status=${complaintStatus.PENDING}`);
+          }}
         />
-        {receivedComplaints.length > 0 && user.role === "facility" && (
+        <ComplaintCountCard
+          title={"Complaints In Progress"}
+          icon={<InboxIcon sx={iconStyles} />}
+          sx={{ backgroundColor: "#ffb70d" }}
+          count={getInProgressComplaints()}
+          onClick={() => {
+            navigate(`/my-complaints?status=${complaintStatus.RECEIVED}`);
+          }}
+        />
+
+        {user.role === "facility" && (
           <ComplaintCountCard
             title={"Received complaints"}
             icon={<InboxIcon sx={iconStyles} />}
             sx={{ backgroundColor: "#673ab7" }}
             count={receivedComplaints.length}
+            onClick={() => {
+              navigate(`/my-complaints?status=${complaintStatus.RECEIVED}`);
+            }}
           />
         )}
+
         <ComplaintCountCard
           title={"Suggestions"}
           icon={<FeedRoundedIcon sx={iconStyles} />}

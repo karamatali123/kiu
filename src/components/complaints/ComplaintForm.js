@@ -398,7 +398,7 @@ export default function ComplaintForm() {
                   />
                 </Grid>
 
-                <Grid item md={12} xs={12} sm={12}>
+                <Grid item md={12} xs={12} sm={12} alignItems="center">
                   <Typography
                     fontSize={"16px"}
                     my="7px"

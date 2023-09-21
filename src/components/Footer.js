@@ -32,7 +32,7 @@ const Footer = () => {
   const divider = {
     background: "#f5f5f5",
     height: "6px",
-    margin: "16px 40px",
+    margin: "16px auto",
   };
   const linkStyles = {
     fontSize: "17px",
@@ -44,7 +44,7 @@ const Footer = () => {
     <div style={footer}>
       <Container>
         <Grid container spacing={1}>
-          <Grid md={6} sm={6} xm={12}>
+          <Grid md={6} sm={6} xs={12}>
             <img src={footerImg} width="100px" height={"100px"}></img>
           </Grid>
           <Grid md={2} sm={6} xm={12}>
@@ -89,12 +89,11 @@ const Footer = () => {
             <Box sx={linkBox}>
               <Typography variant="h3">Social Links</Typography>
 
-              {/* <FacebookIcon/>
-          <InstagramIcon/>
-          <Twitter/> */}
-              <Facebook />
-              <Instagram />
-              <Twitter />
+              <Stack sx={{ flexDirection: { xs: "row", lg: "column" } }}>
+                <Facebook />
+                <Instagram />
+                <Twitter />
+              </Stack>
             </Box>
           </Grid>
         </Grid>

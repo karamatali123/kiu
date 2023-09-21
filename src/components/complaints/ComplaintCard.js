@@ -103,6 +103,7 @@ const ComplaintCard = ({ complaint, getComplaintDetails }) => {
         flexDirection={"row"}
         justifyContent={"space-between"}
         padding="20px"
+        flexWrap={"wrap"}
       >
         <Box>
           <Stack direction="row" gap={"10px"} alignItems="center">
@@ -114,7 +115,7 @@ const ComplaintCard = ({ complaint, getComplaintDetails }) => {
           {isAuthor && (
             <Stack direction="row" gap={"10px"} alignItems="center" mt={1}>
               <Typography variant="h5" fontSize="18px" fontWeight={"700"}>
-                Submitted TO:
+                Submitted To:
               </Typography>
               <Typography variant="subtitle1" fontSize={"18px"}>
                 {`${complaint.assignee.firstName} ${complaint.assignee.lastName} ( ${complaint.assignee.designation})`}

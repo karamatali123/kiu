@@ -21,7 +21,12 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import { Link, useNavigate } from "react-router-dom";
+import {
+  Link,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
 import {
   collection,
   deleteDoc,
@@ -36,6 +41,7 @@ import { SNACKBAR_OPEN } from "../../provider/AuthProvider/reducer";
 import { ERROR, SUCCESS } from "../../constants/snackbarConstant";
 import Loading from "../../components/gernal/Loading";
 import StatusChip from "../../components/gernal/StatusChip";
+import { complaintStatus } from "../../constants/complaintStatus";
 
 const StyledTableHead = styled(TableHead)(({ theme }) => ({
   "& .MuiTableCell-root": {
@@ -93,7 +99,8 @@ export default function DataTable() {
   const open = Boolean(anchorEl);
   const { user, dispatch } = useAuth();
   const [complaints, setComplaints] = useState([]);
-
+  const [searchParams, setSearchParams] = useSearchParams();
+  const status = searchParams.get("status");
   const getComplaints = async () => {
     try {
       const q = query(
@@ -105,8 +112,16 @@ export default function DataTable() {
       querySnapshot.forEach((doc) => {
         // doc.data() is never undefined for query doc snapshots
         docData.push(doc.data());
-        setComplaints(docData);
+        if (status) {
+          const filterComp = docData.filter(
+            (complaint) => complaint.status === status
+          );
+          setComplaints(filterComp);
+        } else {
+          setComplaints(docData);
+        }
       });
+
       setLoading(false);
     } catch (error) {
       console.log(error);
@@ -114,6 +129,7 @@ export default function DataTable() {
     }
   };
 
+  console.log(status, "params");
   useEffect(() => {
     if (user) {
       getComplaints();

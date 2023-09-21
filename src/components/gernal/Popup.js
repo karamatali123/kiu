@@ -180,7 +180,7 @@ export default function SignUp(props) {
                       type="password"
                       name="confirmPassword"
                       id="ConfirmPassword"
-                      label="Re-Name Password"
+                      label=" Confirm Password"
                       placeholder="Confirm Password"
                       variant="outlined"
                       fullWidth

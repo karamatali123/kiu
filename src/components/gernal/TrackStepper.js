@@ -7,7 +7,7 @@ import StepLabel from "@mui/material/StepLabel";
 export default function TrackStepper({ steps, activeStep }) {
   return (
     <Box sx={{ width: "100%" }}>
-      <Stepper activeStep={1} alternativeLabel>
+      <Stepper activeStep={1} alternativeLabel orientation="vertical">
         {steps?.map((label) => (
           <Step key={label}>
             <StepLabel>{label}</StepLabel>

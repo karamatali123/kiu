@@ -52,7 +52,6 @@ const LandingPage = () => {
           >
             <Box
               sx={{
-                width: "350px",
                 maxWidth: "350px",
                 display: { xs: "none", md: "block" },
               }}

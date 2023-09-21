@@ -7,6 +7,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import {
+  CompassCalibrationTwoTone,
   DeleteForever,
   MoreVertOutlined,
   ViewAgenda,
@@ -125,6 +126,7 @@ export default function DataTable() {
         docData.push(doc.data());
         setComplaints(docData);
       });
+
       setLoading(false);
     } catch (error) {
       console.log(error);
@@ -137,7 +139,6 @@ export default function DataTable() {
       getComplaints();
     }
   }, [user]);
-  console.log("comp", complaints);
 
   const navigate = useNavigate();
   const handleClick = (event, key) => {
