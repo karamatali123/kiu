@@ -33,7 +33,7 @@ const AppRoutes = () => {
               <LandingPage />
             ) : (
               <PrivateRoute roles={[ADMIN, FACILITY, STUDENT]}>
-                <MyComplaints />
+                <Dashboard />
               </PrivateRoute>
             )
           }

@@ -91,7 +91,7 @@ const userActions = (dispatch) => {
       if (res.user.email.includes("admin")) {
         navigate("/add-catagories");
       } else {
-        navigate("/my-complaints");
+        navigate("/dashboard");
       }
     } catch (error) {
       dispatch({
